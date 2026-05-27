@@ -921,12 +921,12 @@ def main() -> None:
 
     geojson_source = Path(os.getenv("UF_GEOJSON_PATH", DEFAULT_GEOJSON_SOURCE))
     geojson_target = Path(os.getenv("DASHBOARD_GEOJSON_TARGET", DEFAULT_GEOJSON_TARGET))
-    mun_geojson_source = Path(os.getenv("MUN_GEOJSON_PATH", DEFAULT_MUN_GEOJSON_SOURCE))
-    mun_geojson_target = Path(os.getenv("DASHBOARD_MUN_GEOJSON_TARGET", DEFAULT_MUN_GEOJSON_TARGET))
+    # mun_geojson_source = Path(os.getenv("MUN_GEOJSON_PATH", DEFAULT_MUN_GEOJSON_SOURCE))
+    # mun_geojson_target = Path(os.getenv("DASHBOARD_MUN_GEOJSON_TARGET", DEFAULT_MUN_GEOJSON_TARGET))
 
     site_dir.mkdir(parents=True, exist_ok=True)
 
-    data = build_dash2(history_path, site_dir, window_hours, mun_geojson_source, target_sender_name)
+    data = build_dash2(history_path, site_dir, window_hours, target_sender_name)
     out_path = site_dir / "dashboard_data2.json"
     save_json(out_path, data)
 
@@ -945,9 +945,9 @@ def main() -> None:
         geojson_target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(geojson_source, geojson_target)
 
-    if mun_geojson_source.exists():
-        mun_geojson_target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(mun_geojson_source, mun_geojson_target)
+    #if mun_geojson_source.exists():
+        #mun_geojson_target.parent.mkdir(parents=True, exist_ok=True)
+        #shutil.copyfile(mun_geojson_source, mun_geojson_target)
 
     print("[INFO] dashboard_data2.json gerado com sucesso")
     print(f"[INFO] arquivo: {out_path}")
@@ -955,8 +955,8 @@ def main() -> None:
 
     if geojson_source.exists():
         print(f"[INFO] geojson copiado para: {geojson_target}")
-    if mun_geojson_source.exists():
-        print(f"[INFO] geojson municipal copiado para: {mun_geojson_target}")
+    #if mun_geojson_source.exists():
+        #print(f"[INFO] geojson municipal copiado para: {mun_geojson_target}")
 
 
 if __name__ == "__main__":
