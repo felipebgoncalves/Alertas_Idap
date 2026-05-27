@@ -2,6 +2,7 @@
 .secrets
 .env
 .env.local
+.actrc
 
 /testes
 /testes/__pycache__/
