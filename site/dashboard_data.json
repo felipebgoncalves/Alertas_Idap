@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-05-19T16:07:02.172419-03:00",
+  "source_run_dir": "run_20260519_160529",
+  "target_senderName": "Defesa Civil Estadual do Espírito Santo",
+  "cards": {
+    "vigentes": 0,
+    "ultimas24h": 0,
+    "autoridadesAtivas": 0,
+    "alertasExtremos": 0
+  },
+  "latest_alerts": [],
+  "top_emitters": [],
+  "level_distribution": [],
+  "event_distribution": [],
+  "uf_distribution": [],
+  "status_distribution": [],
+  "all_alerts": [],
+  "summary": {
+    "total_alerts": 0,
+    "by_nivel": {},
+    "by_channel_list": {},
+    "by_region": {},
+    "by_municipio": {}
+  }
+}
