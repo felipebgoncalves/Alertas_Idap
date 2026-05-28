@@ -55,7 +55,7 @@ CAP_NS = {"cap": "urn:oasis:names:tc:emergency:cap:1.2"}
 
 DEFAULT_RSS_URL = "https://idapfile.mdr.gov.br/idap/api/rss/cap"
 DEFAULT_UF_GEOJSON_PATH = "resources/geojs-es.json"
-# DEFAULT_MUN_GEOJSON_PATH = "resources/es_municipios.geojson"
+DEFAULT_MUN_GEOJSON_PATH = DEFAULT_UF_GEOJSON_PATH
 DEFAULT_OUT_DIR = "out"
 DEFAULT_STATE_PATH = ".cache/state.json"
 DEFAULT_LOGO_PATH = ".cache/Logo da CEPDEC.png"
@@ -375,6 +375,33 @@ def _geom_points_count(geom: Optional[BaseGeometry]) -> int:
 #     return _guess_uf_from_text(sender_name)
 
 
+STATE_NAME_TO_UF = {
+    "ESPIRITO SANTO": "ES",
+}
+
+
+def _guess_uf_from_text(text: Optional[str]) -> Optional[str]:
+    txt = (text or "").strip().upper()
+    if not txt:
+        return None
+
+    for pat in (r"/([A-Z]{2})\b", r"\(([A-Z]{2})\)", r"\b([A-Z]{2})\b"):
+        m = re.search(pat, txt)
+        if m and m.group(1) in UF_TO_REGION:
+            return m.group(1)
+
+    normalized = _normalize_text(txt)
+    for state_name, uf in STATE_NAME_TO_UF.items():
+        if state_name in normalized:
+            return uf
+
+    return None
+
+
+def _guess_uf(area_desc: Optional[str], sender_name: Optional[str] = None) -> Optional[str]:
+    return _guess_uf_from_text(area_desc) or _guess_uf_from_text(sender_name)
+
+
 def _uf_to_region(uf: Optional[str]) -> Optional[str]:
     if not uf:
         return None
@@ -524,10 +551,11 @@ def _load_municipios_gdf(path: str) -> gpd.GeoDataFrame:
 
 
 def _municipio_props(row: Any) -> Dict[str, Any]:
+    nome = row.get("nome") or row.get("name") or row.get("NM_MUN") or row.get("description") or ""
     return {
-        "municipio_id": str(row.get("codigo_ibge") or row.get("id") or ""),
-        "municipio_nome": row.get("nome") or "",
-        "municipio_slug": row.get("slug") or _slugify(row.get("nome")),
+        "municipio_id": str(row.get("codigo_ibge") or row.get("id") or row.get("CD_MUN") or ""),
+        "municipio_nome": nome,
+        "municipio_slug": row.get("slug") or _slugify(nome),
         "municipio_area_km2": row.get("area_km2"),
         "microrregiao_nome": row.get("microrregiao_nome") or "",
         "mesorregiao_nome": row.get("mesorregiao_nome") or "",
@@ -545,7 +573,7 @@ def _match_municipio_by_text(alert: AlertRecord, municipios_gdf: gpd.GeoDataFram
     best = None
     best_len = 0
     for _, row in municipios_gdf.iterrows():
-        name = str(row.get("nome") or "")
+        name = str(row.get("nome") or row.get("name") or row.get("NM_MUN") or row.get("description") or "")
         n = _normalize_text(name)
         if n and re.search(rf"(^|[^A-Z0-9]){re.escape(n)}([^A-Z0-9]|$)", normalized):
             if len(n) > best_len:
@@ -972,7 +1000,7 @@ def _plot_alerts_map(
 def main() -> int:
     rss_url = os.getenv("RSS_URL", DEFAULT_RSS_URL)
     uf_geojson_path = os.getenv("UF_GEOJSON_PATH", DEFAULT_UF_GEOJSON_PATH)
-    # mun_geojson_path = os.getenv("MUN_GEOJSON_PATH", DEFAULT_MUN_GEOJSON_PATH)
+    mun_geojson_path = os.getenv("MUN_GEOJSON_PATH", uf_geojson_path or DEFAULT_MUN_GEOJSON_PATH)
     out_dir = os.getenv("OUT_DIR", DEFAULT_OUT_DIR)
     state_path = os.getenv("STATE_PATH", DEFAULT_STATE_PATH)
     logo_path = os.getenv("LOGO_PATH", DEFAULT_LOGO_PATH).strip()
@@ -985,7 +1013,7 @@ def main() -> int:
 
     print(f"[INFO] RSS_URL={rss_url}")
     print(f"[INFO] UF_GEOJSON_PATH={uf_geojson_path}")
-    # print(f"[INFO] MUN_GEOJSON_PATH={mun_geojson_path}")
+    print(f"[INFO] MUN_GEOJSON_PATH={mun_geojson_path}")
     print(f"[INFO] OUT_DIR={out_dir}")
     print(f"[INFO] HISTORY_PATH={history_path}")
     print(f"[INFO] WINDOW_HOURS={window_hours}")
@@ -1038,19 +1066,19 @@ def main() -> int:
 
     print(f"[INFO] CAPs parseados do feed: {len(feed_alerts)} | ignorados por senderName: {ignored_by_sender} | erros: {len(errors)}")
 
-    # try:
-    #     municipios_gdf = _load_municipios_gdf(mun_geojson_path)
-    #     feed_alerts = _enrich_alerts_with_municipios(feed_alerts, municipios_gdf)
-    # except Exception as e:
-    #     print(f"[ERROR] Falha ao ler/enriquecer municipios do ES: {e}")
-    #     return 4
+    try:
+        municipios_gdf = _load_municipios_gdf(mun_geojson_path)
+        feed_alerts = _enrich_alerts_with_municipios(feed_alerts, municipios_gdf)
+    except Exception as e:
+        print(f"[ERROR] Falha ao ler/enriquecer municipios do ES: {e}")
+        return 4
 
     history_before = [
         a for a in _load_history(history_path)
         if _same_sender_name(a.senderName, target_sender_name)
     ]
     history_merged, added_count = _merge_history(history_before, feed_alerts)
-    # history_merged = _enrich_alerts_with_municipios(history_merged, municipios_gdf)
+    history_merged = _enrich_alerts_with_municipios(history_merged, municipios_gdf)
     history_kept = _filter_recent_history(history_merged, retention_hours=retention_hours, ref_now=_now_sp())
     alerts = _filter_window(history_kept, window_hours=window_hours, ref_now=_now_sp())
 
@@ -1082,6 +1110,7 @@ def main() -> int:
     # except Exception as e:
     #     print(f"[ERROR] Falha ao preparar GeoJSON municipal: {e}")
     #     return 4
+    uf_gdf = municipios_gdf
 
     alerts_gdf_all = _alerts_to_gdf(alerts)
     title_line2 = period_txt
@@ -1100,6 +1129,12 @@ def main() -> int:
         print(f"[WARN] Falha ao gerar gráfico por hora: {e}")
 
     map1 = os.path.join(run_dir, "mapa_alertas_todos.png")
+    if len(alerts_gdf_all) > 0:
+        _plot_alerts_map(uf_gdf, alerts_gdf_all, map1, "Alertas IDAP - Defesa Civil Estadual do ES", title_line2, logo_path=logo_path)
+        print(f"[INFO] Mapa gerado: {map1}")
+    else:
+        map1 = ""
+        print("[WARN] Mapa 1 não gerado: nenhum alerta com polygon")
     
     # if len(alerts_gdf_all) > 0:
     #     _plot_alerts_map(uf_gdf, alerts_gdf_all, map1, "Alertas IDAP - Defesa Civil Estadual do ES", title_line2, logo_path=logo_path)
@@ -1111,6 +1146,13 @@ def main() -> int:
     alerts_2 = [a for a in alerts if _is_chuva_temp_inund(a.event)]
     # gdf_2 = _alerts_to_gdf(alerts_2)
     map2 = os.path.join(run_dir, "mapa_alertas_chuva_temp_inund.png")
+    gdf_2 = _alerts_to_gdf(alerts_2)
+    if len(gdf_2) > 0:
+        _plot_alerts_map(uf_gdf, gdf_2, map2, "Alertas IDAP - Chuvas, Tempestades, Inundações, Granizo", title_line2, logo_path=logo_path)
+        print(f"[INFO] Mapa gerado: {map2}")
+    else:
+        map2 = ""
+        print("[WARN] Mapa 2 não gerado: nenhum alerta (filtro) com polygon")
     
     # if len(gdf_2) > 0:
     #     _plot_alerts_map(uf_gdf, gdf_2, map2, "Alertas IDAP - Chuvas, Tempestades, Inundações, Granizo", title_line2, logo_path=logo_path)
@@ -1122,6 +1164,13 @@ def main() -> int:
     alerts_3 = [a for a in alerts if _is_deslizamento(a.event)]
     # gdf_3 = _alerts_to_gdf(alerts_3)
     map3 = os.path.join(run_dir, "mapa_alertas_deslizamento.png")
+    gdf_3 = _alerts_to_gdf(alerts_3)
+    if len(gdf_3) > 0:
+        _plot_alerts_map(uf_gdf, gdf_3, map3, "Alertas IDAP - Deslizamentos", title_line2, logo_path=logo_path)
+        print(f"[INFO] Mapa gerado: {map3}")
+    else:
+        map3 = ""
+        print("[WARN] Mapa 3 não gerado: nenhum alerta de deslizamento com polygon")
     
     # if len(gdf_3) > 0:
     #     _plot_alerts_map(uf_gdf, gdf_3, map3, "Alertas IDAP - Deslizamentos", title_line2, logo_path=logo_path)
@@ -1135,6 +1184,13 @@ def main() -> int:
     alerts_4 = [a for a in alerts if (a.entry_id not in ids_2) and (a.entry_id not in ids_3)]
     # gdf_4 = _alerts_to_gdf(alerts_4)
     map4 = os.path.join(run_dir, "mapa_alertas_outros.png")
+    gdf_4 = _alerts_to_gdf(alerts_4)
+    if len(gdf_4) > 0:
+        _plot_alerts_map(uf_gdf, gdf_4, map4, "Alertas IDAP: Outras Categorias", title_line2, logo_path=logo_path)
+        print(f"[INFO] Mapa gerado: {map4}")
+    else:
+        map4 = ""
+        print("[WARN] Mapa 4 não gerado: nenhum alerta (outros) com polygon")
     
     # if len(gdf_4) > 0:
     #     _plot_alerts_map(uf_gdf, gdf_4, map4, "Alertas IDAP: Outras Categorias", title_line2, logo_path=logo_path)
@@ -1186,23 +1242,23 @@ def main() -> int:
     # else:
     #     print("[INFO] Telegram: não configurado (TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID vazios)")
 
-    # state["last_run_ts"] = run_ts
-    # state["last_run_iso"] = datetime.now(timezone.utc).isoformat()
-    # state["last_counts"] = {
-    #     "entries": len(entries),
-    #     "feed_alerts": len(feed_alerts),
-    #     "window_alerts": len(alerts),
-    #     "history_alerts": len(history_kept),
-    #     "errors": len(errors),
-    #     "ignored_by_sender": ignored_by_sender,
-    # }
-    # state["history_path"] = history_path
-    # state["window_hours"] = window_hours
-    # state["retention_hours"] = retention_hours
-    # _save_state(state_path, state)
+    state["last_run_ts"] = run_ts
+    state["last_run_iso"] = datetime.now(timezone.utc).isoformat()
+    state["last_counts"] = {
+        "entries": len(entries),
+        "feed_alerts": len(feed_alerts),
+        "window_alerts": len(alerts),
+        "history_alerts": len(history_kept),
+        "errors": len(errors),
+        "ignored_by_sender": ignored_by_sender,
+    }
+    state["history_path"] = history_path
+    state["window_hours"] = window_hours
+    state["retention_hours"] = retention_hours
+    _save_state(state_path, state)
 
-    # print("[INFO] Finalizado.")
-    # return 0
+    print("[INFO] Finalizado.")
+    return 0
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-19T16:07:02.186591-03:00",
+  "generated_at": "2026-05-27T21:15:47.472566-03:00",
   "source": ".cache\\historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -16,12 +16,12 @@
       "nome": "Afonso Cláudio",
       "slug": "afonso-claudio",
       "uf": "ES",
-      "area_km2": 941.188,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Afonso Cláudio",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200201",
@@ -29,12 +29,12 @@
       "nome": "Alegre",
       "slug": "alegre",
       "uf": "ES",
-      "area_km2": 756.86,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Alegre",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200300",
@@ -42,12 +42,12 @@
       "nome": "Alfredo Chaves",
       "slug": "alfredo-chaves",
       "uf": "ES",
-      "area_km2": 615.677,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Guarapari",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Vitória",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200359",
@@ -55,12 +55,12 @@
       "nome": "Alto Rio Novo",
       "slug": "alto-rio-novo",
       "uf": "ES",
-      "area_km2": 227.617,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Colatina",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200409",
@@ -68,12 +68,12 @@
       "nome": "Anchieta",
       "slug": "anchieta",
       "uf": "ES",
-      "area_km2": 409.691,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Guarapari",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Vitória",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200508",
@@ -81,12 +81,12 @@
       "nome": "Apiacá",
       "slug": "apiaca",
       "uf": "ES",
-      "area_km2": 193.984,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Cachoeiro de Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200607",
@@ -94,25 +94,25 @@
       "nome": "Aracruz",
       "slug": "aracruz",
       "uf": "ES",
-      "area_km2": 1420.285,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Linhares",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "Linhares",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200706",
       "codigo_ibge": "3200706",
-      "nome": "Atílio Vivácqua",
+      "nome": "Atilio Vivacqua",
       "slug": "atilio-vivacqua",
       "uf": "ES",
-      "area_km2": 232.868,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Cachoeiro de Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200805",
@@ -120,12 +120,12 @@
       "nome": "Baixo Guandu",
       "slug": "baixo-guandu",
       "uf": "ES",
-      "area_km2": 909.039,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Colatina",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200904",
@@ -133,12 +133,12 @@
       "nome": "Barra de São Francisco",
       "slug": "barra-de-sao-francisco",
       "uf": "ES",
-      "area_km2": 944.521,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Barra de São Francisco",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Nova Venécia",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201001",
@@ -146,12 +146,12 @@
       "nome": "Boa Esperança",
       "slug": "boa-esperanca",
       "uf": "ES",
-      "area_km2": 428.716,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Nova Venécia",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "São Mateus",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201100",
@@ -159,12 +159,12 @@
       "nome": "Bom Jesus do Norte",
       "slug": "bom-jesus-do-norte",
       "uf": "ES",
-      "area_km2": 89.084,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Cachoeiro de Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201159",
@@ -172,12 +172,12 @@
       "nome": "Brejetuba",
       "slug": "brejetuba",
       "uf": "ES",
-      "area_km2": 354.404,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Afonso Cláudio",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201209",
@@ -185,12 +185,12 @@
       "nome": "Cachoeiro de Itapemirim",
       "slug": "cachoeiro-de-itapemirim",
       "uf": "ES",
-      "area_km2": 864.583,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Cachoeiro de Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201308",
@@ -198,12 +198,12 @@
       "nome": "Cariacica",
       "slug": "cariacica",
       "uf": "ES",
-      "area_km2": 279.718,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Vitória",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Vitória",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201407",
@@ -211,12 +211,12 @@
       "nome": "Castelo",
       "slug": "castelo",
       "uf": "ES",
-      "area_km2": 663.515,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Cachoeiro de Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201506",
@@ -224,12 +224,12 @@
       "nome": "Colatina",
       "slug": "colatina",
       "uf": "ES",
-      "area_km2": 1398.219,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Colatina",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201605",
@@ -237,12 +237,12 @@
       "nome": "Conceição da Barra",
       "slug": "conceicao-da-barra",
       "uf": "ES",
-      "area_km2": 1182.587,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "São Mateus",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "São Mateus",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201704",
@@ -250,12 +250,12 @@
       "nome": "Conceição do Castelo",
       "slug": "conceicao-do-castelo",
       "uf": "ES",
-      "area_km2": 369.778,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Afonso Cláudio",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201803",
@@ -263,12 +263,12 @@
       "nome": "Divino de São Lourenço",
       "slug": "divino-de-sao-lourenco",
       "uf": "ES",
-      "area_km2": 174.039,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Alegre",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3201902",
@@ -276,12 +276,12 @@
       "nome": "Domingos Martins",
       "slug": "domingos-martins",
       "uf": "ES",
-      "area_km2": 1229.21,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Afonso Cláudio",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202009",
@@ -289,12 +289,12 @@
       "nome": "Dores do Rio Preto",
       "slug": "dores-do-rio-preto",
       "uf": "ES",
-      "area_km2": 159.298,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Alegre",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202108",
@@ -302,12 +302,12 @@
       "nome": "Ecoporanga",
       "slug": "ecoporanga",
       "uf": "ES",
-      "area_km2": 2285.369,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Barra de São Francisco",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Nova Venécia",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202207",
@@ -315,12 +315,12 @@
       "nome": "Fundão",
       "slug": "fundao",
       "uf": "ES",
-      "area_km2": 286.854,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Linhares",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "Vitória",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202256",
@@ -328,12 +328,12 @@
       "nome": "Governador Lindenberg",
       "slug": "governador-lindenberg",
       "uf": "ES",
-      "area_km2": 360.016,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Colatina",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202405",
@@ -341,12 +341,12 @@
       "nome": "Guarapari",
       "slug": "guarapari",
       "uf": "ES",
-      "area_km2": 589.825,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Guarapari",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Vitória",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202306",
@@ -354,12 +354,12 @@
       "nome": "Guaçuí",
       "slug": "guacui",
       "uf": "ES",
-      "area_km2": 468.185,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Alegre",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202454",
@@ -367,12 +367,12 @@
       "nome": "Ibatiba",
       "slug": "ibatiba",
       "uf": "ES",
-      "area_km2": 240.278,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Alegre",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202504",
@@ -380,12 +380,12 @@
       "nome": "Ibiraçu",
       "slug": "ibiracu",
       "uf": "ES",
-      "area_km2": 201.248,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Linhares",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "Linhares",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202553",
@@ -393,12 +393,12 @@
       "nome": "Ibitirama",
       "slug": "ibitirama",
       "uf": "ES",
-      "area_km2": 330.874,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Alegre",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202603",
@@ -406,12 +406,12 @@
       "nome": "Iconha",
       "slug": "iconha",
       "uf": "ES",
-      "area_km2": 203.528,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Guarapari",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202652",
@@ -419,12 +419,12 @@
       "nome": "Irupi",
       "slug": "irupi",
       "uf": "ES",
-      "area_km2": 184.807,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Alegre",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202702",
@@ -432,12 +432,12 @@
       "nome": "Itaguaçu",
       "slug": "itaguacu",
       "uf": "ES",
-      "area_km2": 535.021,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Santa Teresa",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202801",
@@ -445,12 +445,12 @@
       "nome": "Itapemirim",
       "slug": "itapemirim",
       "uf": "ES",
-      "area_km2": 550.71,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3202900",
@@ -458,12 +458,12 @@
       "nome": "Itarana",
       "slug": "itarana",
       "uf": "ES",
-      "area_km2": 295.189,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Santa Teresa",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203007",
@@ -471,12 +471,12 @@
       "nome": "Iúna",
       "slug": "iuna",
       "uf": "ES",
-      "area_km2": 460.586,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Alegre",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203056",
@@ -484,12 +484,12 @@
       "nome": "Jaguaré",
       "slug": "jaguare",
       "uf": "ES",
-      "area_km2": 659.751,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "São Mateus",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "São Mateus",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203106",
@@ -497,12 +497,12 @@
       "nome": "Jerônimo Monteiro",
       "slug": "jeronimo-monteiro",
       "uf": "ES",
-      "area_km2": 177.342,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Cachoeiro de Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203130",
@@ -510,12 +510,12 @@
       "nome": "João Neiva",
       "slug": "joao-neiva",
       "uf": "ES",
-      "area_km2": 284.735,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Linhares",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "Linhares",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203163",
@@ -523,12 +523,12 @@
       "nome": "Laranja da Terra",
       "slug": "laranja-da-terra",
       "uf": "ES",
-      "area_km2": 458.37,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Afonso Cláudio",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203205",
@@ -536,12 +536,12 @@
       "nome": "Linhares",
       "slug": "linhares",
       "uf": "ES",
-      "area_km2": 3496.263,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Linhares",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "Linhares",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203304",
@@ -549,12 +549,12 @@
       "nome": "Mantenópolis",
       "slug": "mantenopolis",
       "uf": "ES",
-      "area_km2": 321.418,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Barra de São Francisco",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203320",
@@ -562,12 +562,12 @@
       "nome": "Marataízes",
       "slug": "marataizes",
       "uf": "ES",
-      "area_km2": 130.268,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203346",
@@ -575,12 +575,12 @@
       "nome": "Marechal Floriano",
       "slug": "marechal-floriano",
       "uf": "ES",
-      "area_km2": 285.495,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Afonso Cláudio",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203353",
@@ -588,12 +588,12 @@
       "nome": "Marilândia",
       "slug": "marilandia",
       "uf": "ES",
-      "area_km2": 327.642,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Colatina",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203403",
@@ -601,12 +601,12 @@
       "nome": "Mimoso do Sul",
       "slug": "mimoso-do-sul",
       "uf": "ES",
-      "area_km2": 869.439,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Cachoeiro de Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203502",
@@ -614,12 +614,12 @@
       "nome": "Montanha",
       "slug": "montanha",
       "uf": "ES",
-      "area_km2": 1099.06,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Montanha",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "São Mateus",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203601",
@@ -627,12 +627,12 @@
       "nome": "Mucurici",
       "slug": "mucurici",
       "uf": "ES",
-      "area_km2": 540.529,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Montanha",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "São Mateus",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203700",
@@ -640,12 +640,12 @@
       "nome": "Muniz Freire",
       "slug": "muniz-freire",
       "uf": "ES",
-      "area_km2": 678.804,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Alegre",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203809",
@@ -653,12 +653,12 @@
       "nome": "Muqui",
       "slug": "muqui",
       "uf": "ES",
-      "area_km2": 327.268,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Cachoeiro de Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3203908",
@@ -666,12 +666,12 @@
       "nome": "Nova Venécia",
       "slug": "nova-venecia",
       "uf": "ES",
-      "area_km2": 1439.571,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Nova Venécia",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Nova Venécia",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204005",
@@ -679,12 +679,12 @@
       "nome": "Pancas",
       "slug": "pancas",
       "uf": "ES",
-      "area_km2": 837.842,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Colatina",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204054",
@@ -692,12 +692,12 @@
       "nome": "Pedro Canário",
       "slug": "pedro-canario",
       "uf": "ES",
-      "area_km2": 433.453,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "São Mateus",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "São Mateus",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204104",
@@ -705,12 +705,12 @@
       "nome": "Pinheiros",
       "slug": "pinheiros",
       "uf": "ES",
-      "area_km2": 973.136,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Montanha",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "São Mateus",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204203",
@@ -718,12 +718,12 @@
       "nome": "Piúma",
       "slug": "piuma",
       "uf": "ES",
-      "area_km2": 74.046,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Guarapari",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Vitória",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204252",
@@ -731,12 +731,12 @@
       "nome": "Ponto Belo",
       "slug": "ponto-belo",
       "uf": "ES",
-      "area_km2": 360.11,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Montanha",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "São Mateus",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204302",
@@ -744,12 +744,12 @@
       "nome": "Presidente Kennedy",
       "slug": "presidente-kennedy",
       "uf": "ES",
-      "area_km2": 594.897,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204351",
@@ -757,12 +757,12 @@
       "nome": "Rio Bananal",
       "slug": "rio-bananal",
       "uf": "ES",
-      "area_km2": 641.929,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Linhares",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "Linhares",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204401",
@@ -770,12 +770,12 @@
       "nome": "Rio Novo do Sul",
       "slug": "rio-novo-do-sul",
       "uf": "ES",
-      "area_km2": 204.464,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Guarapari",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204500",
@@ -783,12 +783,12 @@
       "nome": "Santa Leopoldina",
       "slug": "santa-leopoldina",
       "uf": "ES",
-      "area_km2": 718.325,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Santa Teresa",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204559",
@@ -796,12 +796,12 @@
       "nome": "Santa Maria de Jetibá",
       "slug": "santa-maria-de-jetiba",
       "uf": "ES",
-      "area_km2": 735.198,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Santa Teresa",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204609",
@@ -809,12 +809,12 @@
       "nome": "Santa Teresa",
       "slug": "santa-teresa",
       "uf": "ES",
-      "area_km2": 683.032,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Santa Teresa",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3205002",
@@ -822,12 +822,12 @@
       "nome": "Serra",
       "slug": "serra",
       "uf": "ES",
-      "area_km2": 547.631,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Vitória",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Vitória",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3205010",
@@ -835,12 +835,12 @@
       "nome": "Sooretama",
       "slug": "sooretama",
       "uf": "ES",
-      "area_km2": 587.036,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Linhares",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "Linhares",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204658",
@@ -848,12 +848,12 @@
       "nome": "São Domingos do Norte",
       "slug": "sao-domingos-do-norte",
       "uf": "ES",
-      "area_km2": 298.58,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Colatina",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204708",
@@ -861,12 +861,12 @@
       "nome": "São Gabriel da Palha",
       "slug": "sao-gabriel-da-palha",
       "uf": "ES",
-      "area_km2": 434.887,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Nova Venécia",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204807",
@@ -874,12 +874,12 @@
       "nome": "São José do Calçado",
       "slug": "sao-jose-do-calcado",
       "uf": "ES",
-      "area_km2": 273.489,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Cachoeiro de Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Alegre",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204906",
@@ -887,12 +887,12 @@
       "nome": "São Mateus",
       "slug": "sao-mateus",
       "uf": "ES",
-      "area_km2": 2346.049,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "São Mateus",
-      "mesorregiao_nome": "Litoral Norte Espírito-santense",
-      "regiao_imediata_nome": "São Mateus",
-      "regiao_intermediaria_nome": "São Mateus"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3204955",
@@ -900,12 +900,12 @@
       "nome": "São Roque do Canaã",
       "slug": "sao-roque-do-canaa",
       "uf": "ES",
-      "area_km2": 341.944,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Santa Teresa",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3205036",
@@ -913,12 +913,12 @@
       "nome": "Vargem Alta",
       "slug": "vargem-alta",
       "uf": "ES",
-      "area_km2": 417.76,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Cachoeiro de Itapemirim",
-      "mesorregiao_nome": "Sul Espírito-santense",
-      "regiao_imediata_nome": "Cachoeiro de Itapemirim",
-      "regiao_intermediaria_nome": "Cachoeiro do Itapemirim"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3205069",
@@ -926,12 +926,12 @@
       "nome": "Venda Nova do Imigrante",
       "slug": "venda-nova-do-imigrante",
       "uf": "ES",
-      "area_km2": 185.909,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Afonso Cláudio",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Afonso Cláudio - Venda Nova do Imigrante - Santa Maria de Jetibá",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3205101",
@@ -939,12 +939,12 @@
       "nome": "Viana",
       "slug": "viana",
       "uf": "ES",
-      "area_km2": 312.279,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Vitória",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Vitória",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3205150",
@@ -952,12 +952,12 @@
       "nome": "Vila Pavão",
       "slug": "vila-pavao",
       "uf": "ES",
-      "area_km2": 433.257,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Nova Venécia",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Nova Venécia",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3205176",
@@ -965,12 +965,12 @@
       "nome": "Vila Valério",
       "slug": "vila-valerio",
       "uf": "ES",
-      "area_km2": 470.343,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Nova Venécia",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3205200",
@@ -978,12 +978,12 @@
       "nome": "Vila Velha",
       "slug": "vila-velha",
       "uf": "ES",
-      "area_km2": 210.225,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Vitória",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Vitória",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3205309",
@@ -991,12 +991,12 @@
       "nome": "Vitória",
       "slug": "vitoria",
       "uf": "ES",
-      "area_km2": 97.123,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Vitória",
-      "mesorregiao_nome": "Central Espírito-santense",
-      "regiao_imediata_nome": "Vitória",
-      "regiao_intermediaria_nome": "Vitória"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200169",
@@ -1004,12 +1004,12 @@
       "nome": "Água Doce do Norte",
       "slug": "agua-doce-do-norte",
       "uf": "ES",
-      "area_km2": 473.729,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Barra de São Francisco",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Nova Venécia",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     },
     {
       "id": "3200136",
@@ -1017,12 +1017,12 @@
       "nome": "Águia Branca",
       "slug": "aguia-branca",
       "uf": "ES",
-      "area_km2": 454.448,
+      "area_km2": null,
       "populacao": null,
-      "microrregiao_nome": "Nova Venécia",
-      "mesorregiao_nome": "Noroeste Espírito-santense",
-      "regiao_imediata_nome": "Colatina",
-      "regiao_intermediaria_nome": "Colatina"
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": ""
     }
   ],
   "cards": {

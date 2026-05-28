@@ -35,8 +35,7 @@ DEFAULT_SITE_DIR = "site"
 DEFAULT_WINDOW_HOURS = 24
 DEFAULT_GEOJSON_SOURCE = "resources/geojs-es.json"
 DEFAULT_GEOJSON_TARGET = "site/data/geojs-es.json"
-# DEFAULT_MUN_GEOJSON_SOURCE = "resources/es_municipios.geojson"
-# DEFAULT_MUN_GEOJSON_TARGET = "site/data/es_municipios.geojson"
+DEFAULT_MUNICIPALITIES_SOURCE = DEFAULT_GEOJSON_SOURCE
 DEFAULT_TARGET_SENDER_NAME = "Defesa Civil Estadual do Espírito Santo"
 
 # Bandeiras municipais, opcional e incremental.
@@ -384,8 +383,8 @@ def load_es_municipalities(path: Path) -> list[dict[str, Any]]:
 
     for feature in features or []:
         props = feature.get("properties") or {}
-        code = str(props.get("codigo_ibge") or props.get("id") or "")
-        name = props.get("nome") or ""
+        code = str(props.get("codigo_ibge") or props.get("id") or props.get("CD_MUN") or "")
+        name = props.get("nome") or props.get("name") or props.get("NM_MUN") or props.get("description") or ""
         if not code or not name:
             continue
 
@@ -846,7 +845,7 @@ def build_dash2(history_path: Path, site_dir: Path, window_hours: int, municipal
             "uf": "ES",
             "estado": "Espírito Santo",
             "municipios_total": len(municipalities),
-            "municipios_geojson": "data/es_municipios.geojson",
+            "municipios_geojson": "data/geojs-es.json",
         },
         "municipios": municipalities,
         "cards": cards,
@@ -921,12 +920,11 @@ def main() -> None:
 
     geojson_source = Path(os.getenv("UF_GEOJSON_PATH", DEFAULT_GEOJSON_SOURCE))
     geojson_target = Path(os.getenv("DASHBOARD_GEOJSON_TARGET", DEFAULT_GEOJSON_TARGET))
-    # mun_geojson_source = Path(os.getenv("MUN_GEOJSON_PATH", DEFAULT_MUN_GEOJSON_SOURCE))
-    # mun_geojson_target = Path(os.getenv("DASHBOARD_MUN_GEOJSON_TARGET", DEFAULT_MUN_GEOJSON_TARGET))
+    municipalities_path = Path(os.getenv("MUNICIPALITIES_GEOJSON_PATH", str(geojson_source)))
 
     site_dir.mkdir(parents=True, exist_ok=True)
 
-    data = build_dash2(history_path, site_dir, window_hours, target_sender_name)
+    data = build_dash2(history_path, site_dir, window_hours, municipalities_path, target_sender_name)
     out_path = site_dir / "dashboard_data2.json"
     save_json(out_path, data)
 
@@ -945,18 +943,13 @@ def main() -> None:
         geojson_target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(geojson_source, geojson_target)
 
-    #if mun_geojson_source.exists():
-        #mun_geojson_target.parent.mkdir(parents=True, exist_ok=True)
-        #shutil.copyfile(mun_geojson_source, mun_geojson_target)
-
     print("[INFO] dashboard_data2.json gerado com sucesso")
     print(f"[INFO] arquivo: {out_path}")
     print(f"[INFO] alertas no período: {len(data.get('all_alerts', []))}")
+    print(f"[INFO] municípios carregados: {len(data.get('municipios', []))}")
 
     if geojson_source.exists():
         print(f"[INFO] geojson copiado para: {geojson_target}")
-    #if mun_geojson_source.exists():
-        #print(f"[INFO] geojson municipal copiado para: {mun_geojson_target}")
 
 
 if __name__ == "__main__":
