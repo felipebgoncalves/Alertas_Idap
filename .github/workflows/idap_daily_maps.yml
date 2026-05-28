@@ -72,15 +72,6 @@ jobs:
           PASTA="${{ steps.localizar_saida.outputs.pasta_saida }}"
           cp -f "$PASTA"/*.png site/imagens/ || true
 
-      - name: Gerar arquivo de última atualização
-        run: |
-          poetry run python - << 'PY'
-          import json
-          from datetime import datetime, timezone
-          with open("site/ultima_atualizacao.json","w",encoding="utf-8") as f:
-              json.dump({"gerado_em": datetime.now(timezone.utc).isoformat()}, f)
-          PY
-
       - name: Gerar dados do dashboard
         env:
           HISTORY_PATH: ".cache/historico_alertas.json"

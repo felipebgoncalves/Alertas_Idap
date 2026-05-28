@@ -14,8 +14,8 @@ Projeto para monitorar alertas CAP publicados no IDAP pela Defesa Civil Estadual
 - `scripts/idap_daily_maps.py`: coleta CAP, histórico, resumo e imagens.
 - `scripts/build_dashboard.py`: dados agregados do dashboard.
 - `site/dashboard.html`: dashboard operacional principal.
-- `site/index.html`: redireciona para o dashboard principal.
-- `site/mapas.html`: galeria dos mapas e gráfico gerados.
+- `site/index.html`: galeria dos mapas e gráfico gerados.
+- `site/imagens.html`: links diretos para as imagens geradas.
 - `site/data/geojs-es.json`: malha municipal do Espírito Santo.
 
 ## Execução local

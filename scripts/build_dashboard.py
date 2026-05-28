@@ -583,7 +583,12 @@ def main() -> None:
 
     data = build_dashboard(history_path, window_hours, municipalities_path, target_sender_name)
     out_path = site_dir / "dashboard_data.json"
+    update_path = site_dir / "ultima_atualizacao.json"
     save_json(out_path, data)
+    save_json(update_path, {
+        "gerado_em": data["generated_at"],
+        "fonte": "scripts/build_dashboard.py",
+    })
 
     if geojson_source.exists() and geojson_source.resolve() != geojson_target.resolve():
         geojson_target.parent.mkdir(parents=True, exist_ok=True)
@@ -591,6 +596,7 @@ def main() -> None:
 
     print("[INFO] dashboard_data.json gerado com sucesso")
     print(f"[INFO] arquivo: {out_path}")
+    print(f"[INFO] última atualização: {update_path}")
     print(f"[INFO] alertas no período: {len(data.get('all_alerts', []))}")
     print(f"[INFO] municípios carregados: {len(data.get('municipios', []))}")
 
