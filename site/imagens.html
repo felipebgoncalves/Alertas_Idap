@@ -42,6 +42,30 @@
     a:hover {
       background: #1e293b;
     }
+
+    .botao {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      min-height: 40px;
+      text-align: center;
+    }
+
+    .acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      flex: 1 1 320px;
+    }
+
   </style>
 </head>
 <body>
@@ -55,5 +79,9 @@
       <a href="imagens/mapa_alertas_outros.png" target="_blank" rel="noopener noreferrer">Mapa de outros alertas</a>
     </nav>
   </main>
+  
+  <div class="acoes">
+    <a class="botao" href="./index.html" target="_blank" rel="noopener noreferrer">Voltar</a>
+  </div>
 </body>
 </html>

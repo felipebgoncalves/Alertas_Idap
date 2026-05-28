@@ -18,13 +18,13 @@
 
     header {
       background: #111827;
-      padding: 24px 16px;
+      padding: clamp(18px, 3vw, 28px) 16px;
       border-bottom: 1px solid #1f2937;
     }
 
     header h1 {
       margin: 0 0 8px 0;
-      font-size: 28px;
+      font-size: clamp(22px, 2.5vw, 30px);
     }
 
     header p {
@@ -34,9 +34,9 @@
     }
 
     main {
-      max-width: 1280px;
+      width: min(100% - 32px, 1440px);
       margin: 0 auto;
-      padding: 24px 16px 48px;
+      padding: clamp(18px, 2.5vw, 28px) 0 48px;
     }
 
     .topo {
@@ -49,6 +49,7 @@
     }
 
     .info-box {
+      flex: 1 1 280px;
       background: #1e293b;
       border: 1px solid #334155;
       border-radius: 10px;
@@ -58,13 +59,17 @@
     }
 
     .botao {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       background: #2563eb;
       color: white;
       text-decoration: none;
       padding: 10px 16px;
       border-radius: 8px;
       font-weight: bold;
+      min-height: 40px;
+      text-align: center;
     }
 
     .botao.secundario {
@@ -77,6 +82,7 @@
       gap: 10px;
       align-items: center;
       justify-content: flex-end;
+      flex: 1 1 320px;
     }
 
     .secao {
@@ -92,22 +98,26 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+      gap: clamp(16px, 2vw, 24px);
+      align-items: stretch;
     }
 
     .card {
       background: #111827;
       border: 1px solid #1f2937;
-      border-radius: 14px;
+      border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
     }
 
     .card h3 {
       margin: 0;
       padding: 16px 16px 8px;
-      font-size: 20px;
+      font-size: clamp(17px, 1.45vw, 20px);
     }
 
     .card p {
@@ -116,18 +126,24 @@
       color: #cbd5e1;
       font-size: 14px;
       line-height: 1.5;
+      min-height: 58px;
     }
 
     .img-wrap {
       background: #0b1220;
-      padding: 12px;
+      padding: clamp(10px, 1.2vw, 16px);
+      flex: 1;
+      display: grid;
+      place-items: center;
     }
 
     .img-wrap img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      max-height: min(64vh, 620px);
+      object-fit: contain;
       display: block;
-      border-radius: 10px;
+      border-radius: 8px;
       border: 1px solid #334155;
       background: white;
     }
@@ -135,7 +151,7 @@
     .destaque {
       background: #111827;
       border: 1px solid #1f2937;
-      border-radius: 14px;
+      border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
       margin-bottom: 20px;
@@ -144,7 +160,7 @@
     .destaque h3 {
       margin: 0;
       padding: 16px 16px 8px;
-      font-size: 22px;
+      font-size: clamp(18px, 1.6vw, 22px);
     }
 
     .destaque p {
@@ -156,7 +172,12 @@
     }
 
     .destaque .img-wrap {
-      padding: 16px;
+      min-height: clamp(260px, 42vw, 560px);
+      padding: clamp(10px, 1.4vw, 18px);
+    }
+
+    .grid .img-wrap {
+      min-height: clamp(300px, 34vw, 560px);
     }
 
     .erro {
@@ -173,6 +194,41 @@
       color: #94a3b8;
       font-size: 13px;
       text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      main {
+        width: min(100% - 20px, 1440px);
+      }
+
+      .topo,
+      .acoes {
+        align-items: stretch;
+      }
+
+      .acoes,
+      .botao {
+        width: 100%;
+      }
+
+      .card p {
+        min-height: 0;
+      }
+
+      .grid .img-wrap,
+      .destaque .img-wrap {
+        min-height: 260px;
+      }
+
+      .img-wrap img {
+        max-height: 520px;
+      }
+    }
+
+    @media (min-width: 1180px) {
+      .grid {
+        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      }
     }
   </style>
 </head>
