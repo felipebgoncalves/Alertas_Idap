@@ -152,9 +152,9 @@ function montarMapaMunicipalSvg(geojson, counts) {
   const maxX = Math.max(...xs);
   const minY = Math.min(...ys);
   const maxY = Math.max(...ys);
-  const width = 560;
+  const width = 420;
   const height = 620;
-  const pad = 14;
+  const pad = 8;
   const scale = Math.min((width - pad * 2) / (maxX - minX), (height - pad * 2) / (maxY - minY));
   const offsetX = (width - (maxX - minX) * scale) / 2;
   const offsetY = (height - (maxY - minY) * scale) / 2;

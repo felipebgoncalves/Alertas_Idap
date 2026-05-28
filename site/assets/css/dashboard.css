@@ -922,7 +922,6 @@ body {
   transform: translateY(0);
 }
 
-/* Layout final por areas, alinhado ao mockup mais recente */
 .app-shell {
   width: min(99vw, 1536px);
   height: min(96vh, 864px);
@@ -1170,5 +1169,568 @@ body {
   .recent-status {
     justify-self: stretch;
     justify-content: flex-start;
+  }
+}
+
+/* =========================================================
+   AJUSTES RESPONSIVOS FINAIS
+   - Grid fluido por áreas
+   - Cards alinhados no mesmo eixo
+   - Mapa do ES com zoom visual reduzido dentro do bloco
+   ========================================================= */
+
+html {
+  min-width: 320px;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100svh;
+}
+
+.app-shell {
+  width: min(100vw, 1536px);
+  height: min(100svh, 864px);
+  min-height: 640px;
+  padding: clamp(12px, 1.5vw, 22px) clamp(12px, 1.8vw, 28px) clamp(8px, 1vw, 12px);
+  gap: clamp(8px, 1vw, 12px);
+}
+
+.dashboard-grid {
+  width: 100%;
+  height: 100%;
+  grid-template-columns:
+    minmax(220px, 0.72fr)
+    minmax(320px, 1.1fr)
+    minmax(360px, 1.45fr)
+    minmax(230px, 0.8fr);
+  grid-template-rows:
+    minmax(118px, 0.72fr)
+    minmax(245px, 1.52fr)
+    minmax(230px, 1.2fr);
+  gap: clamp(10px, 1.1vw, 18px);
+  align-items: stretch;
+}
+
+.brand-card,
+.metric-card,
+.panel-card {
+  min-width: 0;
+}
+
+.brand-card,
+.panel-card {
+  border-radius: clamp(16px, 1.5vw, 22px);
+}
+
+.brand-card {
+  min-height: 0;
+}
+
+.metric-stack {
+  height: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: clamp(10px, 1vw, 14px);
+  align-self: stretch;
+}
+
+.metric-card {
+  min-height: 0;
+  border-radius: clamp(16px, 1.5vw, 22px);
+  padding: clamp(10px, 1vw, 14px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.metric-label {
+  font-size: clamp(0.78rem, 0.8vw, 0.98rem);
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+
+.metric-value {
+  font-size: clamp(2.25rem, 3.2vw, 3.35rem);
+}
+
+.panel-head,
+.panel-head.compact {
+  padding: clamp(9px, 0.85vw, 12px) clamp(12px, 1vw, 16px) clamp(7px, 0.65vw, 9px);
+}
+
+.panel-head h2,
+.hourly-panel .panel-head h2,
+.recent-panel-wide .panel-head h2 {
+  font-size: clamp(0.95rem, 1.1vw, 1.55rem);
+  line-height: 1.15;
+}
+
+.map-panel,
+.hourly-panel,
+.event-panel,
+.recent-panel-wide,
+.severity-panel-compact {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-self: stretch;
+  max-height: none;
+  min-height: 0;
+}
+
+.map-holder,
+.hourly-breakdown,
+.event-breakdown,
+.recent-list-wide,
+.severity-breakdown {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Reduz o zoom visual do mapa, deixando o ES respirar dentro do card. */
+.map-holder {
+  height: auto;
+  padding: clamp(8px, 1vw, 14px);
+}
+
+.map-inner {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: clamp(8px, 1vw, 16px);
+  align-items: center;
+  justify-content: center;
+}
+
+.map-svg-wrap {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-svg-wrap svg {
+  width: auto;
+  height: auto;
+  max-width: 88%;
+  max-height: 88%;
+  transform: scale(0.92);
+  transform-origin: center center;
+}
+
+.hourly-panel {
+  min-height: 0;
+}
+
+.hourly-breakdown {
+  padding: clamp(10px, 1.25vw, 20px) clamp(10px, 1vw, 16px) clamp(10px, 1vw, 14px);
+}
+
+.hourly-chart {
+  height: 100%;
+  min-height: 0;
+}
+
+.event-panel {
+  align-self: stretch;
+}
+
+.event-breakdown,
+.severity-breakdown {
+  gap: clamp(8px, 0.85vw, 14px);
+  padding: clamp(10px, 1vw, 16px);
+}
+
+.event-row-name,
+.severity-row-name {
+  font-size: clamp(0.78rem, 0.8vw, 0.96rem);
+}
+
+.event-row-value,
+.severity-row-value {
+  font-size: clamp(0.9rem, 0.95vw, 1.12rem);
+}
+
+.event-track,
+.severity-track {
+  height: clamp(10px, 1.05vw, 16px);
+}
+
+.recent-panel-wide {
+  min-width: 0;
+}
+
+.recent-list-wide {
+  padding: clamp(10px, 1.15vw, 20px);
+  gap: clamp(8px, 0.8vw, 10px);
+  align-content: start;
+}
+
+.recent-list-wide .recent-item {
+  width: 100%;
+  grid-template-columns:
+    minmax(76px, 0.55fr)
+    minmax(150px, 1.2fr)
+    minmax(180px, 1.8fr)
+    minmax(150px, 0.95fr);
+  gap: clamp(8px, 0.9vw, 14px);
+  min-height: clamp(92px, 13vh, 118px);
+  padding: clamp(9px, 0.9vw, 14px);
+  align-items: center;
+}
+
+.recent-list-wide .recent-time-hour {
+  font-size: clamp(1rem, 1.15vw, 1.28rem);
+}
+
+.recent-list-wide .recent-emissor-name,
+.recent-list-wide .recent-evento {
+  font-size: clamp(0.82rem, 0.85vw, 1rem);
+}
+
+.recent-list-wide .recent-emissor-loc,
+.recent-list-wide .recent-desc {
+  font-size: clamp(0.7rem, 0.72vw, 0.83rem);
+}
+
+.recent-status {
+  justify-self: stretch;
+  justify-content: flex-end;
+  gap: clamp(8px, 0.85vw, 12px);
+}
+
+.recent-list-wide .recent-tag {
+  min-width: clamp(86px, 7vw, 108px);
+}
+
+.recent-expira {
+  flex-basis: clamp(78px, 6.2vw, 94px);
+  max-width: clamp(78px, 6.2vw, 94px);
+}
+
+.severity-panel {
+  align-self: stretch;
+}
+
+.footer-bar {
+  min-height: clamp(34px, 4.8vh, 42px);
+  font-size: clamp(0.76rem, 0.9vw, 1rem);
+  line-height: 1.25;
+}
+
+.footer-left,
+.footer-right {
+  gap: clamp(8px, 1.1vw, 18px);
+}
+
+@media (max-width: 1366px) {
+  .app-shell {
+    width: 100vw;
+    height: 100svh;
+    min-height: 620px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns:
+      minmax(200px, 0.7fr)
+      minmax(285px, 1fr)
+      minmax(330px, 1.35fr)
+      minmax(210px, 0.78fr);
+    grid-template-rows: minmax(108px, 0.65fr) minmax(220px, 1.35fr) minmax(215px, 1fr);
+  }
+
+  .map-svg-wrap svg {
+    max-width: 86%;
+    max-height: 86%;
+    transform: scale(0.9);
+  }
+}
+
+@media (max-width: 1180px) {
+  html,
+  body {
+    height: auto;
+    overflow: auto;
+  }
+
+  body {
+    align-items: flex-start;
+  }
+
+  .app-shell {
+    width: 100%;
+    height: auto;
+    min-height: 100svh;
+    aspect-ratio: auto;
+    overflow: visible;
+  }
+
+  .dashboard-grid {
+    height: auto;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+      "brand metrics"
+      "map map"
+      "hourly hourly"
+      "recent recent"
+      "event severity";
+  }
+
+  .brand-card {
+    min-height: 160px;
+  }
+
+  .metric-stack {
+    min-height: 160px;
+  }
+
+  .map-panel {
+    min-height: 520px;
+  }
+
+  .hourly-panel {
+    min-height: 340px;
+  }
+
+  .recent-panel-wide {
+    min-height: 280px;
+  }
+
+  .event-panel,
+  .severity-panel {
+    min-height: 230px;
+  }
+
+  .map-svg-wrap svg {
+    max-width: 78%;
+    max-height: 78%;
+    transform: scale(0.88);
+  }
+
+  .footer-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    padding: 10px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "brand"
+      "metrics"
+      "map"
+      "hourly"
+      "recent"
+      "event"
+      "severity";
+    gap: 12px;
+  }
+
+  .brand-card {
+    min-height: 120px;
+  }
+
+  .metric-stack {
+    grid-template-columns: 1fr 1fr;
+    min-height: 280px;
+  }
+
+  .map-panel {
+    min-height: 440px;
+  }
+
+  .map-svg-wrap svg {
+    max-width: 82%;
+    max-height: 82%;
+    transform: scale(0.88);
+  }
+
+  .hourly-panel {
+    min-height: 300px;
+  }
+
+  .recent-list-wide .recent-item {
+    grid-template-columns: 72px minmax(0, 1fr);
+    min-height: auto;
+  }
+
+  .recent-emissor,
+  .recent-content,
+  .recent-status {
+    grid-column: 1 / -1;
+  }
+
+  .recent-status {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .recent-expira {
+    text-align: left;
+  }
+
+  .event-panel,
+  .severity-panel {
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .metric-stack {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .metric-card {
+    min-height: 116px;
+  }
+
+  .map-panel {
+    min-height: 380px;
+  }
+
+  .hourly-bars,
+  .hourly-labels {
+    gap: 2px;
+  }
+
+  .hourly-label,
+  .hourly-bar-value {
+    font-size: 0.5rem;
+  }
+
+  .footer-left,
+  .footer-right {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* =========================================================
+   Ajuste: rolagem interna no bloco "Últimos Alertas"
+   ========================================================= */
+.recent-panel,
+.recent-panel-wide {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.recent-panel-wide {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.recent-list,
+.recent-list-wide {
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: clamp(12px, 1.2vw, 22px);
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
+.recent-list::-webkit-scrollbar,
+.recent-list-wide::-webkit-scrollbar {
+  width: 8px;
+}
+
+.recent-list::-webkit-scrollbar-track,
+.recent-list-wide::-webkit-scrollbar-track {
+  background: rgba(217, 222, 234, 0.65);
+  border-radius: 999px;
+}
+
+.recent-list::-webkit-scrollbar-thumb,
+.recent-list-wide::-webkit-scrollbar-thumb {
+  background: rgba(104, 117, 142, 0.65);
+  border-radius: 999px;
+}
+
+.recent-list::-webkit-scrollbar-thumb:hover,
+.recent-list-wide::-webkit-scrollbar-thumb:hover {
+  background: rgba(104, 117, 142, 0.9);
+}
+
+/* =========================================================
+   Ajustes finais solicitados
+   ========================================================= */
+.map-inner {
+  padding: clamp(4px, 0.55vw, 8px);
+}
+
+.map-svg-wrap svg {
+  max-width: 98%;
+  max-height: 98%;
+  transform: none;
+}
+
+.recent-list-wide .recent-item {
+  grid-template-columns:
+    minmax(76px, 0.52fr)
+    minmax(150px, 1.08fr)
+    minmax(0, 1.58fr)
+    minmax(228px, 0.95fr);
+}
+
+.recent-content {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.recent-list-wide .recent-desc {
+  max-width: 100%;
+  -webkit-line-clamp: 2;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+.recent-status {
+  min-width: 228px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.recent-list-wide .recent-tag {
+  min-width: clamp(82px, 6.4vw, 104px);
+}
+
+.recent-expira {
+  flex-basis: clamp(100px, 7.4vw, 118px);
+  max-width: clamp(100px, 7.4vw, 118px);
+  font-weight: 900;
+}
+
+@media (max-width: 1366px) {
+  .map-svg-wrap svg {
+    max-width: 96%;
+    max-height: 96%;
+    transform: none;
+  }
+
+  .recent-list-wide .recent-item {
+    grid-template-columns:
+      minmax(68px, 0.5fr)
+      minmax(135px, 1fr)
+      minmax(0, 1.35fr)
+      minmax(210px, 0.9fr);
+  }
+
+  .recent-status {
+    min-width: 210px;
   }
 }
