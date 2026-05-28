@@ -33,8 +33,9 @@ async function carregarDashboard() {
 
     refreshSecondsRemaining = Math.floor(AUTO_REFRESH_MS / 1000);
     preencherCabecalho(data);
+    preencherRotulosPeriodo(data);
     preencherCards(data, alerts);
-    renderUltimosAlertas(latest.length ? latest : alerts);
+    renderUltimosAlertas(latest.length ? latest : alerts, data);
     renderMapaMunicipal(data, alerts);
     renderSeveridade(alerts, data.level_distribution || []);
     renderEventos(alerts, data.event_distribution || []);
@@ -49,6 +50,12 @@ function preencherCabecalho(data) {
   setText("meta-atualizado", formatarDataHora(data.generated_at));
 }
 
+function preencherRotulosPeriodo(data) {
+  const label = formatarJanelaDados(data);
+  setText("label-periodo-alertas", label);
+  setText("titulo-alertas-hora", `Alertas ${formatarJanelaComPreposicao(data)}`);
+}
+
 function preencherCards(data, alerts) {
   const levels = contar(alerts, "nivel");
   const vigentes = alerts.filter(estaVigente).length || numeroBruto(data.cards?.vigentes);
@@ -61,7 +68,7 @@ function preencherCards(data, alerts) {
   setText("card-tipos-evento", numero(contarMunicipios(alerts)));
 }
 
-function renderUltimosAlertas(alertas) {
+function renderUltimosAlertas(alertas, data) {
   const container = byId("ultimos-alertas");
   if (!container) return;
 
@@ -70,7 +77,7 @@ function renderUltimosAlertas(alertas) {
   if (recentTimer) clearInterval(recentTimer);
 
   if (!recentAlerts.length) {
-    container.innerHTML = `<div class="empty-state">Nenhum alerta estadual do ES nas últimas 24h.</div>`;
+    container.innerHTML = `<div class="empty-state">Nenhum alerta estadual do ES ${esc(formatarJanelaComPreposicao(data))}.</div>`;
     return;
   }
 
@@ -104,7 +111,10 @@ function renderPaginaUltimosAlertas() {
         <div class="recent-evento">${esc(titulo(alerta.event))}</div>
         <div class="recent-desc">${esc(truncar(alerta.headline || alerta.description || alerta.areaDesc || "Sem descrição disponível.", 150))}</div>
       </div>
-      <div class="recent-tag ${classeNivel(alerta.nivel)}">${esc(alerta.nivel)}</div>
+      <div class="recent-status">
+        <div class="recent-tag ${classeNivel(alerta.nivel)}">${esc(alerta.nivel)}</div>
+        <div class="recent-expira">${esc(formatarExpiracao(alerta))}</div>
+      </div>
     </div>
   `).join("");
 }
@@ -142,9 +152,9 @@ function montarMapaMunicipalSvg(geojson, counts) {
   const maxX = Math.max(...xs);
   const minY = Math.min(...ys);
   const maxY = Math.max(...ys);
-  const width = 920;
+  const width = 560;
   const height = 620;
-  const pad = 22;
+  const pad = 14;
   const scale = Math.min((width - pad * 2) / (maxX - minX), (height - pad * 2) / (maxY - minY));
   const offsetX = (width - (maxX - minX) * scale) / 2;
   const offsetY = (height - (maxY - minY) * scale) / 2;
@@ -475,6 +485,32 @@ function formatarData(value) {
   const date = dataValida(value);
   if (!date) return "--/--/----";
   return date.toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo", day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
+function formatarExpiracao(alerta) {
+  const date = dataValida(alerta.expires || alerta.expires_br);
+  if (!date) return "Expira: --/-- --:--";
+  return `Expira: ${date.toLocaleString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    day: "2-digit",
+    month: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  })}`;
+}
+
+function formatarJanelaDados(data) {
+  const hours = numeroBruto(data?.window_hours) || 24;
+  if (hours % 24 === 0) {
+    const days = hours / 24;
+    return days === 1 ? "Últimas 24h" : `Últimos ${days} dias`;
+  }
+  return `Últimas ${hours}h`;
+}
+
+function formatarJanelaComPreposicao(data) {
+  const label = formatarJanelaDados(data).toLowerCase();
+  return label.startsWith("últimos") ? `nos ${label}` : `nas ${label}`;
 }
 
 function abreviarEmissor(sender) {

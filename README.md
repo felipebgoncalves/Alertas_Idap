@@ -26,3 +26,13 @@ poetry run python scripts\idap_daily_maps.py
 poetry run python scripts\build_dashboard.py
 python -m http.server 8765 --directory site
 ```
+
+## Teste com RSS fake
+
+O arquivo `resources/idap_rss_es_fake.xml` combina tres alertas reais do Espirito Santo no mesmo formato Atom/CAP usado pelo endpoint do IDAP. Para testar a geracao dos mapas sem depender de alertas ativos no RSS oficial:
+
+```powershell
+.\scripts\run_fake_idap_test.ps1
+```
+
+Os PNGs do teste sao gerados em `out/test_fake`, usando historico e estado separados em `.cache/*_fake.json`.

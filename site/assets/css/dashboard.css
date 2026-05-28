@@ -921,3 +921,254 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Layout final por areas, alinhado ao mockup mais recente */
+.app-shell {
+  width: min(99vw, 1536px);
+  height: min(96vh, 864px);
+  padding: 22px 28px 10px 40px;
+}
+
+.dashboard-grid {
+  grid-template-columns: 274px 460px minmax(380px, 1fr) 278px;
+  grid-template-rows: 142px 292px minmax(0, 326px);
+  grid-template-areas:
+    "brand map hourly hourly"
+    "metrics map hourly hourly"
+    "event recent recent severity";
+  gap: 14px 18px;
+  min-height: 0;
+}
+
+.brand-card { grid-area: brand; }
+.metric-stack { grid-area: metrics; }
+.map-panel { grid-area: map; }
+.hourly-panel { grid-area: hourly; }
+.event-panel { grid-area: event; }
+.recent-panel { grid-area: recent; }
+.severity-panel { grid-area: severity; }
+
+.left-column,
+.center-column,
+.right-column {
+  display: contents;
+}
+
+.left-column {
+  border-left: 0;
+  border-bottom: 0;
+  padding: 0;
+}
+
+.brand-card,
+.panel-card {
+  border-radius: 22px;
+}
+
+.brand-card {
+  padding: 12px;
+}
+
+.brand-logo-wrap {
+  border-radius: 16px;
+  padding: 10px 18px;
+}
+
+.metric-stack {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 140px;
+  gap: 14px 12px;
+}
+
+.map-panel,
+.hourly-panel,
+.recent-panel,
+.severity-panel,
+.event-panel {
+  min-height: 0;
+}
+
+.map-panel {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.map-holder {
+  padding: 0 10px 10px;
+  min-height: 0;
+}
+
+.map-inner {
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+}
+
+.map-svg-wrap {
+  align-items: center;
+  justify-content: center;
+}
+
+.map-svg-wrap svg {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+}
+
+.hourly-panel {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-self: start;
+  min-height: 410px;
+}
+
+.hourly-panel .panel-head h2 {
+  font-size: 1.55rem;
+  letter-spacing: 0;
+}
+
+.hourly-breakdown {
+  padding: 20px 16px 14px;
+}
+
+.hourly-chart {
+  min-height: 0;
+  border-radius: 18px;
+  padding: 12px 18px 8px;
+}
+
+.event-panel {
+  align-self: start;
+  max-height: 118px;
+}
+
+.event-breakdown {
+  padding: 13px 14px 14px;
+}
+
+.recent-panel-wide {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.recent-panel-wide .panel-head h2 {
+  font-size: 1.55rem;
+  letter-spacing: 0;
+}
+
+.recent-list-wide {
+  padding: 14px 20px 12px;
+  gap: 10px;
+  min-height: 0;
+}
+
+.recent-list-wide .recent-item {
+  grid-template-columns: 108px 290px minmax(160px, 1fr) 232px;
+  gap: 10px;
+  min-height: 118px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  top: 0;
+}
+
+.recent-list-wide .recent-time-hour {
+  font-size: 1.28rem;
+}
+
+.recent-list-wide .recent-time-date {
+  font-size: 0.8rem;
+}
+
+.recent-list-wide .recent-emissor-name,
+.recent-list-wide .recent-evento {
+  font-size: 1rem;
+}
+
+.recent-list-wide .recent-emissor-loc,
+.recent-list-wide .recent-desc {
+  font-size: 0.78rem;
+}
+
+.recent-status {
+  justify-self: end;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.recent-list-wide .recent-tag {
+  flex: 0 0 auto;
+  min-width: 108px;
+  text-align: center;
+  font-size: 0.78rem;
+  padding: 8px 12px;
+}
+
+.recent-expira {
+  flex: 0 0 94px;
+  max-width: 94px;
+  text-align: right;
+  font-size: 0.72rem;
+  line-height: 1.15;
+}
+
+.right-column .severity-panel,
+.severity-panel {
+  grid-row: auto;
+  width: auto;
+  justify-self: stretch;
+  align-self: end;
+}
+
+.severity-panel-compact {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.severity-breakdown {
+  padding: 16px 14px;
+  gap: 14px;
+}
+
+.footer-bar {
+  min-height: 42px;
+  padding: 0 0 0 0;
+}
+
+@media (max-width: 1280px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "brand"
+      "metrics"
+      "map"
+      "hourly"
+      "event"
+      "recent"
+      "severity";
+  }
+
+  .hourly-panel {
+    min-height: 320px;
+  }
+
+  .recent-list-wide .recent-item {
+    grid-template-columns: 70px 1fr;
+  }
+
+  .recent-content,
+  .recent-status {
+    grid-column: 1 / -1;
+  }
+
+  .recent-status {
+    justify-self: stretch;
+    justify-content: flex-start;
+  }
+}

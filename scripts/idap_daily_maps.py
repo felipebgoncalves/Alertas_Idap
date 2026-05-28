@@ -26,10 +26,12 @@ import time
 import unicodedata
 import urllib.request
 import urllib.error
+import urllib.parse
 import http.client
 import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import geopandas as gpd
@@ -157,9 +159,18 @@ _PT_MONTHS = {
 }
 
 
-def _format_period_title() -> str:
+def _format_window_label(window_hours: int) -> str:
+    if window_hours % 24 == 0:
+        days = window_hours // 24
+        if days == 1:
+            return "últimas 24h"
+        return f"últimos {days} dias"
+    return f"últimas {window_hours}h"
+
+
+def _format_period_title(window_hours: int = DEFAULT_WINDOW_HOURS) -> str:
     now_dt = _now_sp()
-    return f"Alertas últimas 24h - Gerado em: {now_dt.day:02d} de {_PT_MONTHS[now_dt.month]} de {now_dt.year}"
+    return f"Alertas {_format_window_label(window_hours)} - Gerado em: {now_dt.day:02d} de {_PT_MONTHS[now_dt.month]} de {now_dt.year}"
 
 
 def _parse_iso_any(s: Optional[str]) -> Optional[datetime]:
@@ -203,7 +214,30 @@ def _all(elem: ET.Element, path: str, ns: Dict[str, str]) -> List[ET.Element]:
         return []
 
 
+def _read_local_source(source: str) -> Optional[bytes]:
+    text = (source or "").strip()
+    if not text:
+        return None
+
+    if text.lower().startswith("file://"):
+        parsed = urllib.parse.urlparse(text)
+        local_path = urllib.request.url2pathname(parsed.path)
+        if parsed.netloc:
+            local_path = f"//{parsed.netloc}{local_path}"
+        path = Path(local_path)
+    else:
+        path = Path(text)
+
+    if path.exists() and path.is_file():
+        return path.read_bytes()
+    return None
+
+
 def _read_url(url: str, timeout: int = 30, retries: int = 3, backoff_s: float = 1.2) -> bytes:
+    local_data = _read_local_source(url)
+    if local_data is not None:
+        return local_data
+
     last_err: Optional[Exception] = None
     for i in range(retries):
         try:
@@ -518,8 +552,11 @@ def _match_municipio_by_geometry(alert: AlertRecord, municipios_gdf: gpd.GeoData
         return None
 
     try:
-        intersections = candidates.geometry.intersection(geom)
-        idx = intersections.area.sort_values(ascending=False).index[0]
+        intersections = gpd.GeoSeries(
+            candidates.geometry.intersection(geom),
+            crs=municipios_gdf.crs or "EPSG:4326",
+        )
+        idx = intersections.to_crs("EPSG:31984").area.sort_values(ascending=False).index[0]
         return _municipio_props(candidates.loc[idx])
     except Exception:
         return _municipio_props(candidates.iloc[0])
@@ -669,8 +706,8 @@ def _filter_window(alerts: List[AlertRecord], window_hours: int, ref_now: dateti
     return selected
 
 
-def _write_resumo_md(path: str, resumo: Dict[str, Any]) -> None:
-    lines = ["# Quadro geral", "", f"Total de alertas (últimas 24h): **{resumo.get('total_alerts', 0)}**", ""]
+def _write_resumo_md(path: str, resumo: Dict[str, Any], window_hours: int = DEFAULT_WINDOW_HOURS) -> None:
+    lines = ["# Quadro geral", "", f"Total de alertas ({_format_window_label(window_hours)}): **{resumo.get('total_alerts', 0)}**", ""]
     def _block(title: str, d: Dict[str, int], emoji: bool = False):
         lines.append(f"## {title}")
         lines.append("")
@@ -945,9 +982,9 @@ def main() -> int:
     
     with open(os.path.join(run_dir, "resumo.json"), "w", encoding="utf-8") as f:
         json.dump(resumo, f, ensure_ascii=False, indent=2)
-    _write_resumo_md(os.path.join(run_dir, "resumo.md"), resumo)
+    _write_resumo_md(os.path.join(run_dir, "resumo.md"), resumo, window_hours)
 
-    period_txt = _format_period_title()
+    period_txt = _format_period_title(window_hours)
 
     uf_gdf = municipios_gdf
 
@@ -957,7 +994,7 @@ def main() -> int:
     graf_hora = os.path.join(run_dir, "grafico_alertas_por_hora_24h.png")
     
     try:
-        _plot_alerts_per_hour(alerts, graf_hora, "Alertas emitidos por hora nas últimas 24h - Defesa Civil Estadual do ES")
+        _plot_alerts_per_hour(alerts, graf_hora, f"Alertas emitidos por hora nas {_format_window_label(window_hours)} - Defesa Civil Estadual do ES")
         if os.path.exists(graf_hora):
             print(f"[INFO] Gráfico gerado: {graf_hora}")
         else:
