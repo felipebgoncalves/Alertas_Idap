@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-IDAP Daily Maps (versão estável + histórico 24h + logo + legenda colorida)
+Coleta alertas CAP do IDAP para o Espírito Santo e gera saídas do site.
 
 Saídas:
 1) mapa_alertas_todos.png
@@ -12,20 +12,11 @@ Saídas:
 + alerts_feed.json, alerts_24h.json, historico_alertas.json, errors.json, resumo.json, resumo.md
 
 Regras:
-- Varre o RSS completo a cada execução (sem filtrar por status).
-- Mantém histórico local de alertas para contornar o limite de 12h do feed.
-- Considera o campo onset como horário de geração do alerta.
-- Deduplica pelo campo atom:id do entry RSS.
-- Gera mapas e resumos com base nos alertas das últimas 24h.
-- Cor por NIVEL calculado:
-    Extremo, Severo, Alto, Médio, Baixo, Indefinido
-- Mapas 2, 3 e 4 são filtros por EVENTO.
-- Em cada mapa, coloca duas legendas:
-    - inferior direita: contagem por nível (sem "Indefinido")
-    - inferior esquerda: resumo de alertas por região
-  na legenda por nível, a ordem é:
-    Extremo, Severo, Alto, Médio, Baixo
-- Logo (canto superior direito) se LOGO_PATH existir.
+- Monitora apenas TARGET_SENDER_NAME.
+- Mantém histórico local para preservar alertas além da janela curta do RSS.
+- Deduplica pelo atom:id do RSS.
+- Usa a malha municipal do Espírito Santo em site/data/geojs-es.json.
+- Gera imagens mesmo quando não houver alertas ativos, evitando assets quebrados.
 """
 
 import json
@@ -45,6 +36,8 @@ import geopandas as gpd
 from shapely.geometry import Polygon, MultiPolygon
 from shapely.geometry.base import BaseGeometry
 
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
@@ -54,24 +47,16 @@ ATOM_NS = {"atom": "http://www.w3.org/2005/Atom", "dc": "http://purl.org/dc/elem
 CAP_NS = {"cap": "urn:oasis:names:tc:emergency:cap:1.2"}
 
 DEFAULT_RSS_URL = "https://idapfile.mdr.gov.br/idap/api/rss/cap"
-DEFAULT_UF_GEOJSON_PATH = "resources/geojs-es.json"
+DEFAULT_UF_GEOJSON_PATH = "site/data/geojs-es.json"
 DEFAULT_MUN_GEOJSON_PATH = DEFAULT_UF_GEOJSON_PATH
 DEFAULT_OUT_DIR = "out"
 DEFAULT_STATE_PATH = ".cache/state.json"
-DEFAULT_LOGO_PATH = ".cache/Logo da CEPDEC.png"
+DEFAULT_LOGO_PATH = "resources/Logo da CEPDEC.png"
 DEFAULT_HISTORY_PATH = ".cache/historico_alertas.json"
 DEFAULT_WINDOW_HOURS = 24
 DEFAULT_RETENTION_HOURS = 72
 DEFAULT_TARGET_SENDER_NAME = "Defesa Civil Estadual do Espírito Santo"
 
-# UF_TO_REGION = {
-#     "AC": "N", "AP": "N", "AM": "N", "PA": "N", "RO": "N", "RR": "N", "TO": "N",
-#     "AL": "NE", "BA": "NE", "CE": "NE", "MA": "NE", "PB": "NE", "PE": "NE",
-#     "PI": "NE", "RN": "NE", "SE": "NE",
-#     "DF": "CO", "GO": "CO", "MT": "CO", "MS": "CO",
-#     "ES": "SE", "MG": "SE", "RJ": "SE", "SP": "SE",
-#     "PR": "S", "RS": "S", "SC": "S",
-# }
 UF_TO_REGION = {"ES": "SE"}
 
 NIVEL_COLORS = {
@@ -305,74 +290,6 @@ def _geom_points_count(geom: Optional[BaseGeometry]) -> int:
         return 0
     except Exception:
         return 0
-
-
-# STATE_NAME_TO_UF = {
-#     "ACRE": "AC",
-#     "ALAGOAS": "AL",
-#     "AMAPÁ": "AP",
-#     "AMAPA": "AP",
-#     "AMAZONAS": "AM",
-#     "BAHIA": "BA",
-#     "CEARÁ": "CE",
-#     "CEARA": "CE",
-#     "DISTRITO FEDERAL": "DF",
-#     "ESPÍRITO SANTO": "ES",
-#     "ESPIRITO SANTO": "ES",
-#     "GOIÁS": "GO",
-#     "GOIAS": "GO",
-#     "MARANHÃO": "MA",
-#     "MARANHAO": "MA",
-#     "MATO GROSSO": "MT",
-#     "MATO GROSSO DO SUL": "MS",
-#     "MINAS GERAIS": "MG",
-#     "PARÁ": "PA",
-#     "PARA": "PA",
-#     "PARAÍBA": "PB",
-#     "PARAIBA": "PB",
-#     "PARANÁ": "PR",
-#     "PARANA": "PR",
-#     "PERNAMBUCO": "PE",
-#     "PIAUÍ": "PI",
-#     "PIAUI": "PI",
-#     "RIO DE JANEIRO": "RJ",
-#     "RIO GRANDE DO NORTE": "RN",
-#     "RIO GRANDE DO SUL": "RS",
-#     "RONDÔNIA": "RO",
-#     "RONDONIA": "RO",
-#     "RORAIMA": "RR",
-#     "SANTA CATARINA": "SC",
-#     "SÃO PAULO": "SP",
-#     "SAO PAULO": "SP",
-#     "SERGIPE": "SE",
-#     "TOCANTINS": "TO",
-# }
-
-
-# def _guess_uf_from_text(text: Optional[str]) -> Optional[str]:
-#     txt = (text or "").strip().upper()
-#     if not txt:
-#         return None
-#     m = re.search(r"/([A-Z]{2})\b", txt)
-#     if m:
-#         return m.group(1)
-#     m = re.search(r"\(([A-Z]{2})\)", txt)
-#     if m:
-#         return m.group(1)
-#     m = re.search(r"\b([A-Z]{2})\b", txt)
-#     if m and m.group(1) in UF_TO_REGION:
-#         return m.group(1)
-#     for state_name, uf in sorted(STATE_NAME_TO_UF.items(), key=lambda x: -len(x[0])):
-#         if state_name in txt:
-#             return uf
-#     return None
-
-
-# def _guess_uf(area_desc: Optional[str], sender_name: Optional[str] = None) -> Optional[str]:
-#     uf = _guess_uf_from_text(area_desc)
-#     if uf:
-#         return uf
-#     return _guess_uf_from_text(sender_name)
 
 
 STATE_NAME_TO_UF = {
@@ -804,62 +721,6 @@ def _add_logo(ax, logo_path: str, width_frac: float = 0.04, x: float = 0.985, y:
         return
 
 
-REGION_LABELS = {
-    "N": "Norte",
-    "NE": "Nordeste",
-    "CO": "Centro-Oeste",
-    "SE": "Sudeste",
-    "S": "Sul",
-    "N/A": "Não identificado",
-}
-
-
-# def _add_region_legend(ax, alerts_gdf: gpd.GeoDataFrame, loc: str = "lower left") -> None:
-    # try:
-    #     if alerts_gdf is None or len(alerts_gdf) == 0 or "region" not in alerts_gdf.columns:
-    #         return
-    #     order = ["N", "NE", "CO", "SE", "S", "N/A"]
-    #     counts: Dict[str, int] = {}
-    #     for r in alerts_gdf["region"].tolist():
-    #         rr = (r or "N/A").strip()
-    #         if rr not in order:
-    #             rr = "N/A"
-    #         counts[rr] = counts.get(rr, 0) + 1
-
-    #     total_alertas = len(alerts_gdf)
-
-    #     lines = [f"Resumo por região: {total_alertas}", ""]
-    #     for r in order:
-    #         c = counts.get(r, 0)
-    #         if c > 0:
-    #             lines.append(f"{REGION_LABELS.get(r, r)}: {c}")
-
-    #     if len(lines) <= 2:
-    #         return
-
-    #     x = 0.015 if loc == "lower left" else 0.985
-    #     ha = "left" if loc == "lower left" else "right"
-
-    #     ax.text(
-    #         x,
-    #         0.03,
-    #         "\n".join(lines),
-    #         transform=ax.transAxes,
-    #         ha=ha,
-    #         va="bottom",
-    #         fontsize=11,
-    #         zorder=1000,
-    #         bbox=dict(
-    #             boxstyle="round,pad=0.45",
-    #             facecolor="white",
-    #             edgecolor="#666666",
-    #             alpha=0.95,
-    #         ),
-    #     )
-    # except Exception:
-    #     return
-
-
 def _add_counts_legend(ax, alerts_gdf: gpd.GeoDataFrame, loc: str = "lower right") -> None:
     try:
         if alerts_gdf is None or len(alerts_gdf) == 0 or "nivel" not in alerts_gdf.columns:
@@ -904,12 +765,13 @@ def _plot_alerts_per_hour(alerts: List[AlertRecord], out_path: str, title: str) 
         bucket = dt.replace(minute=0, second=0, microsecond=0)
         hourly_counts[bucket] = hourly_counts.get(bucket, 0) + 1
 
-    if not hourly_counts:
-        return
-
-    buckets = sorted(hourly_counts.keys())
-    start = buckets[0]
-    end = buckets[-1]
+    if hourly_counts:
+        buckets = sorted(hourly_counts.keys())
+        start = buckets[0]
+        end = buckets[-1]
+    else:
+        end = _now_sp().replace(minute=0, second=0, microsecond=0)
+        start = end - timedelta(hours=23)
 
     full_buckets: List[datetime] = []
     cur = start
@@ -929,6 +791,18 @@ def _plot_alerts_per_hour(alerts: List[AlertRecord], out_path: str, title: str) 
     ax.set_xticks(range(len(full_buckets)))
     ax.set_xticklabels(labels, rotation=45, ha='right')
     ax.grid(True, axis='y', alpha=0.3)
+    if not hourly_counts:
+        ax.text(
+            0.5,
+            0.55,
+            "Nenhum alerta estadual do ES no periodo",
+            transform=ax.transAxes,
+            ha="center",
+            va="center",
+            fontsize=13,
+            color="#334155",
+        )
+        ax.set_ylim(0, 1)
     plt.tight_layout()
     fig.savefig(out_path, dpi=200)
     plt.close(fig)
@@ -948,54 +822,26 @@ def _plot_alerts_map(
         alerts_gdf = alerts_gdf.copy()
         alerts_gdf["_color"] = alerts_gdf["nivel"].apply(_nivel_color)
         alerts_gdf.plot(ax=ax, color=alerts_gdf["_color"], edgecolor=alerts_gdf["_color"], linewidth=0.8, alpha=ALERT_ALPHA)
+    else:
+        ax.text(
+            0.5,
+            0.5,
+            "Nenhum alerta estadual do ES no periodo",
+            transform=ax.transAxes,
+            ha="center",
+            va="center",
+            fontsize=15,
+            color="#334155",
+            bbox={"boxstyle": "round,pad=0.45", "facecolor": "white", "edgecolor": "#cbd5e1", "alpha": 0.9},
+        )
     ax.set_title(f"{title_line1}\n{title_line2}", fontsize=12)
     ax.set_axis_off()
     if logo_path:
         _add_logo(ax, logo_path)
-    # _add_region_legend(ax, alerts_gdf, loc="lower left")
     _add_counts_legend(ax, alerts_gdf, loc="lower right")
     plt.tight_layout()
     fig.savefig(out_path, dpi=200)
     plt.close(fig)
-
-
-# def _tg_send_message(token: str, chat_id: str, text: str) -> None:
-#     url = f"https://api.telegram.org/bot{token}/sendMessage"
-#     data = json.dumps({"chat_id": chat_id, "text": text}).encode("utf-8")
-#     req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
-#     with urllib.request.urlopen(req, timeout=30) as resp:
-#         _ = resp.read()
-
-
-# def _tg_send_photo(token: str, chat_id: str, photo_path: str, caption: str) -> None:
-#     import uuid
-#     boundary = f"----WebKitFormBoundary{uuid.uuid4().hex}"
-#     url = f"https://api.telegram.org/bot{token}/sendPhoto"
-#     with open(photo_path, "rb") as f:
-#         photo_bytes = f.read()
-#     def _part(name: str, value: str) -> bytes:
-#         return (
-#             f"--{boundary}\r\n"
-#             f'Content-Disposition: form-data; name="{name}"\r\n\r\n'
-#             f"{value}\r\n"
-#         ).encode("utf-8")
-#     body = b""
-#     body += _part("chat_id", str(chat_id))
-#     if caption:
-#         body += _part("caption", caption)
-#     filename = os.path.basename(photo_path)
-#     body += (
-#         f"--{boundary}\r\n"
-#         f'Content-Disposition: form-data; name="photo"; filename="{filename}"\r\n'
-#         f"Content-Type: image/png\r\n\r\n"
-#     ).encode("utf-8")
-#     body += photo_bytes
-#     body += b"\r\n"
-#     body += f"--{boundary}--\r\n".encode("utf-8")
-#     req = urllib.request.Request(url, data=body, headers={"Content-Type": f"multipart/form-data; boundary={boundary}"}, method="POST")
-#     with urllib.request.urlopen(req, timeout=60) as resp:
-#         _ = resp.read()
-
 
 def main() -> int:
     rss_url = os.getenv("RSS_URL", DEFAULT_RSS_URL)
@@ -1008,8 +854,6 @@ def main() -> int:
     window_hours = int(os.getenv("WINDOW_HOURS", str(DEFAULT_WINDOW_HOURS)))
     retention_hours = int(os.getenv("RETENTION_HOURS", str(DEFAULT_RETENTION_HOURS)))
     target_sender_name = os.getenv("TARGET_SENDER_NAME", DEFAULT_TARGET_SENDER_NAME).strip()
-    # tg_token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
-    # tg_chat_id = os.getenv("TELEGRAM_CHAT_ID", "").strip()
 
     print(f"[INFO] RSS_URL={rss_url}")
     print(f"[INFO] UF_GEOJSON_PATH={uf_geojson_path}")
@@ -1105,11 +949,6 @@ def main() -> int:
 
     period_txt = _format_period_title()
 
-    # try:
-    #     uf_gdf = municipios_gdf
-    # except Exception as e:
-    #     print(f"[ERROR] Falha ao preparar GeoJSON municipal: {e}")
-    #     return 4
     uf_gdf = municipios_gdf
 
     alerts_gdf_all = _alerts_to_gdf(alerts)
@@ -1129,118 +968,28 @@ def main() -> int:
         print(f"[WARN] Falha ao gerar gráfico por hora: {e}")
 
     map1 = os.path.join(run_dir, "mapa_alertas_todos.png")
-    if len(alerts_gdf_all) > 0:
-        _plot_alerts_map(uf_gdf, alerts_gdf_all, map1, "Alertas IDAP - Defesa Civil Estadual do ES", title_line2, logo_path=logo_path)
-        print(f"[INFO] Mapa gerado: {map1}")
-    else:
-        map1 = ""
-        print("[WARN] Mapa 1 não gerado: nenhum alerta com polygon")
-    
-    # if len(alerts_gdf_all) > 0:
-    #     _plot_alerts_map(uf_gdf, alerts_gdf_all, map1, "Alertas IDAP - Defesa Civil Estadual do ES", title_line2, logo_path=logo_path)
-    #     print(f"[INFO] Mapa gerado: {map1}")
-    # else:
-    #     map1 = ""
-    #     print("[WARN] Mapa 1 não gerado: nenhum alerta com polygon")
+    _plot_alerts_map(uf_gdf, alerts_gdf_all, map1, "Alertas IDAP - Defesa Civil Estadual do ES", title_line2, logo_path=logo_path)
+    print(f"[INFO] Mapa gerado: {map1}")
 
     alerts_2 = [a for a in alerts if _is_chuva_temp_inund(a.event)]
-    # gdf_2 = _alerts_to_gdf(alerts_2)
     map2 = os.path.join(run_dir, "mapa_alertas_chuva_temp_inund.png")
     gdf_2 = _alerts_to_gdf(alerts_2)
-    if len(gdf_2) > 0:
-        _plot_alerts_map(uf_gdf, gdf_2, map2, "Alertas IDAP - Chuvas, Tempestades, Inundações, Granizo", title_line2, logo_path=logo_path)
-        print(f"[INFO] Mapa gerado: {map2}")
-    else:
-        map2 = ""
-        print("[WARN] Mapa 2 não gerado: nenhum alerta (filtro) com polygon")
-    
-    # if len(gdf_2) > 0:
-    #     _plot_alerts_map(uf_gdf, gdf_2, map2, "Alertas IDAP - Chuvas, Tempestades, Inundações, Granizo", title_line2, logo_path=logo_path)
-    #     print(f"[INFO] Mapa gerado: {map2}")
-    # else:
-    #     map2 = ""
-    #     print("[WARN] Mapa 2 não gerado: nenhum alerta (filtro) com polygon")
+    _plot_alerts_map(uf_gdf, gdf_2, map2, "Alertas IDAP - Chuvas, Tempestades, Inundações, Granizo", title_line2, logo_path=logo_path)
+    print(f"[INFO] Mapa gerado: {map2}")
 
     alerts_3 = [a for a in alerts if _is_deslizamento(a.event)]
-    # gdf_3 = _alerts_to_gdf(alerts_3)
     map3 = os.path.join(run_dir, "mapa_alertas_deslizamento.png")
     gdf_3 = _alerts_to_gdf(alerts_3)
-    if len(gdf_3) > 0:
-        _plot_alerts_map(uf_gdf, gdf_3, map3, "Alertas IDAP - Deslizamentos", title_line2, logo_path=logo_path)
-        print(f"[INFO] Mapa gerado: {map3}")
-    else:
-        map3 = ""
-        print("[WARN] Mapa 3 não gerado: nenhum alerta de deslizamento com polygon")
-    
-    # if len(gdf_3) > 0:
-    #     _plot_alerts_map(uf_gdf, gdf_3, map3, "Alertas IDAP - Deslizamentos", title_line2, logo_path=logo_path)
-    #     print(f"[INFO] Mapa gerado: {map3}")
-    # else:
-    #     map3 = ""
-    #     print("[WARN] Mapa 3 não gerado: nenhum alerta de deslizamento com polygon")
+    _plot_alerts_map(uf_gdf, gdf_3, map3, "Alertas IDAP - Deslizamentos", title_line2, logo_path=logo_path)
+    print(f"[INFO] Mapa gerado: {map3}")
 
     ids_2 = {a.entry_id for a in alerts_2}
     ids_3 = {a.entry_id for a in alerts_3}
     alerts_4 = [a for a in alerts if (a.entry_id not in ids_2) and (a.entry_id not in ids_3)]
-    # gdf_4 = _alerts_to_gdf(alerts_4)
     map4 = os.path.join(run_dir, "mapa_alertas_outros.png")
     gdf_4 = _alerts_to_gdf(alerts_4)
-    if len(gdf_4) > 0:
-        _plot_alerts_map(uf_gdf, gdf_4, map4, "Alertas IDAP: Outras Categorias", title_line2, logo_path=logo_path)
-        print(f"[INFO] Mapa gerado: {map4}")
-    else:
-        map4 = ""
-        print("[WARN] Mapa 4 não gerado: nenhum alerta (outros) com polygon")
-    
-    # if len(gdf_4) > 0:
-    #     _plot_alerts_map(uf_gdf, gdf_4, map4, "Alertas IDAP: Outras Categorias", title_line2, logo_path=logo_path)
-    #     print(f"[INFO] Mapa gerado: {map4}")
-    # else:
-    #     map4 = ""
-    #     print("[WARN] Mapa 4 não gerado: nenhum alerta (outros) com polygon")
-
-    # if tg_token and tg_chat_id:
-    #     by_nivel = resumo.get("by_nivel", {}) or {}
-    #     by_reg = resumo.get("by_region", {}) or {}
-    #     by_typ = resumo.get("by_channel_list", {}) or {}
-
-    #     def _fmt_counts(d: Dict[str, int], with_emoji: bool = False) -> str:
-    #         parts = []
-    #         for k, v in list(d.items())[:10]:
-    #             parts.append(f"{nivel_emoji(k)} {k}:{v}" if with_emoji else f"{k}:{v}")
-    #         return ", ".join(parts)
-
-    #     msg = (
-    #         f"IDAP Daily Maps\n"
-    #         f"{period_txt}\n"
-    #         f"Entradas RSS atuais: {len(entries)}\n"
-    #         f"CAPs parseados do feed: {len(feed_alerts)} | ignorados por senderName: {ignored_by_sender} | erros: {len(errors)}\n"
-    #         f"Alertas válidos últimas {window_hours}h: {len(alerts)}\n"
-    #         f"Histórico total salvo: {len(history_kept)}\n"
-    #         f"Nível: {_fmt_counts(by_nivel, with_emoji=True)}\n"
-    #         f"Tipo: {_fmt_counts(by_typ, with_emoji=False)}\n"
-    #         f"Regiões: {_fmt_counts(by_reg, with_emoji=False)}\n"
-    #     )
-    #     try:
-    #         _tg_send_message(tg_token, tg_chat_id, msg)
-    #         print("[INFO] Telegram: mensagem enviada")
-    #     except Exception as e:
-    #         print(f"[WARN] Telegram: falha ao enviar mensagem: {e}")
-    #     for pth, cap in [
-    #         (graf_hora, "Gráfico: Alertas emitidos por hora nas últimas 24h"),
-    #         (map1, "Mapa 1: Todas as Categorias"),
-    #         (map2, "Mapa 2: Chuva, Tempestade e Inundação"),
-    #         (map3, "Mapa 3: Deslizamentos"),
-    #         (map4, "Mapa 4: Outras Categorias"),
-    #     ]:
-    #         if pth:
-    #             try:
-    #                 _tg_send_photo(tg_token, tg_chat_id, pth, cap)
-    #                 print(f"[INFO] Telegram: enviado {os.path.basename(pth)}")
-    #             except Exception as e:
-    #                 print(f"[WARN] Telegram: falha ao enviar {os.path.basename(pth)}: {e}")
-    # else:
-    #     print("[INFO] Telegram: não configurado (TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID vazios)")
+    _plot_alerts_map(uf_gdf, gdf_4, map4, "Alertas IDAP: Outras Categorias", title_line2, logo_path=logo_path)
+    print(f"[INFO] Mapa gerado: {map4}")
 
     state["last_run_ts"] = run_ts
     state["last_run_iso"] = datetime.now(timezone.utc).isoformat()
