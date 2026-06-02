@@ -1869,3 +1869,190 @@ body {
       "severity";
   }
 }
+
+/* =========================================================
+   Reset responsivo final
+   Mantem o layout amplo somente no desktop.
+   ========================================================= */
+@media (max-width: 1180px) {
+  html,
+  body {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body {
+    display: block;
+  }
+
+  .app-shell {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 100svh;
+    max-height: none;
+    aspect-ratio: auto;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .dashboard-grid {
+    width: 100%;
+    height: auto;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-auto-rows: auto;
+    grid-template-areas:
+      "brand metrics"
+      "map map"
+      "recent recent"
+      "hourly hourly"
+      "event severity";
+    align-items: stretch;
+  }
+
+  .metric-stack {
+    width: 100%;
+    height: auto;
+    min-height: 170px;
+    grid-auto-rows: minmax(76px, auto);
+  }
+
+  .map-panel,
+  .recent-panel-wide,
+  .hourly-panel,
+  .event-panel,
+  .severity-panel {
+    width: 100%;
+    max-height: none;
+  }
+
+  .map-panel {
+    min-height: 500px;
+  }
+
+  .recent-panel-wide {
+    min-height: 420px;
+  }
+
+  .recent-list-wide {
+    max-height: 360px;
+  }
+
+  .hourly-panel {
+    min-height: 320px;
+  }
+
+  .event-panel,
+  .severity-panel {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    padding: 10px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-auto-rows: auto;
+    grid-template-areas:
+      "brand"
+      "metrics"
+      "map"
+      "recent"
+      "hourly"
+      "event"
+      "severity";
+    gap: 12px;
+  }
+
+  .brand-card {
+    min-height: 132px;
+  }
+
+  .metric-stack {
+    height: auto;
+    min-height: 286px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(136px, auto);
+  }
+
+  .metric-card {
+    min-height: 136px;
+  }
+
+  .map-panel {
+    min-height: 430px;
+  }
+
+  .recent-panel-wide {
+    min-height: 470px;
+  }
+
+  .recent-list-wide {
+    max-height: 410px;
+    padding: 10px;
+  }
+
+  .recent-list-wide .recent-item {
+    grid-template-columns: 72px minmax(0, 1fr);
+    min-height: auto;
+    padding: 12px;
+  }
+
+  .recent-emissor,
+  .recent-content,
+  .recent-status {
+    grid-column: 1 / -1;
+  }
+
+  .recent-status {
+    min-width: 0;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+
+  .recent-expira {
+    text-align: left;
+  }
+
+  .hourly-panel {
+    min-height: 300px;
+  }
+
+  .event-panel,
+  .severity-panel {
+    min-height: 250px;
+  }
+
+  .severity-breakdown {
+    max-height: 205px;
+  }
+
+  .footer-bar {
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .metric-stack {
+    min-height: auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: minmax(120px, auto);
+  }
+
+  .metric-card {
+    min-height: 120px;
+  }
+
+  .map-panel {
+    min-height: 370px;
+  }
+}
