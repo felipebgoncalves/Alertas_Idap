@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-02T16:52:27.214566-03:00",
+  "generated_at": "2026-06-02T17:02:30.863708-03:00",
   "source": ".cache/historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -1378,7 +1378,7 @@
       "count": 6
     },
     {
-      "label": "Até 1h",
+      "label": "1h a 3h",
       "count": 1
     }
   ],
@@ -1439,9 +1439,9 @@
       "duration_minutes": 243,
       "duration_hours": 4.05,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 55,
-      "time_since_hours": 0.92,
-      "time_since_bucket": "Até 1h",
+      "time_since_minutes": 65,
+      "time_since_hours": 1.08,
+      "time_since_bucket": "1h a 3h",
       "is_active": true
     },
     {
@@ -1494,8 +1494,8 @@
       "duration_minutes": 160,
       "duration_hours": 2.67,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 392,
-      "time_since_hours": 6.53,
+      "time_since_minutes": 402,
+      "time_since_hours": 6.7,
       "time_since_bucket": "6h a 12h",
       "is_active": false
     },
@@ -1549,8 +1549,8 @@
       "duration_minutes": 166,
       "duration_hours": 2.77,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 458,
-      "time_since_hours": 7.63,
+      "time_since_minutes": 468,
+      "time_since_hours": 7.8,
       "time_since_bucket": "6h a 12h",
       "is_active": false
     },
@@ -1604,8 +1604,8 @@
       "duration_minutes": 124,
       "duration_hours": 2.07,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 476,
-      "time_since_hours": 7.93,
+      "time_since_minutes": 487,
+      "time_since_hours": 8.12,
       "time_since_bucket": "6h a 12h",
       "is_active": false
     },
@@ -1659,8 +1659,8 @@
       "duration_minutes": 101,
       "duration_hours": 1.68,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 514,
-      "time_since_hours": 8.57,
+      "time_since_minutes": 524,
+      "time_since_hours": 8.73,
       "time_since_bucket": "6h a 12h",
       "is_active": false
     },
@@ -1714,8 +1714,8 @@
       "duration_minutes": 144,
       "duration_hours": 2.4,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 556,
-      "time_since_hours": 9.27,
+      "time_since_minutes": 566,
+      "time_since_hours": 9.43,
       "time_since_bucket": "6h a 12h",
       "is_active": false
     },
@@ -1769,8 +1769,8 @@
       "duration_minutes": 125,
       "duration_hours": 2.08,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 597,
-      "time_since_hours": 9.95,
+      "time_since_minutes": 607,
+      "time_since_hours": 10.12,
       "time_since_bucket": "6h a 12h",
       "is_active": false
     },
@@ -1824,8 +1824,8 @@
       "duration_minutes": 166,
       "duration_hours": 2.77,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1058,
-      "time_since_hours": 17.63,
+      "time_since_minutes": 1068,
+      "time_since_hours": 17.8,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -1879,8 +1879,8 @@
       "duration_minutes": 114,
       "duration_hours": 1.9,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 1132,
-      "time_since_hours": 18.87,
+      "time_since_minutes": 1142,
+      "time_since_hours": 19.03,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -1934,8 +1934,8 @@
       "duration_minutes": 235,
       "duration_hours": 3.92,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1252,
-      "time_since_hours": 20.87,
+      "time_since_minutes": 1262,
+      "time_since_hours": 21.03,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -1989,8 +1989,8 @@
       "duration_minutes": 234,
       "duration_hours": 3.9,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1257,
-      "time_since_hours": 20.95,
+      "time_since_minutes": 1267,
+      "time_since_hours": 21.12,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -2044,8 +2044,8 @@
       "duration_minutes": 206,
       "duration_hours": 3.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1278,
-      "time_since_hours": 21.3,
+      "time_since_minutes": 1288,
+      "time_since_hours": 21.47,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -2099,8 +2099,8 @@
       "duration_minutes": 232,
       "duration_hours": 3.87,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1304,
-      "time_since_hours": 21.73,
+      "time_since_minutes": 1314,
+      "time_since_hours": 21.9,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -2154,8 +2154,8 @@
       "duration_minutes": 240,
       "duration_hours": 4.0,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1312,
-      "time_since_hours": 21.87,
+      "time_since_minutes": 1322,
+      "time_since_hours": 22.03,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -2209,8 +2209,8 @@
       "duration_minutes": 216,
       "duration_hours": 3.6,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1348,
-      "time_since_hours": 22.47,
+      "time_since_minutes": 1358,
+      "time_since_hours": 22.63,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -2264,8 +2264,8 @@
       "duration_minutes": 197,
       "duration_hours": 3.28,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1390,
-      "time_since_hours": 23.17,
+      "time_since_minutes": 1400,
+      "time_since_hours": 23.33,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     }
