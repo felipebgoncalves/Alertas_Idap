@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-02T11:49:59.571750-03:00",
+  "generated_at": "2026-06-02T14:00:33.637600-03:00",
   "source": ".cache/historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -1026,7 +1026,7 @@
     }
   ],
   "cards": {
-    "vigentes": 2,
+    "vigentes": 0,
     "ultimas24h": 15,
     "autoridadesAtivas": 1,
     "alertasExtremos": 0,
@@ -1046,7 +1046,7 @@
       "location": "Alfredo Chaves",
       "uf": "ES",
       "headline": "Defesa Civil:(ES) ALERTA de CHUVA, RAIOS e VENTO em Alfredo Chaves nas proximas 03 horas. Fique atento as orientacoes da Defesa Civil. Emergencia ligue 193.",
-      "status": "vigente",
+      "status": "expirado",
       "identifier": "183955/2026",
       "entry_id": "183955/2026",
       "sent": "2026-06-02T10:19:34-03:00",
@@ -1069,7 +1069,7 @@
       "location": "Anchieta",
       "uf": "ES",
       "headline": "Defesa Civil:(ES) ALERTA de CHUVA, RAIOS e VENTO nas regioes SUL e LITORAL SUL nas proximas 03 horas. Fique atento. Emergencia ligue 193.",
-      "status": "vigente",
+      "status": "expirado",
       "identifier": "183954/2026",
       "entry_id": "183954/2026",
       "sent": "2026-06-02T09:13:32-03:00",
@@ -1340,12 +1340,8 @@
   ],
   "status_distribution": [
     {
-      "label": "vigente",
-      "count": 2
-    },
-    {
       "label": "expirado",
-      "count": 13
+      "count": 15
     }
   ],
   "category_distribution": [
@@ -1370,12 +1366,12 @@
       "count": 9
     },
     {
-      "label": "1h a 3h",
-      "count": 3
+      "label": "3h a 6h",
+      "count": 4
     },
     {
-      "label": "3h a 6h",
-      "count": 3
+      "label": "6h a 12h",
+      "count": 2
     }
   ],
   "channel_distribution": [
@@ -1391,7 +1387,7 @@
       "sender": "CENAD-SEDEC",
       "senderName": "Defesa Civil Estadual do Espírito Santo",
       "sent": "2026-06-02T10:19:34-03:00",
-      "status": "vigente",
+      "status": "expirado",
       "msgType": "Alert",
       "category": "Met",
       "event": "CHUVAS INTENSAS",
@@ -1426,7 +1422,7 @@
       "uf": "ES",
       "location": "Alfredo Chaves",
       "event_short": "Chuvas Intensas",
-      "status_vigencia": "vigente",
+      "status_vigencia": "expirado",
       "date": "02/06/2026",
       "time": "10:19",
       "sent_br": "2026-06-02T10:19:34-03:00",
@@ -1435,10 +1431,10 @@
       "duration_minutes": 160,
       "duration_hours": 2.67,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 90,
-      "time_since_hours": 1.5,
-      "time_since_bucket": "1h a 3h",
-      "is_active": true
+      "time_since_minutes": 220,
+      "time_since_hours": 3.67,
+      "time_since_bucket": "3h a 6h",
+      "is_active": false
     },
     {
       "identifier": "183954/2026",
@@ -1446,7 +1442,7 @@
       "sender": "CENAD-SEDEC",
       "senderName": "Defesa Civil Estadual do Espírito Santo",
       "sent": "2026-06-02T09:13:32-03:00",
-      "status": "vigente",
+      "status": "expirado",
       "msgType": "Alert",
       "category": "Met",
       "event": "CHUVAS INTENSAS",
@@ -1481,7 +1477,7 @@
       "uf": "ES",
       "location": "Anchieta",
       "event_short": "Chuvas Intensas",
-      "status_vigencia": "vigente",
+      "status_vigencia": "expirado",
       "date": "02/06/2026",
       "time": "09:13",
       "sent_br": "2026-06-02T09:13:32-03:00",
@@ -1490,10 +1486,10 @@
       "duration_minutes": 166,
       "duration_hours": 2.77,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 156,
-      "time_since_hours": 2.6,
-      "time_since_bucket": "1h a 3h",
-      "is_active": true
+      "time_since_minutes": 287,
+      "time_since_hours": 4.78,
+      "time_since_bucket": "3h a 6h",
+      "is_active": false
     },
     {
       "identifier": "183952/2026",
@@ -1545,9 +1541,9 @@
       "duration_minutes": 124,
       "duration_hours": 2.07,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 174,
-      "time_since_hours": 2.9,
-      "time_since_bucket": "1h a 3h",
+      "time_since_minutes": 305,
+      "time_since_hours": 5.08,
+      "time_since_bucket": "3h a 6h",
       "is_active": false
     },
     {
@@ -1600,8 +1596,8 @@
       "duration_minutes": 101,
       "duration_hours": 1.68,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 211,
-      "time_since_hours": 3.52,
+      "time_since_minutes": 342,
+      "time_since_hours": 5.7,
       "time_since_bucket": "3h a 6h",
       "is_active": false
     },
@@ -1655,9 +1651,9 @@
       "duration_minutes": 144,
       "duration_hours": 2.4,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 253,
-      "time_since_hours": 4.22,
-      "time_since_bucket": "3h a 6h",
+      "time_since_minutes": 384,
+      "time_since_hours": 6.4,
+      "time_since_bucket": "6h a 12h",
       "is_active": false
     },
     {
@@ -1710,9 +1706,9 @@
       "duration_minutes": 125,
       "duration_hours": 2.08,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 295,
-      "time_since_hours": 4.92,
-      "time_since_bucket": "3h a 6h",
+      "time_since_minutes": 425,
+      "time_since_hours": 7.08,
+      "time_since_bucket": "6h a 12h",
       "is_active": false
     },
     {
@@ -1765,8 +1761,8 @@
       "duration_minutes": 166,
       "duration_hours": 2.77,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 756,
-      "time_since_hours": 12.6,
+      "time_since_minutes": 887,
+      "time_since_hours": 14.78,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -1820,8 +1816,8 @@
       "duration_minutes": 114,
       "duration_hours": 1.9,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 829,
-      "time_since_hours": 13.82,
+      "time_since_minutes": 960,
+      "time_since_hours": 16.0,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -1875,8 +1871,8 @@
       "duration_minutes": 235,
       "duration_hours": 3.92,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 950,
-      "time_since_hours": 15.83,
+      "time_since_minutes": 1080,
+      "time_since_hours": 18.0,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -1930,8 +1926,8 @@
       "duration_minutes": 234,
       "duration_hours": 3.9,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 954,
-      "time_since_hours": 15.9,
+      "time_since_minutes": 1085,
+      "time_since_hours": 18.08,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -1985,8 +1981,8 @@
       "duration_minutes": 206,
       "duration_hours": 3.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 976,
-      "time_since_hours": 16.27,
+      "time_since_minutes": 1106,
+      "time_since_hours": 18.43,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -2040,8 +2036,8 @@
       "duration_minutes": 232,
       "duration_hours": 3.87,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1002,
-      "time_since_hours": 16.7,
+      "time_since_minutes": 1133,
+      "time_since_hours": 18.88,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -2095,8 +2091,8 @@
       "duration_minutes": 240,
       "duration_hours": 4.0,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1010,
-      "time_since_hours": 16.83,
+      "time_since_minutes": 1140,
+      "time_since_hours": 19.0,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -2150,8 +2146,8 @@
       "duration_minutes": 216,
       "duration_hours": 3.6,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1046,
-      "time_since_hours": 17.43,
+      "time_since_minutes": 1176,
+      "time_since_hours": 19.6,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     },
@@ -2205,8 +2201,8 @@
       "duration_minutes": 197,
       "duration_hours": 3.28,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1087,
-      "time_since_hours": 18.12,
+      "time_since_minutes": 1218,
+      "time_since_hours": 20.3,
       "time_since_bucket": "Mais de 12h",
       "is_active": false
     }
