@@ -1,7 +1,4 @@
 const AUTO_REFRESH_MS = 60000;
-const ALERTS_PER_PAGE = 2;
-const ALERTS_ROTATE_MS = 7000;
-
 const LEVEL_COLORS = {
   Extremo: "#6c4ce6",
   Severo: "#e23d2f",
@@ -13,8 +10,6 @@ const LEVEL_COLORS = {
 
 let refreshSecondsRemaining = Math.floor(AUTO_REFRESH_MS / 1000);
 let recentAlerts = [];
-let recentPage = 0;
-let recentTimer = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   carregarDashboard();
@@ -35,7 +30,7 @@ async function carregarDashboard() {
     preencherCabecalho(data);
     preencherRotulosPeriodo(data);
     preencherCards(data, alerts);
-    renderUltimosAlertas(latest.length ? latest : alerts, data);
+    renderUltimosAlertas(alerts.length ? alerts : latest, data);
     renderMapaMunicipal(data, alerts);
     renderSeveridade(alerts, data.level_distribution || []);
     renderEventos(alerts, data.event_distribution || []);
@@ -73,8 +68,6 @@ function renderUltimosAlertas(alertas, data) {
   if (!container) return;
 
   recentAlerts = Array.isArray(alertas) ? alertas : [];
-  recentPage = 0;
-  if (recentTimer) clearInterval(recentTimer);
 
   if (!recentAlerts.length) {
     container.innerHTML = `<div class="empty-state">Nenhum alerta estadual do ES ${esc(formatarJanelaComPreposicao(data))}.</div>`;
@@ -82,22 +75,13 @@ function renderUltimosAlertas(alertas, data) {
   }
 
   renderPaginaUltimosAlertas();
-  if (recentAlerts.length > ALERTS_PER_PAGE) {
-    recentTimer = setInterval(() => {
-      recentPage = (recentPage + 1) % Math.ceil(recentAlerts.length / ALERTS_PER_PAGE);
-      renderPaginaUltimosAlertas();
-    }, ALERTS_ROTATE_MS);
-  }
 }
 
 function renderPaginaUltimosAlertas() {
   const container = byId("ultimos-alertas");
   if (!container) return;
 
-  const start = recentPage * ALERTS_PER_PAGE;
-  const page = recentAlerts.slice(start, start + ALERTS_PER_PAGE);
-
-  container.innerHTML = page.map((alerta) => `
+  container.innerHTML = recentAlerts.map((alerta) => `
     <div class="recent-item">
       <div class="recent-time">
         <div class="recent-time-hour">${esc(alerta.time || formatarHora(alerta.sent))}</div>
