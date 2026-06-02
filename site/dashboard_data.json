@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-02T01:51:13.544416-03:00",
+  "generated_at": "2026-06-02T06:06:40.132445-03:00",
   "source": ".cache/historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -1026,7 +1026,7 @@
     }
   ],
   "cards": {
-    "vigentes": 1,
+    "vigentes": 0,
     "ultimas24h": 9,
     "autoridadesAtivas": 1,
     "alertasExtremos": 0,
@@ -1046,7 +1046,7 @@
       "location": "Guarapari",
       "uf": "ES",
       "headline": "Defesa Civil:(ES) ALERTA de CHUVA, RAIOS e VENTO  em Guarapari nas proximas 03 horas.Proteja-se.Emergencia ligue 193",
-      "status": "vigente",
+      "status": "expirado",
       "identifier": "183937/2026",
       "entry_id": "183937/2026",
       "sent": "2026-06-01T23:13:32-03:00",
@@ -1309,12 +1309,8 @@
   ],
   "status_distribution": [
     {
-      "label": "vigente",
-      "count": 1
-    },
-    {
       "label": "expirado",
-      "count": 8
+      "count": 9
     }
   ],
   "category_distribution": [
@@ -1336,14 +1332,10 @@
   "time_since_distribution": [
     {
       "label": "6h a 12h",
-      "count": 5
+      "count": 8
     },
     {
-      "label": "3h a 6h",
-      "count": 3
-    },
-    {
-      "label": "1h a 3h",
+      "label": "Mais de 12h",
       "count": 1
     }
   ],
@@ -1360,7 +1352,7 @@
       "sender": "CENAD-SEDEC",
       "senderName": "Defesa Civil Estadual do Espírito Santo",
       "sent": "2026-06-01T23:13:32-03:00",
-      "status": "vigente",
+      "status": "expirado",
       "msgType": "Alert",
       "category": "Met",
       "event": "CHUVAS INTENSAS",
@@ -1395,7 +1387,7 @@
       "uf": "ES",
       "location": "Guarapari",
       "event_short": "Chuvas Intensas",
-      "status_vigencia": "vigente",
+      "status_vigencia": "expirado",
       "date": "01/06/2026",
       "time": "23:13",
       "sent_br": "2026-06-01T23:13:32-03:00",
@@ -1404,10 +1396,10 @@
       "duration_minutes": 166,
       "duration_hours": 2.77,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 157,
-      "time_since_hours": 2.62,
-      "time_since_bucket": "1h a 3h",
-      "is_active": true
+      "time_since_minutes": 413,
+      "time_since_hours": 6.88,
+      "time_since_bucket": "6h a 12h",
+      "is_active": false
     },
     {
       "identifier": "183930/2026",
@@ -1459,9 +1451,9 @@
       "duration_minutes": 114,
       "duration_hours": 1.9,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 230,
-      "time_since_hours": 3.83,
-      "time_since_bucket": "3h a 6h",
+      "time_since_minutes": 486,
+      "time_since_hours": 8.1,
+      "time_since_bucket": "6h a 12h",
       "is_active": false
     },
     {
@@ -1514,9 +1506,9 @@
       "duration_minutes": 235,
       "duration_hours": 3.92,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 351,
-      "time_since_hours": 5.85,
-      "time_since_bucket": "3h a 6h",
+      "time_since_minutes": 606,
+      "time_since_hours": 10.1,
+      "time_since_bucket": "6h a 12h",
       "is_active": false
     },
     {
@@ -1569,9 +1561,9 @@
       "duration_minutes": 234,
       "duration_hours": 3.9,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 355,
-      "time_since_hours": 5.92,
-      "time_since_bucket": "3h a 6h",
+      "time_since_minutes": 611,
+      "time_since_hours": 10.18,
+      "time_since_bucket": "6h a 12h",
       "is_active": false
     },
     {
@@ -1624,8 +1616,8 @@
       "duration_minutes": 206,
       "duration_hours": 3.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 377,
-      "time_since_hours": 6.28,
+      "time_since_minutes": 632,
+      "time_since_hours": 10.53,
       "time_since_bucket": "6h a 12h",
       "is_active": false
     },
@@ -1679,8 +1671,8 @@
       "duration_minutes": 232,
       "duration_hours": 3.87,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 403,
-      "time_since_hours": 6.72,
+      "time_since_minutes": 659,
+      "time_since_hours": 10.98,
       "time_since_bucket": "6h a 12h",
       "is_active": false
     },
@@ -1734,8 +1726,8 @@
       "duration_minutes": 240,
       "duration_hours": 4.0,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 411,
-      "time_since_hours": 6.85,
+      "time_since_minutes": 667,
+      "time_since_hours": 11.12,
       "time_since_bucket": "6h a 12h",
       "is_active": false
     },
@@ -1789,8 +1781,8 @@
       "duration_minutes": 216,
       "duration_hours": 3.6,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 447,
-      "time_since_hours": 7.45,
+      "time_since_minutes": 702,
+      "time_since_hours": 11.7,
       "time_since_bucket": "6h a 12h",
       "is_active": false
     },
@@ -1844,9 +1836,9 @@
       "duration_minutes": 197,
       "duration_hours": 3.28,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 489,
-      "time_since_hours": 8.15,
-      "time_since_bucket": "6h a 12h",
+      "time_since_minutes": 744,
+      "time_since_hours": 12.4,
+      "time_since_bucket": "Mais de 12h",
       "is_active": false
     }
   ]
