@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Imagens Geradas | IDAP ES</title>
+  <title>Arquivos Gerados | IDAP ES</title>
   <style>
     body {
       margin: 0;
@@ -19,8 +19,14 @@
     }
 
     h1 {
-      margin: 0 0 20px;
+      margin: 0 0 12px;
       font-size: 28px;
+    }
+
+    p {
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin: 0 0 24px;
     }
 
     .lista {
@@ -43,45 +49,30 @@
       background: #1e293b;
     }
 
-    .botao {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: bold;
-      min-height: 40px;
-      text-align: center;
-    }
-
     .acoes {
+      margin-top: 20px;
       display: flex;
-      flex-wrap: wrap;
       gap: 10px;
-      align-items: center;
-      justify-content: center;
-      flex: 1 1 320px;
+      flex-wrap: wrap;
     }
-
   </style>
 </head>
 <body>
   <main>
-    <h1>Imagens Geradas</h1>
+    <h1>Arquivos Gerados</h1>
+    <p>Links diretos para os artefatos publicados no site após a execução mais recente.</p>
+
     <nav class="lista">
+      <a href="data/alertas_idap.geojson" target="_blank" rel="noopener noreferrer">GeoJSON de alertas estaduais do ES</a>
       <a href="imagens/grafico_alertas_por_hora_24h.png" target="_blank" rel="noopener noreferrer">Gráfico de alertas por hora</a>
-      <a href="imagens/mapa_alertas_todos.png" target="_blank" rel="noopener noreferrer">Mapa de todos os alertas</a>
-      <a href="imagens/mapa_alertas_chuva_temp_inund.png" target="_blank" rel="noopener noreferrer">Mapa de chuva, tempestade e inundação</a>
-      <a href="imagens/mapa_alertas_deslizamento.png" target="_blank" rel="noopener noreferrer">Mapa de deslizamentos</a>
-      <a href="imagens/mapa_alertas_outros.png" target="_blank" rel="noopener noreferrer">Mapa de outros alertas</a>
+      <a href="dashboard_data.json" target="_blank" rel="noopener noreferrer">Dados agregados do dashboard</a>
+      <a href="ultima_atualizacao.json" target="_blank" rel="noopener noreferrer">Metadados da última atualização</a>
     </nav>
+
+    <div class="acoes">
+      <a href="./index.html">Voltar ao mapa</a>
+      <a href="./dashboard.html">Abrir dashboard</a>
+    </div>
   </main>
-  
-  <div class="acoes">
-    <a class="botao" href="./index.html" rel="noopener noreferrer">Voltar</a>
-  </div>
 </body>
 </html>

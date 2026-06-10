@@ -1,22 +1,20 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
 Coleta alertas CAP do IDAP para o Espírito Santo e gera saídas do site.
 
 Saídas:
-1) mapa_alertas_todos.png
-2) mapa_alertas_chuva_temp_inund.png
-3) mapa_alertas_deslizamento.png
-4) mapa_alertas_outros.png
-+ alerts_feed.json, alerts_24h.json, historico_alertas.json, errors.json, resumo.json, resumo.md
+- alertas_idap.geojson
+- grafico_alertas_por_hora_24h.png
+- alerts_feed.json, alerts_24h.json, historico_alertas.json, errors.json, resumo.json, resumo.md
 
 Regras:
 - Monitora apenas TARGET_SENDER_NAME.
 - Mantém histórico local para preservar alertas além da janela curta do RSS.
 - Deduplica pelo atom:id do RSS.
 - Usa a malha municipal do Espírito Santo em site/data/geojs-es.json.
-- Gera imagens mesmo quando não houver alertas ativos, evitando assets quebrados.
+- Publica os polígonos em GeoJSON para renderização dinâmica no navegador.
 """
 
 import json
@@ -35,14 +33,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import geopandas as gpd
-from shapely.geometry import Polygon, MultiPolygon
+from shapely.geometry import Polygon, MultiPolygon, mapping
 from shapely.geometry.base import BaseGeometry
-
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
 
 ATOM_NS = {"atom": "http://www.w3.org/2005/Atom", "dc": "http://purl.org/dc/elements/1.1/"}
@@ -53,8 +45,8 @@ DEFAULT_UF_GEOJSON_PATH = "site/data/geojs-es.json"
 DEFAULT_MUN_GEOJSON_PATH = DEFAULT_UF_GEOJSON_PATH
 DEFAULT_OUT_DIR = "out"
 DEFAULT_STATE_PATH = ".cache/state.json"
-DEFAULT_LOGO_PATH = "resources/Logo da CEPDEC.png"
 DEFAULT_HISTORY_PATH = ".cache/historico_alertas.json"
+DEFAULT_ALERTS_GEOJSON_PATH = "site/data/alertas_idap.geojson"
 DEFAULT_WINDOW_HOURS = 24
 DEFAULT_RETENTION_HOURS = 72
 DEFAULT_TARGET_SENDER_NAME = "Defesa Civil Estadual do Espírito Santo"
@@ -69,10 +61,6 @@ NIVEL_COLORS = {
     "Baixo":   "#2ca02c",
     "Indefinido": "#7f7f7f",
 }
-
-ALERT_ALPHA = 0.35
-BORDER_ALPHA = 0.9
-
 
 def calc_nivel(severity: str, urgency: str, certainty: str, response_type: str) -> str:
     s = (severity or "").strip()
@@ -99,13 +87,13 @@ def calc_nivel(severity: str, urgency: str, certainty: str, response_type: str) 
 def nivel_emoji(nivel: str) -> str:
     n = (nivel or "").strip()
     return {
-        "Extremo": "🟣",
-        "Severo": "🔴",
-        "Alto": "🟠",
-        "Médio": "🟡",
-        "Baixo": "🟢",
-        "Indefinido": "⚪",
-    }.get(n, "⚪")
+        "Extremo": "ðŸŸ£",
+        "Severo": "ðŸ”´",
+        "Alto": "ðŸŸ ",
+        "Médio": "ðŸŸ¡",
+        "Baixo": "ðŸŸ¢",
+        "Indefinido": "âšª",
+    }.get(n, "âšª")
 
 
 @dataclass
@@ -147,9 +135,22 @@ class AlertRecord:
     mesorregiao_nome: Optional[str] = None
     regiao_imediata_nome: Optional[str] = None
     regiao_intermediaria_nome: Optional[str] = None
+    affected_municipios: Optional[List[Dict[str, Any]]] = None
 
 
 def _now_sp() -> datetime:
+    override = os.getenv("NOW_OVERRIDE")
+    if override:
+        txt = override.strip()
+        try:
+            if txt.endswith("Z"):
+                txt = txt[:-1] + "+00:00"
+            dt = datetime.fromisoformat(txt)
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt.astimezone()
+        except Exception:
+            pass
     return datetime.now().astimezone()
 
 
@@ -197,6 +198,11 @@ def _safe_text(elem: Optional[ET.Element]) -> Optional[str]:
     if txt is None:
         return None
     txt = txt.strip()
+    if "Ã" in txt or "Â" in txt:
+        try:
+            txt = txt.encode("latin-1").decode("utf-8")
+        except Exception:
+            pass
     return txt if txt != "" else None
 
 
@@ -264,6 +270,11 @@ def _normalize_text(s: Optional[str]) -> str:
     s = s.strip()
     if not s:
         return ""
+    if "Ã" in s or "Â" in s:
+        try:
+            s = s.encode("latin-1").decode("utf-8")
+        except Exception:
+            pass
     s2 = unicodedata.normalize("NFKD", s)
     s2 = "".join([c for c in s2 if not unicodedata.combining(c)])
     return s2.upper()
@@ -534,41 +545,60 @@ def _match_municipio_by_text(alert: AlertRecord, municipios_gdf: gpd.GeoDataFram
     return best
 
 
-def _match_municipio_by_geometry(alert: AlertRecord, municipios_gdf: gpd.GeoDataFrame) -> Optional[Dict[str, Any]]:
+def _match_municipios_by_geometry(alert: AlertRecord, municipios_gdf: gpd.GeoDataFrame) -> List[Dict[str, Any]]:
     if not alert.geometry_wkt:
-        return None
+        return []
 
     try:
         geom = gpd.GeoSeries.from_wkt([alert.geometry_wkt], crs="EPSG:4326").iloc[0]
     except Exception:
-        return None
+        return []
 
     try:
-        candidates = municipios_gdf[municipios_gdf.intersects(geom)]
+        candidates = municipios_gdf[municipios_gdf.intersects(geom)].copy()
     except Exception:
-        return None
+        return []
 
     if candidates.empty:
-        return None
+        return []
 
     try:
         intersections = gpd.GeoSeries(
             candidates.geometry.intersection(geom),
+            index=candidates.index,
             crs=municipios_gdf.crs or "EPSG:4326",
         )
-        idx = intersections.to_crs("EPSG:31984").area.sort_values(ascending=False).index[0]
-        return _municipio_props(candidates.loc[idx])
+        areas = intersections.to_crs("EPSG:31984").area.sort_values(ascending=False)
+        matched: List[Dict[str, Any]] = []
+        for idx, area_m2 in areas.items():
+            if float(area_m2) <= 0:
+                continue
+            props = _municipio_props(candidates.loc[idx])
+            props["intersection_area_m2"] = round(float(area_m2), 2)
+            matched.append(props)
+        return matched
     except Exception:
-        return _municipio_props(candidates.iloc[0])
+        return [_municipio_props(row) for _, row in candidates.iterrows()]
+
+
+def _match_municipio_by_geometry(alert: AlertRecord, municipios_gdf: gpd.GeoDataFrame) -> Optional[Dict[str, Any]]:
+    matched = _match_municipios_by_geometry(alert, municipios_gdf)
+    return matched[0] if matched else None
 
 
 def _enrich_alerts_with_municipios(alerts: List[AlertRecord], municipios_gdf: gpd.GeoDataFrame) -> List[AlertRecord]:
     enriched: List[AlertRecord] = []
     for alert in alerts:
-        props = _match_municipio_by_geometry(alert, municipios_gdf) or _match_municipio_by_text(alert, municipios_gdf)
-        if props:
+        affected = _match_municipios_by_geometry(alert, municipios_gdf)
+        if not affected:
+            props_by_text = _match_municipio_by_text(alert, municipios_gdf)
+            affected = [props_by_text] if props_by_text else []
+
+        if affected:
+            props = affected[0]
             for key, value in props.items():
                 setattr(alert, key, value)
+            alert.affected_municipios = affected
             alert.uf_hint = "ES"
             alert.region = "SE"
         enriched.append(alert)
@@ -606,8 +636,27 @@ def _make_summary(alerts: List[AlertRecord]) -> Dict[str, Any]:
         "by_nivel": _count_by(alerts, lambda a: a.nivel),
         "by_channel_list": _count_by(alerts, lambda a: a.channel_list),
         "by_region": _count_by(alerts, lambda a: a.region),
-        "by_municipio": _count_by(alerts, lambda a: a.municipio_nome),
+        "by_municipio": _count_affected_municipios(alerts),
     }
+
+
+def _count_affected_municipios(alerts: List[AlertRecord]) -> Dict[str, int]:
+    counts: Dict[str, int] = {}
+    for alert in alerts:
+        municipios = alert.affected_municipios or []
+        if not municipios and alert.municipio_nome:
+            municipios = [{"municipio_nome": alert.municipio_nome, "municipio_id": alert.municipio_id}]
+
+        seen_in_alert = set()
+        for municipio in municipios:
+            nome = str(municipio.get("municipio_nome") or municipio.get("nome") or "").strip()
+            key = nome or str(municipio.get("municipio_id") or "").strip() or "N/A"
+            if key in seen_in_alert:
+                continue
+            seen_in_alert.add(key)
+            counts[key] = counts.get(key, 0) + 1
+
+    return dict(sorted(counts.items(), key=lambda x: (-x[1], x[0])))
 
 
 def _ensure_dirs(*paths: str) -> None:
@@ -722,78 +771,70 @@ def _write_resumo_md(path: str, resumo: Dict[str, Any], window_hours: int = DEFA
         f.write("\n".join(lines))
 
 
-def _is_chuva_temp_inund(event: Optional[str]) -> bool:
-    n = _normalize_text(event)
-    return ("CHUVA" in n and "INTENSA" in n) or ("TEMPESTADE" in n and "CONVECT" in n) or ("INUND" in n) or ("GRANIZO" in n)  or ("ENXURRA" in n) or ("ALAGAM" in n)
-
-
-def _is_deslizamento(event: Optional[str]) -> bool:
-    n = _normalize_text(event)
-    return ("DESLIZ" in n) or ("MOVIMENTO DE MASSA" in n) or ("CORRIDAS DE MASSA" in n)
-
-
 def _nivel_color(n: str) -> str:
     return NIVEL_COLORS.get((n or "").strip(), NIVEL_COLORS["Indefinido"])
 
 
-def _add_logo(ax, logo_path: str, width_frac: float = 0.04, x: float = 0.985, y: float = 0.985) -> None:
+def _serialize_value(value: Any) -> Any:
+    if isinstance(value, datetime):
+        return value.isoformat()
+    return value
+
+
+def _format_dt_label(value: Optional[str]) -> Optional[str]:
+    dt = _parse_iso_any(value)
+    if dt is None:
+        return None
+    return dt.strftime("%d/%m/%Y %H:%M")
+
+
+def _alert_to_feature(alert: AlertRecord) -> Optional[Dict[str, Any]]:
+    if not alert.geometry_wkt:
+        return None
     try:
-        if not logo_path or (not os.path.exists(logo_path)):
-            return
-        fig = ax.figure
-        dpi = fig.dpi
-        fig_w_px = fig.get_figwidth() * dpi
-        img = plt.imread(logo_path)
-        if img is None:
-            return
-        img_w = img.shape[1]
-        if img_w <= 0:
-            return
-        desired_w_px = max(1.0, fig_w_px * width_frac)
-        zoom = desired_w_px / float(img_w)
-        oi = OffsetImage(img, zoom=zoom)
-        ab = AnnotationBbox(oi, (x, y), xycoords=ax.transAxes, frameon=False, box_alignment=(1, 1), zorder=50)
-        ax.add_artist(ab)
+        geom = gpd.GeoSeries.from_wkt([alert.geometry_wkt], crs="EPSG:4326").iloc[0]
     except Exception:
-        return
+        return None
+
+    properties = {
+        key: _serialize_value(value)
+        for key, value in asdict(alert).items()
+        if key != "geometry_wkt"
+    }
+    properties["color"] = _nivel_color(alert.nivel)
+    properties["sent_label"] = _format_dt_label(alert.sent)
+    properties["onset_label"] = _format_dt_label(alert.onset)
+    properties["expires_label"] = _format_dt_label(alert.expires)
+
+    return {
+        "type": "Feature",
+        "properties": properties,
+        "geometry": mapping(geom),
+    }
 
 
-def _add_counts_legend(ax, alerts_gdf: gpd.GeoDataFrame, loc: str = "lower right") -> None:
-    try:
-        if alerts_gdf is None or len(alerts_gdf) == 0 or "nivel" not in alerts_gdf.columns:
-            return
-        order = ["Extremo", "Severo", "Alto", "Médio", "Baixo"]
-        counts: Dict[str, int] = {}
-        for n in alerts_gdf["nivel"].tolist():
-            nn = (n or "").strip()
-            if nn in order:
-                counts[nn] = counts.get(nn, 0) + 1
-        handles = []
-        for n in order:
-            c = counts.get(n, 0)
-            if c <= 0:
-                continue
-            handles.append(mpatches.Patch(facecolor=_nivel_color(n), edgecolor=_nivel_color(n), label=f"{n}: {c}"))
-        if not handles:
-            return
-        leg = ax.legend(
-            handles=handles,
-            loc=loc,
-            fontsize=12,
-            frameon=True,
-            framealpha=0.92,
-            borderpad=1.3,
-            labelspacing=1.0,
-            handlelength=2.0,
-            handleheight=1.3,
-        )
-        leg.get_frame().set_linewidth(0.8)
-    except Exception:
-        return
+def _write_alerts_geojson(path: str, alerts: List[AlertRecord]) -> int:
+    features: List[Dict[str, Any]] = []
+    for alert in alerts:
+        feature = _alert_to_feature(alert)
+        if feature is not None:
+            features.append(feature)
 
+    payload = {
+        "type": "FeatureCollection",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "total_alerts": len(alerts),
+        "features": features,
+    }
+    _save_json_file(path, payload)
+    return len(features)
 
 
 def _plot_alerts_per_hour(alerts: List[AlertRecord], out_path: str, title: str) -> None:
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
     hourly_counts: Dict[datetime, int] = {}
     for a in alerts:
         dt = _parse_iso_any(a.onset)
@@ -844,41 +885,6 @@ def _plot_alerts_per_hour(alerts: List[AlertRecord], out_path: str, title: str) 
     fig.savefig(out_path, dpi=200)
     plt.close(fig)
 
-def _plot_alerts_map(
-    uf_gdf: gpd.GeoDataFrame,
-    alerts_gdf: gpd.GeoDataFrame,
-    out_path: str,
-    title_line1: str,
-    title_line2: str,
-    logo_path: str = "",
-) -> None:
-    fig = plt.figure(figsize=(12, 12), dpi=200)
-    ax = plt.gca()
-    uf_gdf.boundary.plot(ax=ax, linewidth=0.6, alpha=BORDER_ALPHA)
-    if len(alerts_gdf) > 0:
-        alerts_gdf = alerts_gdf.copy()
-        alerts_gdf["_color"] = alerts_gdf["nivel"].apply(_nivel_color)
-        alerts_gdf.plot(ax=ax, color=alerts_gdf["_color"], edgecolor=alerts_gdf["_color"], linewidth=0.8, alpha=ALERT_ALPHA)
-    else:
-        ax.text(
-            0.5,
-            0.5,
-            "Nenhum alerta estadual do ES no periodo",
-            transform=ax.transAxes,
-            ha="center",
-            va="center",
-            fontsize=15,
-            color="#334155",
-            bbox={"boxstyle": "round,pad=0.45", "facecolor": "white", "edgecolor": "#cbd5e1", "alpha": 0.9},
-        )
-    ax.set_title(f"{title_line1}\n{title_line2}", fontsize=12)
-    ax.set_axis_off()
-    if logo_path:
-        _add_logo(ax, logo_path)
-    _add_counts_legend(ax, alerts_gdf, loc="lower right")
-    plt.tight_layout()
-    fig.savefig(out_path, dpi=200)
-    plt.close(fig)
 
 def main() -> int:
     rss_url = os.getenv("RSS_URL", DEFAULT_RSS_URL)
@@ -886,8 +892,8 @@ def main() -> int:
     mun_geojson_path = os.getenv("MUN_GEOJSON_PATH", uf_geojson_path or DEFAULT_MUN_GEOJSON_PATH)
     out_dir = os.getenv("OUT_DIR", DEFAULT_OUT_DIR)
     state_path = os.getenv("STATE_PATH", DEFAULT_STATE_PATH)
-    logo_path = os.getenv("LOGO_PATH", DEFAULT_LOGO_PATH).strip()
     history_path = os.getenv("HISTORY_PATH", DEFAULT_HISTORY_PATH)
+    alerts_geojson_path = os.getenv("ALERTS_GEOJSON_PATH", DEFAULT_ALERTS_GEOJSON_PATH)
     window_hours = int(os.getenv("WINDOW_HOURS", str(DEFAULT_WINDOW_HOURS)))
     retention_hours = int(os.getenv("RETENTION_HOURS", str(DEFAULT_RETENTION_HOURS)))
     target_sender_name = os.getenv("TARGET_SENDER_NAME", DEFAULT_TARGET_SENDER_NAME).strip()
@@ -897,6 +903,7 @@ def main() -> int:
     print(f"[INFO] MUN_GEOJSON_PATH={mun_geojson_path}")
     print(f"[INFO] OUT_DIR={out_dir}")
     print(f"[INFO] HISTORY_PATH={history_path}")
+    print(f"[INFO] ALERTS_GEOJSON_PATH={alerts_geojson_path}")
     print(f"[INFO] WINDOW_HOURS={window_hours}")
     print(f"[INFO] RETENTION_HOURS={retention_hours}")
     print(f"[INFO] TARGET_SENDER_NAME={target_sender_name}")
@@ -907,13 +914,6 @@ def main() -> int:
     print(f"[INFO] STATE_PATH={state_path}")
 
     _ensure_dirs(".cache", out_dir, run_dir)
-
-    if logo_path and os.path.exists(logo_path):
-        print(f"[INFO] LOGO_PATH={logo_path}")
-    else:
-        if logo_path:
-            print(f"[WARN] LOGO_PATH não encontrado: {logo_path}")
-        logo_path = ""
 
     state = _load_state(state_path)
 
@@ -984,12 +984,11 @@ def main() -> int:
         json.dump(resumo, f, ensure_ascii=False, indent=2)
     _write_resumo_md(os.path.join(run_dir, "resumo.md"), resumo, window_hours)
 
-    period_txt = _format_period_title(window_hours)
-
-    uf_gdf = municipios_gdf
-
-    alerts_gdf_all = _alerts_to_gdf(alerts)
-    title_line2 = period_txt
+    run_geojson_path = os.path.join(run_dir, "alertas_idap.geojson")
+    feature_count = _write_alerts_geojson(run_geojson_path, alerts)
+    _write_alerts_geojson(alerts_geojson_path, alerts)
+    print(f"[INFO] GeoJSON gerado: {run_geojson_path} | feicoes: {feature_count}")
+    print(f"[INFO] GeoJSON atualizado no site: {alerts_geojson_path}")
 
     graf_hora = os.path.join(run_dir, "grafico_alertas_por_hora_24h.png")
     
@@ -1004,29 +1003,6 @@ def main() -> int:
         graf_hora = ""
         print(f"[WARN] Falha ao gerar gráfico por hora: {e}")
 
-    map1 = os.path.join(run_dir, "mapa_alertas_todos.png")
-    _plot_alerts_map(uf_gdf, alerts_gdf_all, map1, "Alertas IDAP - Defesa Civil Estadual do ES", title_line2, logo_path=logo_path)
-    print(f"[INFO] Mapa gerado: {map1}")
-
-    alerts_2 = [a for a in alerts if _is_chuva_temp_inund(a.event)]
-    map2 = os.path.join(run_dir, "mapa_alertas_chuva_temp_inund.png")
-    gdf_2 = _alerts_to_gdf(alerts_2)
-    _plot_alerts_map(uf_gdf, gdf_2, map2, "Alertas IDAP - Chuvas, Tempestades, Inundações, Granizo", title_line2, logo_path=logo_path)
-    print(f"[INFO] Mapa gerado: {map2}")
-
-    alerts_3 = [a for a in alerts if _is_deslizamento(a.event)]
-    map3 = os.path.join(run_dir, "mapa_alertas_deslizamento.png")
-    gdf_3 = _alerts_to_gdf(alerts_3)
-    _plot_alerts_map(uf_gdf, gdf_3, map3, "Alertas IDAP - Deslizamentos", title_line2, logo_path=logo_path)
-    print(f"[INFO] Mapa gerado: {map3}")
-
-    ids_2 = {a.entry_id for a in alerts_2}
-    ids_3 = {a.entry_id for a in alerts_3}
-    alerts_4 = [a for a in alerts if (a.entry_id not in ids_2) and (a.entry_id not in ids_3)]
-    map4 = os.path.join(run_dir, "mapa_alertas_outros.png")
-    gdf_4 = _alerts_to_gdf(alerts_4)
-    _plot_alerts_map(uf_gdf, gdf_4, map4, "Alertas IDAP: Outras Categorias", title_line2, logo_path=logo_path)
-    print(f"[INFO] Mapa gerado: {map4}")
 
     state["last_run_ts"] = run_ts
     state["last_run_iso"] = datetime.now(timezone.utc).isoformat()
@@ -1034,11 +1010,13 @@ def main() -> int:
         "entries": len(entries),
         "feed_alerts": len(feed_alerts),
         "window_alerts": len(alerts),
+        "geojson_features": feature_count,
         "history_alerts": len(history_kept),
         "errors": len(errors),
         "ignored_by_sender": ignored_by_sender,
     }
     state["history_path"] = history_path
+    state["alerts_geojson_path"] = alerts_geojson_path
     state["window_hours"] = window_hours
     state["retention_hours"] = retention_hours
     _save_state(state_path, state)

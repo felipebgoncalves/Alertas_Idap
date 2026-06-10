@@ -1,10 +1,5 @@
 name: IDAP Daily Maps + Pages
 
-# on:
-#   schedule:
-#     - cron: "7,22,37,52  * * * *"
-#   workflow_dispatch: {}
-
 on:
   repository_dispatch:
     types: [atualizar_mapas_idap]
@@ -55,10 +50,10 @@ jobs:
           RSS_URL: "https://idapfile.mdr.gov.br/idap/api/rss/cap"
           UF_GEOJSON_PATH: "site/data/geojs-es.json"
           TARGET_SENDER_NAME: "Defesa Civil Estadual do Espírito Santo"
-          LOGO_PATH: "resources/Logo da CEPDEC.png"
           OUT_DIR: "out"
           STATE_PATH: ".cache/state.json"
           HISTORY_PATH: ".cache/historico_alertas.json"
+          ALERTS_GEOJSON_PATH: "site/data/alertas_idap.geojson"
           WINDOW_HOURS: "24"
           RETENTION_HOURS: "72"
         run: |
@@ -70,10 +65,10 @@ jobs:
           ULTIMA_PASTA=$(ls -dt out/run_* 2>/dev/null | head -n 1)
           echo "pasta_saida=$ULTIMA_PASTA" >> $GITHUB_OUTPUT
 
-      - name: Copiar imagens geradas para o site
+      - name: Copiar gráfico gerado para o site
         run: |
           PASTA="${{ steps.localizar_saida.outputs.pasta_saida }}"
-          cp -f "$PASTA"/*.png site/imagens/ || true
+          cp -f "$PASTA"/grafico_alertas_por_hora_24h.png site/imagens/ || true
 
       - name: Gerar dados do dashboard
         env:
@@ -92,8 +87,10 @@ jobs:
           test -f site/dashboard.html
           test -f site/dashboard_data.json
           test -f site/data/geojs-es.json
+          test -f site/data/alertas_idap.geojson
           test -f site/assets/css/dashboard.css
           test -f site/assets/js/dashboard.js
+          test -f site/assets/js/mapa_dinamico.js
 
       - name: Setup Pages
         if: ${{ github.actor != 'nektos/act' }}
@@ -109,6 +106,7 @@ jobs:
             .cache/state.json
             .cache/historico_alertas.json
             site/dashboard_data.json
+            site/data/alertas_idap.geojson
           retention-days: 7
 
       - name: Upload do artifact do Pages
@@ -121,7 +119,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .cache/state.json .cache/historico_alertas.json site/dashboard_data.json site/data/geojs-es.json site/ultima_atualizacao.json site/imagens/*.png
+          git add .cache/state.json .cache/historico_alertas.json site/dashboard_data.json site/data/geojs-es.json site/data/alertas_idap.geojson site/ultima_atualizacao.json site/imagens/grafico_alertas_por_hora_24h.png
 
           if git diff --cached --quiet; then
             echo "Sem alterações"

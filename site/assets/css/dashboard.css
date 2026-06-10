@@ -301,6 +301,16 @@ body {
   filter: brightness(0.94);
 }
 
+.alerta-shape {
+  pointer-events: auto;
+  transition: fill-opacity 0.18s ease, stroke-width 0.18s ease;
+}
+
+.alerta-shape:hover {
+  fill-opacity: 0.4;
+  stroke-width: 2.8;
+}
+
 .top-list {
   padding: 14px 16px 16px;
   display: flex;
@@ -2054,5 +2064,369 @@ body {
 
   .map-panel {
     min-height: 370px;
+  }
+}
+
+/* =========================================================
+   Mapa dinamico do dashboard
+   O bloco #mapa-uf agora e o container Leaflet.
+   ========================================================= */
+#mapa-uf.map-holder {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 1px solid var(--panel-border);
+  border-radius: clamp(14px, 1.4vw, 22px);
+  background: #eef3fb;
+  overflow: hidden;
+}
+
+#mapa-uf.leaflet-container {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+}
+
+.map-panel > #mapa-uf.map-holder {
+  align-self: stretch;
+  justify-self: stretch;
+}
+
+.leaflet-container a {
+  color: #244b86;
+}
+
+.leaflet-control-zoom {
+  border: 1px solid rgba(217, 222, 234, 0.92) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(6, 28, 56, 0.14);
+}
+
+.leaflet-control-zoom a {
+  color: #203052 !important;
+  border-bottom-color: rgba(217, 222, 234, 0.92) !important;
+}
+
+.leaflet-control-attribution {
+  font-size: 0.58rem;
+  background: rgba(255, 255, 255, 0.78) !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px;
+  min-width: 240px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.popup {
+  display: grid;
+  gap: 8px;
+  color: #0f172a;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.popup h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.popup-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  #mapa-uf.map-holder {
+    min-height: 330px;
+  }
+}
+
+@media (max-width: 480px) {
+  #mapa-uf.map-holder {
+    min-height: 280px;
+  }
+}
+
+/* =========================================================
+   Layout conforme mockup operacional
+   Desktop: esquerda fixa, mapa central alto e paineis a direita.
+   ========================================================= */
+@media (min-width: 1181px) {
+  html,
+  body {
+    overflow: hidden;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .app-shell {
+    width: 100vw;
+    height: 100svh;
+    max-width: none;
+    max-height: none;
+    min-height: 720px;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: clamp(8px, 0.7vw, 12px);
+    padding: clamp(10px, 0.75vw, 14px);
+    overflow: hidden;
+  }
+
+  .dashboard-grid {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    display: grid;
+    grid-template-columns:
+      minmax(285px, 310px)
+      minmax(430px, 470px)
+      minmax(520px, 1fr)
+      minmax(300px, 350px);
+    grid-template-rows:
+      minmax(150px, 0.92fr)
+      minmax(360px, 2.35fr)
+      minmax(220px, 1.5fr);
+    grid-template-areas:
+      "brand map recent recent"
+      "metrics map recent recent"
+      "event map hourly severity";
+    gap: clamp(8px, 0.75vw, 14px);
+    align-items: stretch;
+  }
+
+  .brand-card,
+  .metric-stack,
+  .map-panel,
+  .recent-panel-wide,
+  .event-panel,
+  .hourly-panel,
+  .severity-panel {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    max-height: none;
+    align-self: stretch;
+    justify-self: stretch;
+  }
+
+  .brand-card {
+    grid-area: brand;
+    padding: clamp(10px, 0.85vw, 14px);
+  }
+
+  .metric-stack {
+    grid-area: metrics;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: clamp(10px, 0.85vw, 14px);
+  }
+
+  .event-panel {
+    grid-area: event;
+  }
+
+  .map-panel {
+    grid-area: map;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .recent-panel,
+  .recent-panel-wide {
+    grid-area: recent;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .hourly-panel {
+    grid-area: hourly;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .severity-panel {
+    grid-area: severity;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .brand-card,
+  .panel-card {
+    border-radius: clamp(16px, 1.25vw, 24px);
+  }
+
+  .brand-logo-wrap {
+    border-radius: clamp(12px, 1vw, 18px);
+    padding: clamp(8px, 0.9vw, 16px);
+  }
+
+  .metric-card {
+    min-height: 0;
+    padding: clamp(12px, 1vw, 18px);
+    border-radius: clamp(16px, 1.25vw, 22px);
+  }
+
+  .metric-label {
+    font-size: clamp(0.86rem, 0.8vw, 1rem);
+  }
+
+  .metric-value {
+    font-size: clamp(2.9rem, 3.2vw, 4.2rem);
+  }
+
+  .panel-head,
+  .panel-head.compact {
+    padding: clamp(10px, 0.9vw, 14px) clamp(14px, 1vw, 18px);
+  }
+
+  .panel-head h2,
+  .hourly-panel .panel-head h2,
+  .recent-panel-wide .panel-head h2 {
+    font-size: clamp(1.05rem, 1.15vw, 1.48rem);
+    line-height: 1.15;
+  }
+
+  .map-panel .panel-head h2 {
+    font-size: clamp(1.28rem, 1.35vw, 1.82rem);
+  }
+
+  #mapa-uf.map-holder {
+    height: 100%;
+    min-height: 0;
+    border-radius: 0 0 clamp(16px, 1.25vw, 22px) clamp(16px, 1.25vw, 22px);
+  }
+
+  .recent-list,
+  .recent-list-wide {
+    max-height: none;
+    padding: clamp(12px, 1vw, 18px);
+    overflow-y: auto;
+    align-content: start;
+  }
+
+  .recent-list-wide .recent-item {
+    grid-template-columns:
+      minmax(78px, 0.42fr)
+      minmax(155px, 0.9fr)
+      minmax(220px, 1.35fr)
+      minmax(210px, 0.82fr);
+    min-height: clamp(120px, 14vh, 152px);
+    gap: clamp(10px, 0.9vw, 16px);
+  }
+
+  .hourly-breakdown,
+  .event-breakdown,
+  .severity-breakdown {
+    min-height: 0;
+    max-height: none;
+    padding: clamp(12px, 1vw, 18px);
+  }
+
+  .hourly-chart {
+    min-height: 0;
+    height: 100%;
+    border-radius: 14px;
+  }
+
+  .severity-breakdown {
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+
+  .footer-bar {
+    min-height: clamp(36px, 4.8vh, 46px);
+    padding: 0;
+    font-size: clamp(0.88rem, 0.92vw, 1.08rem);
+  }
+}
+
+/* Ajustes finais do bloco "Últimos Alertas" */
+.recent-list-wide .recent-emissor-loc {
+  display: block;
+  max-height: 3.7em;
+  overflow-y: auto;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.22;
+  scrollbar-gutter: stable;
+}
+
+.recent-expira {
+  display: grid;
+  gap: 2px;
+  align-content: center;
+  flex-basis: clamp(112px, 8vw, 132px);
+  max-width: clamp(112px, 8vw, 132px);
+  text-align: right;
+  white-space: normal;
+  line-height: 1.12;
+  font-weight: 900;
+}
+
+.recent-expira-label,
+.recent-expira-value {
+  display: block;
+}
+
+@media (max-width: 760px) {
+  .recent-expira {
+    max-width: none;
+    text-align: left;
+  }
+}
+
+/* Recuo interno da expiração nos cards de alertas */
+.recent-list-wide .recent-item {
+  grid-template-columns:
+    minmax(78px, 0.42fr)
+    minmax(155px, 0.9fr)
+    minmax(220px, 1.28fr)
+    minmax(250px, 0.9fr);
+}
+
+.recent-status {
+  justify-self: stretch;
+  justify-content: flex-end;
+  gap: clamp(16px, 1.35vw, 28px);
+  padding-right: clamp(14px, 1.2vw, 24px);
+  box-sizing: border-box;
+}
+
+.recent-list-wide .recent-tag {
+  flex: 0 0 clamp(92px, 6.2vw, 116px);
+}
+
+.recent-expira {
+  flex: 0 0 clamp(96px, 7vw, 120px);
+  max-width: clamp(96px, 7vw, 120px);
+  overflow: visible;
+}
+
+@media (max-width: 760px) {
+  .recent-list-wide .recent-item {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .recent-status {
+    padding-right: 0;
   }
 }

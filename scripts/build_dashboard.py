@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -82,6 +82,12 @@ def normalize_text(value: Optional[str]) -> str:
     if not txt:
         return ""
 
+    if "Ã" in txt or "Â" in txt:
+        try:
+            txt = txt.encode("latin-1").decode("utf-8")
+        except Exception:
+            pass
+
     txt = unicodedata.normalize("NFKD", txt)
     txt = "".join(c for c in txt if not unicodedata.combining(c))
     return txt.upper()
@@ -125,9 +131,9 @@ def short_emitter(value: Optional[str], max_len: int = 32) -> str:
         m = re.match(pat, txt, flags=re.IGNORECASE)
         if m:
             out = f"DC {m.group(1).strip()}"
-            return out if len(out) <= max_len else out[:max_len - 1].rstrip() + "…"
+            return out if len(out) <= max_len else out[:max_len - 1].rstrip() + "â€¦"
 
-    return txt if len(txt) <= max_len else txt[:max_len - 1].rstrip() + "…"
+    return txt if len(txt) <= max_len else txt[:max_len - 1].rstrip() + "â€¦"
 
 
 def guess_uf_from_text(value: Optional[str]) -> str:
@@ -303,6 +309,11 @@ def make_latest_item(item: Dict[str, Any]) -> Dict[str, Any]:
         "certainty": item.get("certainty"),
         "responseType": item.get("responseType"),
         "channel_list": item.get("channel_list"),
+        "municipio_id": item.get("municipio_id") or "",
+        "municipio_nome": item.get("municipio_nome") or "",
+        "affected_municipios": item.get("affected_municipios") or [],
+        "affected_municipio_ids": item.get("affected_municipio_ids") or [],
+        "affected_municipio_names": item.get("affected_municipio_names") or [],
     }
 
 
@@ -397,8 +408,65 @@ def apply_municipality_metadata(alert: Dict[str, Any], municipalities: list[dict
     return item
 
 
+def normalize_affected_municipalities(alert: Dict[str, Any]) -> list[dict[str, Any]]:
+    raw = alert.get("affected_municipios")
+    normalized: list[dict[str, Any]] = []
+    seen: set[str] = set()
+
+    if isinstance(raw, list):
+        for item in raw:
+            if not isinstance(item, dict):
+                continue
+            code = str(item.get("municipio_id") or item.get("codigo_ibge") or item.get("id") or "").strip()
+            name = str(item.get("municipio_nome") or item.get("nome") or item.get("name") or "").strip()
+            key = code or slugify(name)
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            normalized.append({
+                "municipio_id": code,
+                "municipio_nome": name,
+                "municipio_slug": item.get("municipio_slug") or item.get("slug") or slugify(name),
+                "intersection_area_m2": item.get("intersection_area_m2"),
+            })
+
+    if not normalized:
+        code = str(alert.get("municipio_id") or "").strip()
+        name = str(alert.get("municipio_nome") or "").strip()
+        key = code or slugify(name)
+        if key:
+            normalized.append({
+                "municipio_id": code,
+                "municipio_nome": name,
+                "municipio_slug": alert.get("municipio_slug") or slugify(name),
+                "intersection_area_m2": None,
+            })
+
+    return normalized
+
+
+def count_affected_municipalities(alerts: List[Dict[str, Any]]) -> tuple[Counter, set[str]]:
+    counter: Counter = Counter()
+    unique: set[str] = set()
+
+    for alert in alerts:
+        seen_in_alert: set[str] = set()
+        for municipio in normalize_affected_municipalities(alert):
+            code = str(municipio.get("municipio_id") or "").strip()
+            name = str(municipio.get("municipio_nome") or "").strip()
+            key = code or slugify(name)
+            label = name or code or "Não identificado"
+            if not key or key in seen_in_alert:
+                continue
+            seen_in_alert.add(key)
+            unique.add(key)
+            counter[label] += 1
+
+    return counter, unique
+
+
 def build_dashboard(history_path: Path, window_hours: int, municipalities_path: Path, target_sender_name: str) -> Dict[str, Any]:
-    now_dt = datetime.now(TZ_BRASILIA)
+    now_dt = parse_iso(os.getenv("NOW_OVERRIDE")) or datetime.now(TZ_BRASILIA)
     municipalities = load_es_municipalities(municipalities_path)
 
     raw_history = load_json(history_path, [])
@@ -428,6 +496,9 @@ def build_dashboard(history_path: Path, window_hours: int, municipalities_path: 
         since_min = time_since_minutes(now_dt, onset_dt)
 
         item = apply_municipality_metadata(dict(alert), municipalities)
+        affected_municipios = normalize_affected_municipalities(item)
+        affected_ids = [m["municipio_id"] for m in affected_municipios if m.get("municipio_id")]
+        affected_names = [m["municipio_nome"] for m in affected_municipios if m.get("municipio_nome")]
 
         item.update({
             "uf": "ES",
@@ -450,6 +521,10 @@ def build_dashboard(history_path: Path, window_hours: int, municipalities_path: 
             "time_since_hours": round(since_min / 60, 2) if since_min is not None else None,
             "time_since_bucket": time_since_bucket(since_min),
             "is_active": status_vigencia == "vigente",
+            "affected_municipios": affected_municipios,
+            "affected_municipio_ids": affected_ids,
+            "affected_municipio_names": affected_names,
+            "municipios_count": len(affected_municipios),
             "_onset_dt": onset_dt,
             "_expires_dt": expires_dt,
         })
@@ -463,7 +538,7 @@ def build_dashboard(history_path: Path, window_hours: int, municipalities_path: 
     counter_levels = Counter(a.get("nivel") or "Indefinido" for a in enriched)
     counter_events = Counter(a.get("event_short") or short_event(a.get("event")) for a in enriched)
     counter_uf = Counter(a.get("uf") for a in enriched if a.get("uf"))
-    counter_municipio = Counter(a.get("municipio_nome") or "Não identificado" for a in enriched)
+    counter_municipio, affected_municipio_keys = count_affected_municipalities(enriched)
     counter_status = Counter(a.get("status_vigencia") or "sem_validade" for a in enriched)
     counter_category = Counter(category_label(a.get("category")) for a in enriched)
     counter_duration = Counter(a.get("duration_bucket") or "Sem validade" for a in enriched)
@@ -490,7 +565,8 @@ def build_dashboard(history_path: Path, window_hours: int, municipalities_path: 
         "alertasSeveros": counter_levels.get("Severo", 0),
         "alertasSeverosExtremos": counter_levels.get("Severo", 0) + counter_levels.get("Extremo", 0),
         "estadosComAlerta": len(counter_uf),
-        "municipiosOuAreasComAlerta": len(set(a.get("municipio_id") or a.get("location") for a in enriched if a.get("municipio_id") or a.get("location"))),
+        "municipiosOuAreasComAlerta": len(affected_municipio_keys),
+        "municipiosComAlertas": len(affected_municipio_keys),
     }
 
     return {
@@ -503,6 +579,7 @@ def build_dashboard(history_path: Path, window_hours: int, municipalities_path: 
             "estado": "Espírito Santo",
             "municipios_total": len(municipalities),
             "municipios_geojson": "data/geojs-es.json",
+            "alertas_geojson": "data/alertas_idap.geojson",
         },
         "municipios": municipalities,
         "cards": cards,

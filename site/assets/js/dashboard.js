@@ -10,6 +10,8 @@ const LEVEL_COLORS = {
 
 let refreshSecondsRemaining = Math.floor(AUTO_REFRESH_MS / 1000);
 let recentAlerts = [];
+let dashboardMap = null;
+let dashboardAlertasLayer = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   carregarDashboard();
@@ -31,7 +33,7 @@ async function carregarDashboard() {
     preencherRotulosPeriodo(data);
     preencherCards(data, alerts);
     renderUltimosAlertas(alerts.length ? alerts : latest, data);
-    renderMapaMunicipal(data, alerts);
+    renderMapaMunicipal(data);
     renderSeveridade(alerts, data.level_distribution || []);
     renderEventos(alerts, data.event_distribution || []);
     renderHoras(alerts, data.generated_at);
@@ -53,14 +55,15 @@ function preencherRotulosPeriodo(data) {
 
 function preencherCards(data, alerts) {
   const levels = contar(alerts, "nivel");
-  const vigentes = alerts.filter(estaVigente).length || numeroBruto(data.cards?.vigentes);
-  const total = alerts.length || numeroBruto(data.cards?.ultimas24h);
-  const graves = (levels.Severo || 0) + (levels.Extremo || 0) || numeroBruto(data.cards?.alertasSeverosExtremos);
+  const vigentes = numeroBruto(data.cards?.vigentes ?? alerts.filter(estaVigente).length);
+  const total = numeroBruto(data.cards?.ultimas24h ?? alerts.length);
+  const graves = numeroBruto(data.cards?.alertasSeverosExtremos ?? ((levels.Severo || 0) + (levels.Extremo || 0)));
+  const municipios = numeroBruto(data.cards?.municipiosComAlertas ?? data.cards?.municipiosOuAreasComAlerta ?? contarMunicipios(alerts));
 
   setText("card-24h", numero(total));
   setText("card-vigentes", numero(vigentes));
   setText("card-autoridades", numero(graves));
-  setText("card-tipos-evento", numero(contarMunicipios(alerts)));
+  setText("card-tipos-evento", numero(municipios));
 }
 
 function renderUltimosAlertas(alertas, data) {
@@ -89,7 +92,7 @@ function renderPaginaUltimosAlertas() {
       </div>
       <div class="recent-emissor">
         <div class="recent-emissor-name" title="${escAttr(alerta.senderName)}">${esc(alerta.senderNameShort || alerta.senderName)}</div>
-        <div class="recent-emissor-loc">${esc(alerta.municipio_nome || alerta.location || "Espírito Santo")}</div>
+        <div class="recent-emissor-loc" title="${escAttr(formatarMunicipiosAfetados(alerta))}">${esc(formatarMunicipiosAfetados(alerta))}</div>
       </div>
       <div class="recent-content">
         <div class="recent-evento">${esc(titulo(alerta.event))}</div>
@@ -97,75 +100,140 @@ function renderPaginaUltimosAlertas() {
       </div>
       <div class="recent-status">
         <div class="recent-tag ${classeNivel(alerta.nivel)}">${esc(alerta.nivel)}</div>
-        <div class="recent-expira">${esc(formatarExpiracao(alerta))}</div>
+        <div class="recent-expira">
+          <span class="recent-expira-label">Expira:</span>
+          <span class="recent-expira-value">${esc(formatarExpiracaoValor(alerta))}</span>
+        </div>
       </div>
     </div>
   `).join("");
 }
 
-async function renderMapaMunicipal(data, alerts) {
+async function renderMapaMunicipal(data) {
   const container = byId("mapa-uf");
   if (!container) return;
 
-  try {
-    const url = data.geo?.municipios_geojson || "data/geojs-es.json";
-    const response = await fetch(`${url}?_=${Date.now()}`, { cache: "no-store" });
-    if (!response.ok) throw new Error(`Falha ao carregar GeoJSON municipal: ${response.status}`);
+  if (!window.L) {
+    container.innerHTML = `<div class="empty-state">Mapa dinâmico indisponível.</div>`;
+    return;
+  }
 
-    const geojson = await response.json();
-    container.innerHTML = `
-      <div class="map-inner">
-        <div class="map-svg-wrap">${montarMapaMunicipalSvg(geojson, contarAlertasPorMunicipio(alerts))}</div>
-      </div>
-    `;
+  try {
+    const timestamp = Date.now();
+    const alertasUrl = data.geo?.alertas_geojson || "data/alertas_idap.geojson";
+
+    const alertasResponse = await fetch(`${alertasUrl}?_=${timestamp}`, { cache: "no-store" });
+
+    if (!alertasResponse.ok) throw new Error(`Falha ao carregar GeoJSON de alertas: ${alertasResponse.status}`);
+
+    const alertasGeojson = await alertasResponse.json();
+
+    inicializarMapaDashboard(container);
+    atualizarCamadasMapaDashboard(alertasGeojson);
   } catch (error) {
-    console.error("Erro ao renderizar mapa municipal:", error);
-    container.innerHTML = `<div class="empty-state">Mapa municipal do ES indisponível.</div>`;
+    console.error("Erro ao renderizar mapa dinâmico:", error);
+    container.innerHTML = `<div class="empty-state">Mapa dinâmico indisponível.</div>`;
+    dashboardMap = null;
+    dashboardAlertasLayer = null;
   }
 }
 
-function montarMapaMunicipalSvg(geojson, counts) {
-  const features = geojson.features || [];
-  const points = [];
-  features.forEach((feature) => coletarPontos(feature.geometry, points));
-  if (!points.length) return `<div class="empty-state">Malha municipal sem geometria.</div>`;
-
-  const xs = points.map((point) => point[0]);
-  const ys = points.map((point) => point[1]);
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
-  const width = 420;
-  const height = 620;
-  const pad = 8;
-  const scale = Math.min((width - pad * 2) / (maxX - minX), (height - pad * 2) / (maxY - minY));
-  const offsetX = (width - (maxX - minX) * scale) / 2;
-  const offsetY = (height - (maxY - minY) * scale) / 2;
-  const maxCount = Math.max(...Object.values(counts), 0);
-
-  function project([lon, lat]) {
-    return [(lon - minX) * scale + offsetX, (maxY - lat) * scale + offsetY];
+function inicializarMapaDashboard(container) {
+  if (dashboardMap) {
+    setTimeout(() => dashboardMap.invalidateSize(), 60);
+    return;
   }
 
-  const paths = features.map((feature) => {
-    const props = feature.properties || {};
-    const code = String(props.codigo_ibge || props.id || "");
-    const name = props.nome || props.name || props.description || "Município";
-    const key = code || slug(name);
-    const count = Number(counts[key] || counts[slug(name)] || 0);
-    return `
-      <path class="municipio-shape" d="${geometryToPath(feature.geometry, project)}" fill="${corMunicipio(count, maxCount)}">
-        <title>${esc(name)}: ${numero(count)} alerta(s)</title>
-      </path>
-    `;
-  }).join("");
+  container.innerHTML = "";
+  dashboardMap = L.map(container, {
+    zoomControl: true,
+    attributionControl: true,
+  }).setView([-19.55, -40.62], 8);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 18,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(dashboardMap);
+
+  setTimeout(() => dashboardMap.invalidateSize(), 80);
+}
+
+function atualizarCamadasMapaDashboard(alertasGeojson) {
+  if (!dashboardMap) return;
+
+  if (dashboardAlertasLayer) dashboardAlertasLayer.remove();
+
+  const features = Array.isArray(alertasGeojson?.features) ? alertasGeojson.features : [];
+
+  dashboardAlertasLayer = L.geoJSON(alertasGeojson || { features: [] }, {
+    style(feature) {
+      const color = feature?.properties?.color || "#2563eb";
+
+      return {
+        color,
+        weight: 2,
+        fillColor: color,
+        fillOpacity: 0.32,
+      };
+    },
+    onEachFeature(feature, layer) {
+      layer.bindPopup(popupMapaDashboard(feature.properties || {}), {
+        maxWidth: 360,
+      });
+    },
+  }).addTo(dashboardMap);
+
+  if (!features.length) {
+    dashboardMap.setView([-19.55, -40.62], 8);
+    setTimeout(() => dashboardMap.invalidateSize(), 80);
+    return;
+  }
+
+  const bounds = dashboardAlertasLayer.getBounds();
+  if (bounds.isValid()) {
+    dashboardMap.fitBounds(bounds, { padding: [20, 20] });
+  }
+
+  setTimeout(() => dashboardMap.invalidateSize(), 80);
+}
+
+function popupMapaDashboard(props) {
+  const nivel = esc(repairText(props.nivel || "Indefinido"));
+  const evento = esc(repairText(props.event || props.headline || "Alerta"));
+  const emissor = esc(repairText(props.senderName || "Defesa Civil Estadual do ES"));
+  const expira = esc(repairText(props.expires_label || "Não informado"));
+  const inicio = esc(repairText(props.onset_label || props.sent_label || "Não informado"));
+  const descricao = esc(formatarDescricaoMapa(props.description));
 
   return `
-    <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Mapa municipal do Espírito Santo">
-      ${paths}
-    </svg>
+    <div class="popup">
+      <h3>${evento}</h3>
+      <div class="popup-meta">
+        <span class="tag">${nivel}</span>
+      </div>
+      <div><strong>Emissor:</strong> ${emissor}</div>
+      <div><strong>Início:</strong> ${inicio}</div>
+      <div><strong>Expira:</strong> ${expira}</div>
+      <div>${descricao}</div>
+    </div>
   `;
+}
+
+function formatarDescricaoMapa(text) {
+  if (!text) return "Sem descrição detalhada.";
+  const clean = repairText(text).trim();
+  return clean.length > 320 ? `${clean.slice(0, 317)}...` : clean;
+}
+
+function repairText(value) {
+  const text = String(value ?? "");
+  if (!text.includes("Ã") && !text.includes("Â")) return text;
+
+  try {
+    return decodeURIComponent(escape(text));
+  } catch (error) {
+    return text;
+  }
 }
 
 function renderSeveridade(alerts, distribution) {
@@ -275,6 +343,7 @@ function normalizarAlerta(alerta) {
   const locationInfo = extrairMunicipio(alerta.location || alerta.areaDesc);
   const senderName = alerta.senderName || alerta.sender || "Defesa Civil Estadual do Espírito Santo";
   const sent = alerta.sent || alerta.onset || alerta.sent_iso || alerta.datetime;
+  const affected = normalizarMunicipiosAfetados(alerta);
 
   return {
     ...alerta,
@@ -283,30 +352,68 @@ function normalizarAlerta(alerta) {
     sent,
     uf: String(alerta.uf || alerta.uf_hint || locationInfo.uf || "ES").toUpperCase(),
     municipio_id: String(alerta.municipio_id || ""),
-    municipio_nome: alerta.municipio_nome || locationInfo.city || "",
+    municipio_nome: alerta.municipio_nome || affected[0]?.municipio_nome || locationInfo.city || "",
     event: alerta.event_short || alerta.event || alerta.evento || "Sem evento",
     nivel: normalizarNivel(alerta.nivel || alerta.severity || "Indefinido"),
     location: alerta.location || alerta.municipio_nome || alerta.areaDesc || "Espírito Santo",
     category: alerta.category || inferirCategoria(alerta.event || alerta.evento),
+    affected_municipios: affected,
   };
-}
-
-function contarAlertasPorMunicipio(alerts) {
-  const values = {};
-  alerts.forEach((alerta) => {
-    const key = alerta.municipio_id || slug(alerta.municipio_nome || alerta.location || "");
-    if (key) values[key] = (values[key] || 0) + 1;
-  });
-  return values;
 }
 
 function contarMunicipios(alerts) {
   const values = new Set();
   alerts.forEach((alerta) => {
+    const municipios = normalizarMunicipiosAfetados(alerta);
+    if (municipios.length) {
+      municipios.forEach((municipio) => {
+        const key = municipio.municipio_id || municipio.municipio_nome || "";
+        if (key) values.add(key);
+      });
+      return;
+    }
+
     const key = alerta.municipio_id || alerta.municipio_nome || "";
     if (key) values.add(key);
   });
   return values.size;
+}
+
+function normalizarMunicipiosAfetados(alerta) {
+  const raw = Array.isArray(alerta?.affected_municipios) ? alerta.affected_municipios : [];
+  const names = Array.isArray(alerta?.affected_municipio_names) ? alerta.affected_municipio_names : [];
+  const ids = Array.isArray(alerta?.affected_municipio_ids) ? alerta.affected_municipio_ids : [];
+  const seen = new Set();
+  const output = [];
+
+  raw.forEach((item) => {
+    const municipio_id = String(item?.municipio_id || item?.codigo_ibge || item?.id || "").trim();
+    const municipio_nome = repairText(item?.municipio_nome || item?.nome || item?.name || "").trim();
+    const key = municipio_id || slug(municipio_nome);
+    if (!key || seen.has(key)) return;
+    seen.add(key);
+    output.push({ municipio_id, municipio_nome });
+  });
+
+  names.forEach((name, index) => {
+    const municipio_nome = repairText(name).trim();
+    const municipio_id = String(ids[index] || "").trim();
+    const key = municipio_id || slug(municipio_nome);
+    if (!key || seen.has(key)) return;
+    seen.add(key);
+    output.push({ municipio_id, municipio_nome });
+  });
+
+  return output;
+}
+
+function formatarMunicipiosAfetados(alerta) {
+  const municipios = normalizarMunicipiosAfetados(alerta)
+    .map((municipio) => municipio.municipio_nome)
+    .filter(Boolean);
+
+  if (municipios.length) return municipios.join(", ");
+  return alerta.municipio_nome || alerta.location || "Espírito Santo";
 }
 
 function contar(array, key) {
@@ -325,36 +432,6 @@ function distribuicaoParaMapa(distribution) {
     values[item.label || item.name || "Sem informação"] = numeroBruto(item.count || item.total || item.valor);
   });
   return values;
-}
-
-function coletarPontos(geometry, output) {
-  if (!geometry) return;
-  if (geometry.type === "Polygon") geometry.coordinates.flat(1).forEach((point) => output.push(point));
-  if (geometry.type === "MultiPolygon") geometry.coordinates.flat(2).forEach((point) => output.push(point));
-}
-
-function geometryToPath(geometry, project) {
-  if (!geometry) return "";
-  if (geometry.type === "Polygon") return polygonToPath(geometry.coordinates, project);
-  if (geometry.type === "MultiPolygon") return geometry.coordinates.map((polygon) => polygonToPath(polygon, project)).join("");
-  return "";
-}
-
-function polygonToPath(coords, project) {
-  return coords.map((ring) => ring.map((point, index) => {
-    const [x, y] = project(point);
-    return `${index ? "L" : "M"}${x.toFixed(1)},${y.toFixed(1)}`;
-  }).join("") + "Z").join("");
-}
-
-function corMunicipio(count, maxCount) {
-  if (!count || maxCount <= 0) return "#dfe5ef";
-  const ratio = count / maxCount;
-  if (ratio >= 0.8) return "#6c4ce6";
-  if (ratio >= 0.6) return "#e23d2f";
-  if (ratio >= 0.4) return "#ea8f1c";
-  if (ratio >= 0.2) return "#2f9e59";
-  return "#2c7ae8";
 }
 
 function estaVigente(alerta) {
@@ -472,15 +549,19 @@ function formatarData(value) {
 }
 
 function formatarExpiracao(alerta) {
+  return `Expira: ${formatarExpiracaoValor(alerta)}`;
+}
+
+function formatarExpiracaoValor(alerta) {
   const date = dataValida(alerta.expires || alerta.expires_br);
-  if (!date) return "Expira: --/-- --:--";
-  return `Expira: ${date.toLocaleString("pt-BR", {
+  if (!date) return "--/-- --:--";
+  return date.toLocaleString("pt-BR", {
     timeZone: "America/Sao_Paulo",
     day: "2-digit",
     month: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-  })}`;
+  });
 }
 
 function formatarJanelaDados(data) {

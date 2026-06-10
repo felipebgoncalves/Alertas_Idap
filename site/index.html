@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mapas e Gráficos de Alertas</title>
+  <title>Mapa Dinâmico de Alertas | IDAP ES</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    crossorigin=""
+  />
   <style>
     * {
       box-sizing: border-box;
@@ -16,172 +21,182 @@
       color: #e5e7eb;
     }
 
+    a {
+      color: inherit;
+    }
+
     header {
       background: #111827;
-      padding: clamp(18px, 3vw, 28px) 16px;
       border-bottom: 1px solid #1f2937;
+      padding: clamp(18px, 3vw, 28px) 16px;
     }
 
     header h1 {
-      margin: 0 0 8px 0;
-      font-size: clamp(22px, 2.5vw, 30px);
+      margin: 0 0 8px;
+      font-size: clamp(22px, 2.4vw, 30px);
     }
 
     header p {
       margin: 0;
       color: #cbd5e1;
-      font-size: 15px;
+      line-height: 1.5;
     }
 
     main {
       width: min(100% - 32px, 1440px);
       margin: 0 auto;
-      padding: clamp(18px, 2.5vw, 28px) 0 48px;
+      padding: 24px 0 48px;
     }
 
     .topo {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
       gap: 12px;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+    }
+
+    .info-box,
+    .painel {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
     }
 
     .info-box {
-      flex: 1 1 280px;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 12px 16px;
-      color: #e2e8f0;
+      padding: 14px 16px;
       font-size: 14px;
-    }
-
-    .botao {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: bold;
-      min-height: 40px;
-      text-align: center;
-    }
-
-    .botao.secundario {
-      background: #16a34a;
+      color: #e2e8f0;
     }
 
     .acoes {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      align-items: center;
       justify-content: flex-end;
-      flex: 1 1 320px;
     }
 
-    .secao {
-      margin-top: 28px;
-      margin-bottom: 12px;
+    .botao {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+      color: #fff;
+      background: #2563eb;
     }
 
-    .secao h2 {
-      margin: 0 0 14px 0;
-      font-size: 22px;
+    .botao.secundario {
+      background: #16a34a;
+    }
+
+    .botao.terciario {
+      background: #475569;
+    }
+
+    .painel {
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .painel-head {
+      padding: 16px 18px 10px;
+      border-bottom: 1px solid #1f2937;
+    }
+
+    .painel-head h2 {
+      margin: 0 0 8px;
+      font-size: clamp(20px, 2vw, 26px);
+    }
+
+    .painel-head p {
+      margin: 0;
+      color: #cbd5e1;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .painel-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 18px;
+      padding: 18px;
+    }
+
+    #mapa-alertas {
+      width: 100%;
+      min-height: clamp(520px, 76vh, 900px);
+      border-radius: 10px;
+      border: 1px solid #334155;
+      overflow: hidden;
+      background: #dbeafe;
+    }
+
+    .sidebar {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .card-lateral {
+      background: #0b1220;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .card-lateral h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .metricas {
+      display: grid;
+      gap: 10px;
+    }
+
+    .metrica {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      font-size: 14px;
+    }
+
+    .metrica strong {
       color: #f8fafc;
     }
 
-    .grid {
+    .legenda {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(16px, 2vw, 24px);
-      align-items: stretch;
+      gap: 10px;
     }
 
-    .card {
-      background: #111827;
-      border: 1px solid #1f2937;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-    }
-
-    .card h3 {
-      margin: 0;
-      padding: 16px 16px 8px;
-      font-size: clamp(17px, 1.45vw, 20px);
-    }
-
-    .card p {
-      margin: 0;
-      padding: 0 16px 16px;
-      color: #cbd5e1;
-      font-size: 14px;
-      line-height: 1.5;
-      min-height: 58px;
-    }
-
-    .img-wrap {
-      background: #0b1220;
-      padding: clamp(10px, 1.2vw, 16px);
-      flex: 1;
+    .legenda-item {
       display: grid;
-      place-items: center;
-    }
-
-    .img-wrap img {
-      width: 100%;
-      height: 100%;
-      max-height: min(64vh, 620px);
-      object-fit: contain;
-      display: block;
-      border-radius: 8px;
-      border: 1px solid #334155;
-      background: white;
-    }
-
-    .destaque {
-      background: #111827;
-      border: 1px solid #1f2937;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-      margin-bottom: 20px;
-    }
-
-    .destaque h3 {
-      margin: 0;
-      padding: 16px 16px 8px;
-      font-size: clamp(18px, 1.6vw, 22px);
-    }
-
-    .destaque p {
-      margin: 0;
-      padding: 0 16px 16px;
-      color: #cbd5e1;
+      grid-template-columns: 18px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
       font-size: 14px;
-      line-height: 1.5;
+      color: #e2e8f0;
     }
 
-    .destaque .img-wrap {
-      min-height: clamp(260px, 42vw, 560px);
-      padding: clamp(10px, 1.4vw, 18px);
-    }
-
-    .grid .img-wrap {
-      min-height: clamp(300px, 34vw, 560px);
+    .cor {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
     }
 
     .erro {
-      margin-top: 24px;
+      margin-top: 18px;
       padding: 14px 16px;
       border-radius: 10px;
       background: #7f1d1d;
@@ -189,11 +204,66 @@
       display: none;
     }
 
+    .leaflet-popup-content {
+      margin: 12px 14px;
+      min-width: 240px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .popup {
+      display: grid;
+      gap: 8px;
+      color: #0f172a;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .popup h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .popup-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .sem-alertas {
+      display: none;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: #0b1220;
+      border: 1px solid #1e293b;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
     footer {
-      margin-top: 36px;
+      margin-top: 28px;
+      text-align: center;
       color: #94a3b8;
       font-size: 13px;
-      text-align: center;
+    }
+
+    @media (max-width: 960px) {
+      .painel-body {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 760px) {
@@ -201,39 +271,32 @@
         width: min(100% - 20px, 1440px);
       }
 
-      .topo,
-      .acoes {
-        align-items: stretch;
+      .topo {
+        grid-template-columns: 1fr;
       }
 
-      .acoes,
+      .acoes {
+        justify-content: stretch;
+      }
+
       .botao {
         width: 100%;
       }
 
-      .card p {
-        min-height: 0;
-      }
-
-      .grid .img-wrap,
-      .destaque .img-wrap {
-        min-height: 260px;
-      }
-
-      .grid {
+      .sidebar {
         grid-template-columns: 1fr;
       }
 
-      .img-wrap img {
-        max-height: 520px;
+      #mapa-alertas {
+        min-height: 560px;
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Painel de Alertas</h1>
-    <p>Mapas e gráficos gerados automaticamente a partir da execução mais recente</p>
+    <h1>Mapa Dinâmico de Alertas</h1>
+    <p>Polígonos CAP do IDAP renderizados em tempo real para a Defesa Civil Estadual do Espírito Santo.</p>
   </header>
 
   <main>
@@ -244,86 +307,49 @@
       </div>
 
       <div class="acoes">
-        <a class="botao secundario" href="./dashboard.html">
-          Abrir dashboard
-        </a>
-        <a class="botao" href="./imagens.html" rel="noopener noreferrer">
-          Abrir imagens geradas
-        </a>
+        <a class="botao secundario" href="./dashboard.html">Abrir dashboard</a>
+        <a class="botao terciario" href="./imagens.html">Abrir arquivos gerados</a>
       </div>
     </section>
 
     <div id="mensagem-erro" class="erro">
-      Não foi possível carregar o arquivo <code>ultima_atualizacao.json</code>.
+      Não foi possível carregar os dados do site.
     </div>
 
-    <section class="secao">
-      <h2>Gráfico</h2>
+    <section class="painel">
+      <div class="painel-head">
+        <h2>Alertas Ativos no Mapa</h2>
+        <p>O mapa carrega o arquivo <code>site/data/alertas_idap.geojson</code> gerado pelo backend e mostra apenas os alertas estaduais do Espírito Santo.</p>
+      </div>
 
-      <article class="destaque card-auto">
-        <h3>Alertas por hora nas últimas 24h</h3>
-        <p>Distribuição dos alertas emitidos ao longo das últimas 24 horas.</p>
-        <div class="img-wrap">
-          <img
-            src="./imagens/grafico_alertas_por_hora_24h.png"
-            alt="Gráfico de alertas por hora nas últimas 24 horas"
-            data-card="true"
-          />
+      <div class="painel-body">
+        <div>
+          <div id="mapa-alertas" aria-label="Mapa dinâmico de alertas do Espírito Santo"></div>
+          <div id="sem-alertas" class="sem-alertas">Nenhum polígono de alerta foi encontrado no período configurado.</div>
         </div>
-      </article>
-    </section>
 
-    <section class="secao">
-      <h2>Mapas</h2>
+        <aside class="sidebar">
+          <section class="card-lateral">
+            <h3>Resumo</h3>
+            <div class="metricas" id="metricas-mapa">
+              <div class="metrica"><span>Alertas no período</span><strong id="metric-total">0</strong></div>
+              <div class="metrica"><span>Polígonos válidos</span><strong id="metric-features">0</strong></div>
+              <div class="metrica"><span>Municípios citados</span><strong id="metric-municipios">0</strong></div>
+            </div>
+          </section>
 
-      <div class="grid">
-        <article class="card card-auto">
-          <h3>Todos os alertas</h3>
-          <p>Mapa geral com todos os alertas processados na execução mais recente.</p>
-          <div class="img-wrap">
-            <img
-              src="./imagens/mapa_alertas_todos.png"
-              alt="Mapa com todos os alertas"
-              data-card="true"
-            />
-          </div>
-        </article>
-
-        <article class="card card-auto">
-          <h3>Chuva, tempestade e inundação</h3>
-          <p>Mapa filtrado para eventos hidrometeorológicos principais.</p>
-          <div class="img-wrap">
-            <img
-              src="./imagens/mapa_alertas_chuva_temp_inund.png"
-              alt="Mapa de chuva, tempestade e inundação"
-              data-card="true"
-            />
-          </div>
-        </article>
-
-        <article class="card card-auto">
-          <h3>Deslizamentos</h3>
-          <p>Mapa específico para alertas associados a movimentos de massa, quando houver dados com polígono.</p>
-          <div class="img-wrap">
-            <img
-              src="./imagens/mapa_alertas_deslizamento.png"
-              alt="Mapa de deslizamentos"
-              data-card="true"
-            />
-          </div>
-        </article>
-
-        <article class="card card-auto">
-          <h3>Outros alertas</h3>
-          <p>Mapa com categorias residuais e demais tipos de alertas.</p>
-          <div class="img-wrap">
-            <img
-              src="./imagens/mapa_alertas_outros.png"
-              alt="Mapa de outros alertas"
-              data-card="true"
-            />
-          </div>
-        </article>
+          <section class="card-lateral">
+            <h3>Níveis</h3>
+            <div class="legenda">
+              <div class="legenda-item"><span class="cor" style="background:#6a0dad"></span><span>Extremo</span></div>
+              <div class="legenda-item"><span class="cor" style="background:#d62728"></span><span>Severo</span></div>
+              <div class="legenda-item"><span class="cor" style="background:#ff7f0e"></span><span>Alto</span></div>
+              <div class="legenda-item"><span class="cor" style="background:#ffd92f"></span><span>Médio</span></div>
+              <div class="legenda-item"><span class="cor" style="background:#2ca02c"></span><span>Baixo</span></div>
+              <div class="legenda-item"><span class="cor" style="background:#7f7f7f"></span><span>Indefinido</span></div>
+            </div>
+          </section>
+        </aside>
       </div>
     </section>
 
@@ -332,52 +358,10 @@
     </footer>
   </main>
 
-  <script>
-    async function carregarAtualizacao() {
-      const el = document.getElementById("ultima-atualizacao");
-      const erro = document.getElementById("mensagem-erro");
-
-      try {
-        const resposta = await fetch("./ultima_atualizacao.json?ts=" + Date.now(), {
-          cache: "no-store"
-        });
-
-        if (!resposta.ok) {
-          throw new Error("Arquivo não encontrado");
-        }
-
-        const dados = await resposta.json();
-
-        if (dados && dados.gerado_em) {
-          const data = new Date(dados.gerado_em);
-          el.textContent = data.toLocaleString("pt-BR", {
-            dateStyle: "short",
-            timeStyle: "medium"
-          });
-        } else {
-          el.textContent = "arquivo sem campo gerado_em";
-        }
-      } catch (e) {
-        el.textContent = "não disponível";
-        erro.style.display = "block";
-      }
-    }
-
-    function esconderCardsSemImagem() {
-      const imagens = document.querySelectorAll("img[data-card='true']");
-
-      imagens.forEach((img) => {
-        img.addEventListener("error", () => {
-          const card = img.closest(".card-auto");
-          if (card) {
-            card.style.display = "none";
-          }
-        });
-      });
-    }
-
-    carregarAtualizacao();
-    esconderCardsSemImagem();
-  </script>
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin=""
+  ></script>
+  <script src="./assets/js/mapa_dinamico.js"></script>
 </body>
 </html>
