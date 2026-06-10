@@ -1,15 +1,17 @@
 {
-  "last_run_ts": "20260602_170205",
-  "last_run_iso": "2026-06-02T20:02:30.131232+00:00",
+  "last_run_ts": "20260610_145153",
+  "last_run_iso": "2026-06-10T17:52:11.807923+00:00",
   "last_counts": {
-    "entries": 27,
-    "feed_alerts": 7,
-    "window_alerts": 16,
-    "history_alerts": 16,
+    "entries": 18,
+    "feed_alerts": 0,
+    "window_alerts": 0,
+    "geojson_features": 0,
+    "history_alerts": 0,
     "errors": 0,
-    "ignored_by_sender": 20
+    "ignored_by_sender": 18
   },
   "history_path": ".cache/historico_alertas.json",
   "window_hours": 24,
-  "retention_hours": 72
+  "retention_hours": 72,
+  "alerts_geojson_path": "site/data/alertas_idap.geojson"
 }
