@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T19:42:17.596332-03:00",
+  "generated_at": "2026-06-15T19:52:09.359017-03:00",
   "source": ".cache/historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -1027,17 +1027,56 @@
     }
   ],
   "cards": {
-    "vigentes": 1,
-    "ultimas24h": 1,
+    "vigentes": 2,
+    "ultimas24h": 2,
     "autoridadesAtivas": 1,
     "alertasExtremos": 0,
     "alertasSeveros": 0,
     "alertasSeverosExtremos": 0,
     "estadosComAlerta": 1,
-    "municipiosOuAreasComAlerta": 7,
-    "municipiosComAlertas": 7
+    "municipiosOuAreasComAlerta": 8,
+    "municipiosComAlertas": 8
   },
   "latest_alerts": [
+    {
+      "time": "19:51",
+      "date": "15/06/2026",
+      "senderName": "Defesa Civil Estadual do Espírito Santo",
+      "senderNameShort": "DC Espírito Santo",
+      "event": "Chuvas Intensas",
+      "nivel": "Médio",
+      "location": "Guarapari",
+      "uf": "ES",
+      "headline": "Defesa Civil:(ES)  ALERTA de CHUVA, RAIOS e VENTO em Guarapari nas proximas 03 horas. Fique atento. Emergencia ligue 193.",
+      "status": "vigente",
+      "identifier": "184487/2026",
+      "entry_id": "184487/2026",
+      "sent": "2026-06-15T19:51:02-03:00",
+      "onset": "2026-06-15T19:51:02-03:00",
+      "expires": "2026-06-15T22:50:00-03:00",
+      "category": "Met",
+      "severity": "Moderate",
+      "urgency": "Immediate",
+      "certainty": "Observed",
+      "responseType": "Execute",
+      "channel_list": "Google",
+      "municipio_id": "3202405",
+      "municipio_nome": "Guarapari",
+      "affected_municipios": [
+        {
+          "municipio_id": "3202405",
+          "municipio_nome": "Guarapari",
+          "municipio_slug": "guarapari",
+          "intersection_area_m2": 2208.64
+        }
+      ],
+      "affected_municipio_ids": [
+        "3202405"
+      ],
+      "affected_municipio_names": [
+        "Guarapari"
+      ]
+    },
     {
       "time": "19:30",
       "date": "15/06/2026",
@@ -1130,28 +1169,32 @@
     {
       "name": "Defesa Civil Estadual do Espírito Santo",
       "short_name": "DC Espírito Santo",
-      "count": 1
+      "count": 2
     }
   ],
   "level_distribution": [
     {
       "label": "Médio",
-      "count": 1
+      "count": 2
     }
   ],
   "event_distribution": [
     {
       "label": "Chuvas Intensas",
-      "count": 1
+      "count": 2
     }
   ],
   "uf_distribution": [
     {
       "uf": "ES",
-      "count": 1
+      "count": 2
     }
   ],
   "municipio_distribution": [
+    {
+      "municipio": "Guarapari",
+      "count": 1
+    },
     {
       "municipio": "Alfredo Chaves",
       "count": 1
@@ -1184,34 +1227,104 @@
   "status_distribution": [
     {
       "label": "vigente",
-      "count": 1
+      "count": 2
     }
   ],
   "category_distribution": [
     {
       "label": "Met",
-      "count": 1
+      "count": 2
     }
   ],
   "duration_distribution": [
     {
       "label": "2h a 6h",
-      "count": 1
+      "count": 2
     }
   ],
   "time_since_distribution": [
     {
       "label": "Até 1h",
-      "count": 1
+      "count": 2
     }
   ],
   "channel_distribution": [
     {
       "label": "Google",
-      "count": 1
+      "count": 2
     }
   ],
   "all_alerts": [
+    {
+      "identifier": "184487/2026",
+      "entry_id": "184487/2026",
+      "sender": "CENAD-SEDEC",
+      "senderName": "Defesa Civil Estadual do Espírito Santo",
+      "sent": "2026-06-15T19:51:02-03:00",
+      "status": "vigente",
+      "msgType": "Alert",
+      "category": "Met",
+      "event": "CHUVAS INTENSAS",
+      "responseType": "Execute",
+      "urgency": "Immediate",
+      "severity": "Moderate",
+      "certainty": "Observed",
+      "onset": "2026-06-15T19:51:02-03:00",
+      "expires": "2026-06-15T22:50:00-03:00",
+      "nivel": "Médio",
+      "headline": "Defesa Civil:(ES)  ALERTA de CHUVA, RAIOS e VENTO em Guarapari nas proximas 03 horas. Fique atento. Emergencia ligue 193.",
+      "description": "(ES)  ALERTA de CHUVA, RAIOS e VENTO em Guarapari nas proximas 03 horas. Fique atento. Emergencia ligue 193.",
+      "instruction": "Siga as orientações da defesa civil local e do plano de contingência municipal. Em caso de emergência, ligue 199 ou 193.",
+      "web": "https://www.gov.br/mdr/pt-br/assuntos/protecao-e-defesa-civil/saiba-como-agir",
+      "contact": "+55 61 2034-4660",
+      "channel_list": "Google",
+      "areaDesc": "Guarapari/ES",
+      "polygon_raw": "-20.622,-40.395 -20.621,-40.396 -20.622,-40.396 -20.622,-40.396 -20.622,-40.396 -20.622,-40.395",
+      "polygon_points": 6,
+      "has_geocode": true,
+      "uf_hint": "ES",
+      "region": "SE",
+      "geometry_wkt": "POLYGON ((-40.395 -20.622, -40.396 -20.621, -40.396 -20.622, -40.396 -20.622, -40.396 -20.622, -40.395 -20.622))",
+      "municipio_id": "3202405",
+      "municipio_nome": "Guarapari",
+      "municipio_slug": "guarapari",
+      "municipio_area_km2": null,
+      "microrregiao_nome": "",
+      "mesorregiao_nome": "",
+      "regiao_imediata_nome": "",
+      "regiao_intermediaria_nome": "",
+      "affected_municipios": [
+        {
+          "municipio_id": "3202405",
+          "municipio_nome": "Guarapari",
+          "municipio_slug": "guarapari",
+          "intersection_area_m2": 2208.64
+        }
+      ],
+      "uf": "ES",
+      "location": "Guarapari",
+      "event_short": "Chuvas Intensas",
+      "status_vigencia": "vigente",
+      "date": "15/06/2026",
+      "time": "19:51",
+      "sent_br": "2026-06-15T19:51:02-03:00",
+      "onset_br": "2026-06-15T19:51:02-03:00",
+      "expires_br": "2026-06-15T22:50:00-03:00",
+      "duration_minutes": 178,
+      "duration_hours": 2.97,
+      "duration_bucket": "2h a 6h",
+      "time_since_minutes": 1,
+      "time_since_hours": 0.02,
+      "time_since_bucket": "Até 1h",
+      "is_active": true,
+      "affected_municipio_ids": [
+        "3202405"
+      ],
+      "affected_municipio_names": [
+        "Guarapari"
+      ],
+      "municipios_count": 1
+    },
     {
       "identifier": "184486/2026",
       "entry_id": "184486/2026",
@@ -1306,8 +1419,8 @@
       "duration_minutes": 179,
       "duration_hours": 2.98,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 11,
-      "time_since_hours": 0.18,
+      "time_since_minutes": 21,
+      "time_since_hours": 0.35,
       "time_since_bucket": "Até 1h",
       "is_active": true,
       "affected_municipio_ids": [
