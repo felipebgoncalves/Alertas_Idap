@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T22:42:25.114429-03:00",
+  "generated_at": "2026-06-15T22:53:18.440810-03:00",
   "source": ".cache/historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -1027,7 +1027,7 @@
     }
   ],
   "cards": {
-    "vigentes": 4,
+    "vigentes": 3,
     "ultimas24h": 6,
     "autoridadesAtivas": 1,
     "alertasExtremos": 0,
@@ -1364,7 +1364,7 @@
       "location": "Guarapari",
       "uf": "ES",
       "headline": "Defesa Civil:(ES)  ALERTA de CHUVA, RAIOS e VENTO em Guarapari nas proximas 03 horas. Fique atento. Emergencia ligue 193.",
-      "status": "vigente",
+      "status": "expirado",
       "identifier": "184487/2026",
       "entry_id": "184487/2026",
       "sent": "2026-06-15T19:51:02-03:00",
@@ -1579,11 +1579,11 @@
   "status_distribution": [
     {
       "label": "vigente",
-      "count": 4
+      "count": 3
     },
     {
       "label": "expirado",
-      "count": 2
+      "count": 3
     }
   ],
   "category_distribution": [
@@ -1605,11 +1605,11 @@
   "time_since_distribution": [
     {
       "label": "1h a 3h",
-      "count": 5
+      "count": 4
     },
     {
       "label": "3h a 6h",
-      "count": 1
+      "count": 2
     }
   ],
   "channel_distribution": [
@@ -1695,8 +1695,8 @@
       "duration_minutes": 146,
       "duration_hours": 2.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 73,
-      "time_since_hours": 1.22,
+      "time_since_minutes": 84,
+      "time_since_hours": 1.4,
       "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -1795,8 +1795,8 @@
       "duration_minutes": 118,
       "duration_hours": 1.97,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 101,
-      "time_since_hours": 1.68,
+      "time_since_minutes": 111,
+      "time_since_hours": 1.85,
       "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -1933,8 +1933,8 @@
       "duration_minutes": 177,
       "duration_hours": 2.95,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 129,
-      "time_since_hours": 2.15,
+      "time_since_minutes": 140,
+      "time_since_hours": 2.33,
       "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -2041,8 +2041,8 @@
       "duration_minutes": 146,
       "duration_hours": 2.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 159,
-      "time_since_hours": 2.65,
+      "time_since_minutes": 170,
+      "time_since_hours": 2.83,
       "time_since_bucket": "1h a 3h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2065,7 +2065,7 @@
       "sender": "CENAD-SEDEC",
       "senderName": "Defesa Civil Estadual do Espírito Santo",
       "sent": "2026-06-15T19:51:02-03:00",
-      "status": "vigente",
+      "status": "expirado",
       "msgType": "Alert",
       "category": "Met",
       "event": "CHUVAS INTENSAS",
@@ -2108,7 +2108,7 @@
       "uf": "ES",
       "location": "Guarapari",
       "event_short": "Chuvas Intensas",
-      "status_vigencia": "vigente",
+      "status_vigencia": "expirado",
       "date": "15/06/2026",
       "time": "19:51",
       "sent_br": "2026-06-15T19:51:02-03:00",
@@ -2117,10 +2117,10 @@
       "duration_minutes": 178,
       "duration_hours": 2.97,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 171,
-      "time_since_hours": 2.85,
-      "time_since_bucket": "1h a 3h",
-      "is_active": true,
+      "time_since_minutes": 182,
+      "time_since_hours": 3.03,
+      "time_since_bucket": "3h a 6h",
+      "is_active": false,
       "affected_municipio_ids": [
         "3202405"
       ],
@@ -2223,8 +2223,8 @@
       "duration_minutes": 179,
       "duration_hours": 2.98,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 191,
-      "time_since_hours": 3.18,
+      "time_since_minutes": 202,
+      "time_since_hours": 3.37,
       "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
