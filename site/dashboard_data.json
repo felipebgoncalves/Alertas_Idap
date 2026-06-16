@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-16T02:42:26.991887-03:00",
+  "generated_at": "2026-06-16T02:52:30.878224-03:00",
   "source": ".cache/historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -1976,11 +1976,11 @@
       "count": 4
     },
     {
-      "label": "1h a 3h",
+      "label": "3h a 6h",
       "count": 3
     },
     {
-      "label": "3h a 6h",
+      "label": "1h a 3h",
       "count": 2
     },
     {
@@ -2089,8 +2089,8 @@
       "duration_minutes": 114,
       "duration_hours": 1.9,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 36,
-      "time_since_hours": 0.6,
+      "time_since_minutes": 46,
+      "time_since_hours": 0.77,
       "time_since_bucket": "Até 1h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -2195,8 +2195,8 @@
       "duration_minutes": 178,
       "duration_hours": 2.97,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 90,
-      "time_since_hours": 1.5,
+      "time_since_minutes": 100,
+      "time_since_hours": 1.67,
       "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -2291,8 +2291,8 @@
       "duration_minutes": 173,
       "duration_hours": 2.88,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 150,
-      "time_since_hours": 2.5,
+      "time_since_minutes": 160,
+      "time_since_hours": 2.67,
       "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -2397,9 +2397,9 @@
       "duration_minutes": 136,
       "duration_hours": 2.27,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 178,
-      "time_since_hours": 2.97,
-      "time_since_bucket": "1h a 3h",
+      "time_since_minutes": 188,
+      "time_since_hours": 3.13,
+      "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
         "3204807",
@@ -2495,8 +2495,8 @@
       "duration_minutes": 146,
       "duration_hours": 2.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 313,
-      "time_since_hours": 5.22,
+      "time_since_minutes": 323,
+      "time_since_hours": 5.38,
       "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2595,8 +2595,8 @@
       "duration_minutes": 118,
       "duration_hours": 1.97,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 341,
-      "time_since_hours": 5.68,
+      "time_since_minutes": 351,
+      "time_since_hours": 5.85,
       "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2733,8 +2733,8 @@
       "duration_minutes": 177,
       "duration_hours": 2.95,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 369,
-      "time_since_hours": 6.15,
+      "time_since_minutes": 379,
+      "time_since_hours": 6.32,
       "time_since_bucket": "6h a 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2841,8 +2841,8 @@
       "duration_minutes": 146,
       "duration_hours": 2.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 399,
-      "time_since_hours": 6.65,
+      "time_since_minutes": 409,
+      "time_since_hours": 6.82,
       "time_since_bucket": "6h a 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2917,8 +2917,8 @@
       "duration_minutes": 178,
       "duration_hours": 2.97,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 411,
-      "time_since_hours": 6.85,
+      "time_since_minutes": 421,
+      "time_since_hours": 7.02,
       "time_since_bucket": "6h a 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -3023,8 +3023,8 @@
       "duration_minutes": 179,
       "duration_hours": 2.98,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 431,
-      "time_since_hours": 7.18,
+      "time_since_minutes": 441,
+      "time_since_hours": 7.35,
       "time_since_bucket": "6h a 12h",
       "is_active": false,
       "affected_municipio_ids": [
