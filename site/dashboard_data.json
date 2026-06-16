@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T22:22:29.238580-03:00",
+  "generated_at": "2026-06-15T22:32:34.954681-03:00",
   "source": ".cache/historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -1027,7 +1027,7 @@
     }
   ],
   "cards": {
-    "vigentes": 6,
+    "vigentes": 4,
     "ultimas24h": 6,
     "autoridadesAtivas": 1,
     "alertasExtremos": 0,
@@ -1301,7 +1301,7 @@
       "location": "Marechal Floriano",
       "uf": "ES",
       "headline": "Defesa Civil:(ES)  ALERTA de CHUVA, RAIOS e VENTO em Marechal nas proximas 02 horas e meia. Fique atento. Emergencia ligue 193.",
-      "status": "vigente",
+      "status": "expirado",
       "identifier": "184489/2026",
       "entry_id": "184489/2026",
       "sent": "2026-06-15T20:03:12-03:00",
@@ -1403,7 +1403,7 @@
       "location": "Alfredo Chaves",
       "uf": "ES",
       "headline": "Defesa Civil:(ES)  ALERTA de CHUVA, RAIOS e VENTO em Castelo e Alfredo Chaves nas proximas 03 horas. Fique atento. Emergencia ligue 193.",
-      "status": "vigente",
+      "status": "expirado",
       "identifier": "184486/2026",
       "entry_id": "184486/2026",
       "sent": "2026-06-15T19:30:55-03:00",
@@ -1579,7 +1579,11 @@
   "status_distribution": [
     {
       "label": "vigente",
-      "count": 6
+      "count": 4
+    },
+    {
+      "label": "expirado",
+      "count": 2
     }
   ],
   "category_distribution": [
@@ -1604,7 +1608,7 @@
       "count": 5
     },
     {
-      "label": "Até 1h",
+      "label": "3h a 6h",
       "count": 1
     }
   ],
@@ -1691,9 +1695,9 @@
       "duration_minutes": 146,
       "duration_hours": 2.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 53,
-      "time_since_hours": 0.88,
-      "time_since_bucket": "Até 1h",
+      "time_since_minutes": 63,
+      "time_since_hours": 1.05,
+      "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
         "3205002",
@@ -1791,8 +1795,8 @@
       "duration_minutes": 118,
       "duration_hours": 1.97,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 81,
-      "time_since_hours": 1.35,
+      "time_since_minutes": 91,
+      "time_since_hours": 1.52,
       "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -1929,8 +1933,8 @@
       "duration_minutes": 177,
       "duration_hours": 2.95,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 109,
-      "time_since_hours": 1.82,
+      "time_since_minutes": 119,
+      "time_since_hours": 1.98,
       "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -1967,7 +1971,7 @@
       "sender": "CENAD-SEDEC",
       "senderName": "Defesa Civil Estadual do Espírito Santo",
       "sent": "2026-06-15T20:03:12-03:00",
-      "status": "vigente",
+      "status": "expirado",
       "msgType": "Alert",
       "category": "Met",
       "event": "CHUVAS INTENSAS",
@@ -2028,7 +2032,7 @@
       "uf": "ES",
       "location": "Marechal Floriano",
       "event_short": "Chuvas Intensas",
-      "status_vigencia": "vigente",
+      "status_vigencia": "expirado",
       "date": "15/06/2026",
       "time": "20:03",
       "sent_br": "2026-06-15T20:03:12-03:00",
@@ -2037,10 +2041,10 @@
       "duration_minutes": 146,
       "duration_hours": 2.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 139,
-      "time_since_hours": 2.32,
+      "time_since_minutes": 149,
+      "time_since_hours": 2.48,
       "time_since_bucket": "1h a 3h",
-      "is_active": true,
+      "is_active": false,
       "affected_municipio_ids": [
         "3203346",
         "3201902",
@@ -2113,8 +2117,8 @@
       "duration_minutes": 178,
       "duration_hours": 2.97,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 151,
-      "time_since_hours": 2.52,
+      "time_since_minutes": 161,
+      "time_since_hours": 2.68,
       "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -2131,7 +2135,7 @@
       "sender": "CENAD-SEDEC",
       "senderName": "Defesa Civil Estadual do Espírito Santo",
       "sent": "2026-06-15T19:30:55-03:00",
-      "status": "vigente",
+      "status": "expirado",
       "msgType": "Alert",
       "category": "Met",
       "event": "CHUVAS INTENSAS",
@@ -2210,7 +2214,7 @@
       "uf": "ES",
       "location": "Alfredo Chaves",
       "event_short": "Chuvas Intensas",
-      "status_vigencia": "vigente",
+      "status_vigencia": "expirado",
       "date": "15/06/2026",
       "time": "19:30",
       "sent_br": "2026-06-15T19:30:55-03:00",
@@ -2219,10 +2223,10 @@
       "duration_minutes": 179,
       "duration_hours": 2.98,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 171,
-      "time_since_hours": 2.85,
-      "time_since_bucket": "1h a 3h",
-      "is_active": true,
+      "time_since_minutes": 181,
+      "time_since_hours": 3.02,
+      "time_since_bucket": "3h a 6h",
+      "is_active": false,
       "affected_municipio_ids": [
         "3200300",
         "3203346",
