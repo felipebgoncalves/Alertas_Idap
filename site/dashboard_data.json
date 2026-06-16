@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-16T03:02:32.877720-03:00",
+  "generated_at": "2026-06-16T03:12:23.091071-03:00",
   "source": ".cache/historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -1027,7 +1027,7 @@
     }
   ],
   "cards": {
-    "vigentes": 3,
+    "vigentes": 2,
     "ultimas24h": 10,
     "autoridadesAtivas": 1,
     "alertasExtremos": 0,
@@ -1206,7 +1206,7 @@
       "location": "Divino de São Lourenço",
       "uf": "ES",
       "headline": "Defesa Civil:(ES)  ALERTA de CHUVA, RAIOS e VENTO na regiao do Caparao nas proximas 03 horas. Fique atento. Emergencia ligue 193.",
-      "status": "vigente",
+      "status": "expirado",
       "identifier": "184501/2026",
       "entry_id": "184501/2026",
       "sent": "2026-06-16T00:11:43-03:00",
@@ -1947,11 +1947,11 @@
   "status_distribution": [
     {
       "label": "vigente",
-      "count": 3
+      "count": 2
     },
     {
       "label": "expirado",
-      "count": 7
+      "count": 8
     }
   ],
   "category_distribution": [
@@ -1977,15 +1977,11 @@
     },
     {
       "label": "1h a 3h",
-      "count": 2
+      "count": 3
     },
     {
       "label": "3h a 6h",
       "count": 2
-    },
-    {
-      "label": "Até 1h",
-      "count": 1
     }
   ],
   "channel_distribution": [
@@ -2089,9 +2085,9 @@
       "duration_minutes": 114,
       "duration_hours": 1.9,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 56,
-      "time_since_hours": 0.93,
-      "time_since_bucket": "Até 1h",
+      "time_since_minutes": 66,
+      "time_since_hours": 1.1,
+      "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
         "3200102",
@@ -2195,8 +2191,8 @@
       "duration_minutes": 178,
       "duration_hours": 2.97,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 110,
-      "time_since_hours": 1.83,
+      "time_since_minutes": 120,
+      "time_since_hours": 2.0,
       "time_since_bucket": "1h a 3h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -2221,7 +2217,7 @@
       "sender": "CENAD-SEDEC",
       "senderName": "Defesa Civil Estadual do Espírito Santo",
       "sent": "2026-06-16T00:11:43-03:00",
-      "status": "vigente",
+      "status": "expirado",
       "msgType": "Alert",
       "category": "Met",
       "event": "CHUVAS INTENSAS",
@@ -2282,7 +2278,7 @@
       "uf": "ES",
       "location": "Divino de São Lourenço",
       "event_short": "Chuvas Intensas",
-      "status_vigencia": "vigente",
+      "status_vigencia": "expirado",
       "date": "16/06/2026",
       "time": "00:11",
       "sent_br": "2026-06-16T00:11:43-03:00",
@@ -2291,10 +2287,10 @@
       "duration_minutes": 173,
       "duration_hours": 2.88,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 170,
-      "time_since_hours": 2.83,
+      "time_since_minutes": 180,
+      "time_since_hours": 3.0,
       "time_since_bucket": "1h a 3h",
-      "is_active": true,
+      "is_active": false,
       "affected_municipio_ids": [
         "3201803",
         "3202553",
@@ -2397,8 +2393,8 @@
       "duration_minutes": 136,
       "duration_hours": 2.27,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 198,
-      "time_since_hours": 3.3,
+      "time_since_minutes": 208,
+      "time_since_hours": 3.47,
       "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2495,8 +2491,8 @@
       "duration_minutes": 146,
       "duration_hours": 2.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 333,
-      "time_since_hours": 5.55,
+      "time_since_minutes": 343,
+      "time_since_hours": 5.72,
       "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2595,8 +2591,8 @@
       "duration_minutes": 118,
       "duration_hours": 1.97,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 361,
-      "time_since_hours": 6.02,
+      "time_since_minutes": 370,
+      "time_since_hours": 6.17,
       "time_since_bucket": "6h a 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2733,8 +2729,8 @@
       "duration_minutes": 177,
       "duration_hours": 2.95,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 389,
-      "time_since_hours": 6.48,
+      "time_since_minutes": 399,
+      "time_since_hours": 6.65,
       "time_since_bucket": "6h a 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2841,8 +2837,8 @@
       "duration_minutes": 146,
       "duration_hours": 2.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 419,
-      "time_since_hours": 6.98,
+      "time_since_minutes": 429,
+      "time_since_hours": 7.15,
       "time_since_bucket": "6h a 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2917,8 +2913,8 @@
       "duration_minutes": 178,
       "duration_hours": 2.97,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 431,
-      "time_since_hours": 7.18,
+      "time_since_minutes": 441,
+      "time_since_hours": 7.35,
       "time_since_bucket": "6h a 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -3023,8 +3019,8 @@
       "duration_minutes": 179,
       "duration_hours": 2.98,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 451,
-      "time_since_hours": 7.52,
+      "time_since_minutes": 461,
+      "time_since_hours": 7.68,
       "time_since_bucket": "6h a 12h",
       "is_active": false,
       "affected_municipio_ids": [
