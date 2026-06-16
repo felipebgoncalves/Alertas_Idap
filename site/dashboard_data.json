@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T23:52:20.810742-03:00",
+  "generated_at": "2026-06-16T00:02:31.831120-03:00",
   "source": ".cache/historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -1027,7 +1027,7 @@
     }
   ],
   "cards": {
-    "vigentes": 2,
+    "vigentes": 1,
     "ultimas24h": 7,
     "autoridadesAtivas": 1,
     "alertasExtremos": 0,
@@ -1127,7 +1127,7 @@
       "location": "Serra",
       "uf": "ES",
       "headline": "Defesa Civil:(ES)  ALERTA de CHUVA, RAIOS e VENTO na Grande Vitoria nas proximas 02 horas. Fique atento. Emergencia ligue 193.",
-      "status": "vigente",
+      "status": "expirado",
       "identifier": "184494/2026",
       "entry_id": "184494/2026",
       "sent": "2026-06-15T21:28:48-03:00",
@@ -1682,11 +1682,11 @@
   "status_distribution": [
     {
       "label": "vigente",
-      "count": 2
+      "count": 1
     },
     {
       "label": "expirado",
-      "count": 5
+      "count": 6
     }
   ],
   "category_distribution": [
@@ -1708,14 +1708,14 @@
   "time_since_distribution": [
     {
       "label": "3h a 6h",
-      "count": 4
-    },
-    {
-      "label": "1h a 3h",
-      "count": 2
+      "count": 5
     },
     {
       "label": "Até 1h",
+      "count": 1
+    },
+    {
+      "label": "1h a 3h",
       "count": 1
     }
   ],
@@ -1814,8 +1814,8 @@
       "duration_minutes": 136,
       "duration_hours": 2.27,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 8,
-      "time_since_hours": 0.13,
+      "time_since_minutes": 18,
+      "time_since_hours": 0.3,
       "time_since_bucket": "Até 1h",
       "is_active": true,
       "affected_municipio_ids": [
@@ -1842,7 +1842,7 @@
       "sender": "CENAD-SEDEC",
       "senderName": "Defesa Civil Estadual do Espírito Santo",
       "sent": "2026-06-15T21:28:48-03:00",
-      "status": "vigente",
+      "status": "expirado",
       "msgType": "Alert",
       "category": "Met",
       "event": "CHUVAS INTENSAS",
@@ -1903,7 +1903,7 @@
       "uf": "ES",
       "location": "Serra",
       "event_short": "Chuvas Intensas",
-      "status_vigencia": "vigente",
+      "status_vigencia": "expirado",
       "date": "15/06/2026",
       "time": "21:28",
       "sent_br": "2026-06-15T21:28:48-03:00",
@@ -1912,10 +1912,10 @@
       "duration_minutes": 146,
       "duration_hours": 2.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 143,
-      "time_since_hours": 2.38,
+      "time_since_minutes": 153,
+      "time_since_hours": 2.55,
       "time_since_bucket": "1h a 3h",
-      "is_active": true,
+      "is_active": false,
       "affected_municipio_ids": [
         "3205002",
         "3202207",
@@ -2012,9 +2012,9 @@
       "duration_minutes": 118,
       "duration_hours": 1.97,
       "duration_bucket": "Até 2h",
-      "time_since_minutes": 170,
-      "time_since_hours": 2.83,
-      "time_since_bucket": "1h a 3h",
+      "time_since_minutes": 181,
+      "time_since_hours": 3.02,
+      "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
         "3201308",
@@ -2150,8 +2150,8 @@
       "duration_minutes": 177,
       "duration_hours": 2.95,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 199,
-      "time_since_hours": 3.32,
+      "time_since_minutes": 209,
+      "time_since_hours": 3.48,
       "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2258,8 +2258,8 @@
       "duration_minutes": 146,
       "duration_hours": 2.43,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 229,
-      "time_since_hours": 3.82,
+      "time_since_minutes": 239,
+      "time_since_hours": 3.98,
       "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2334,8 +2334,8 @@
       "duration_minutes": 178,
       "duration_hours": 2.97,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 241,
-      "time_since_hours": 4.02,
+      "time_since_minutes": 251,
+      "time_since_hours": 4.18,
       "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2440,8 +2440,8 @@
       "duration_minutes": 179,
       "duration_hours": 2.98,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 261,
-      "time_since_hours": 4.35,
+      "time_since_minutes": 271,
+      "time_since_hours": 4.52,
       "time_since_bucket": "3h a 6h",
       "is_active": false,
       "affected_municipio_ids": [
