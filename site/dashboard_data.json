@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T17:32:19.268620-03:00",
+  "generated_at": "2026-06-17T17:42:27.923349-03:00",
   "source": ".cache/historico_alertas.json",
   "target_senderName": "Defesa Civil Estadual do Espírito Santo",
   "window_hours": 24,
@@ -1634,8 +1634,8 @@
       "duration_minutes": 168,
       "duration_hours": 2.8,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1400,
-      "time_since_hours": 23.33,
+      "time_since_minutes": 1410,
+      "time_since_hours": 23.5,
       "time_since_bucket": "Mais de 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -1760,8 +1760,8 @@
       "duration_minutes": 172,
       "duration_hours": 2.87,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1405,
-      "time_since_hours": 23.42,
+      "time_since_minutes": 1415,
+      "time_since_hours": 23.58,
       "time_since_bucket": "Mais de 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -1864,8 +1864,8 @@
       "duration_minutes": 181,
       "duration_hours": 3.02,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1413,
-      "time_since_hours": 23.55,
+      "time_since_minutes": 1423,
+      "time_since_hours": 23.72,
       "time_since_bucket": "Mais de 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -1976,8 +1976,8 @@
       "duration_minutes": 184,
       "duration_hours": 3.07,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1416,
-      "time_since_hours": 23.6,
+      "time_since_minutes": 1426,
+      "time_since_hours": 23.77,
       "time_since_bucket": "Mais de 12h",
       "is_active": false,
       "affected_municipio_ids": [
@@ -2088,8 +2088,8 @@
       "duration_minutes": 187,
       "duration_hours": 3.12,
       "duration_bucket": "2h a 6h",
-      "time_since_minutes": 1420,
-      "time_since_hours": 23.67,
+      "time_since_minutes": 1430,
+      "time_since_hours": 23.83,
       "time_since_bucket": "Mais de 12h",
       "is_active": false,
       "affected_municipio_ids": [
